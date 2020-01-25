@@ -4,11 +4,16 @@ export default {
   treeShaking: true,
   routes: [
     {
+      path: '/',
+      redirect: '/login'
+    },
+    {
       path: '/login',
-      component: '../layouts/index',
-      routes: [
-        { path: '/login', component: '../pages/index' }
-      ]
+      component: '../pages/Login/index'
+    },
+    {
+      path: '/project',
+      component: '../pages/ProjectList/index'
     }
   ],
   plugins: [
@@ -19,7 +24,7 @@ export default {
       dynamicImport: false,
       title: 'pet-flask-refactor',
       dll: false,
-      
+
       routes: {
         exclude: [
           /models\//,
