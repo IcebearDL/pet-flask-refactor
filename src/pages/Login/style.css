@@ -1,0 +1,29 @@
+.bodyContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background-color: white;
+    height: 100vh
+}
+
+.login_form {
+    width: 350px;
+}
+
+.login_form_button {
+    width: 100%;
+}
+
+.login_img{
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    width: 200px
+}
+
+.form_title{
+    margin-bottom: 30px;
+    font-size: 36px
+}
