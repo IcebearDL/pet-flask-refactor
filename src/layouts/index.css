@@ -1,15 +1,32 @@
+.navigator_bar {
+  height: 80px;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 80px;
+}
 
-.normal {
-  font-family: Georgia, sans-serif;
-  text-align: center;
+.login_img {
+  width: 160px;
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: normal;
-  letter-spacing: -1px;
-  background: darkslateblue;
-  padding: .6em 0;
-  color: white;
-  margin: 0;
+  color: #262626;
+  margin-left: 20px;
+  font-size: 28px;
+  vertical-align: middle;
+}
+
+.user_title {
+  color: #262626;
+  font-size: 20px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.goBack_button {
+  max-width: 1280px;
+  margin: 0 auto;
 }
