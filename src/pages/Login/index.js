@@ -19,7 +19,9 @@ class Login extends React.Component {
 				dispatch({
 					type: "login/login",
 					payload: { ...values }
-				})
+				}).then(() => dispatch({
+          type: "global/fetchUserInfo"
+        }))
 			}
 		});
 	}

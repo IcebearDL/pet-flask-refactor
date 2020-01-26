@@ -15,7 +15,6 @@ const Model = {
     effects: {
         *login({ payload }, { call, put }) {
             let rsp = yield call(Login, payload)
-            console.log(rsp)
             if (rsp && rsp.code !== 200) {
                 message.error(`登录失败，${rsp.msg}`)
             } else {

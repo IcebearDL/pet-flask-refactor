@@ -1,13 +1,59 @@
-import styles from './index.css';
+import { connect } from 'dva'
+import router from 'umi/router'
+import { Button, Divider, Icon } from 'antd'
+
+import styles from './index.css'
+import RayPlus from '../assets/Rayplus_title.png'
 
 function BasicLayout(props) {
-  console.log(props.location)
+  let title, ifBack = true
+  if (props.location.pathname === '/project') {
+    title = '临床试验项目'
+    ifBack = false
+  } else if (props.location.pathname === '/project/sample') {
+    title = '临床试验样本'
+  } else if (props.location.pathname === '/project/sample/detail') {
+    title = 'CRF详情'
+  }
+
+  const logout = () => {
+    window.localStorage.clear()
+    router.push('/login')
+  }
+
+  const goBack = () => {
+    router.goBack()
+  }
+
   return (
-    <div className={styles.normal}>
-      <h1 className={styles.title}>Yay! Welcome to umi!</h1>
+    <>
+      <div>
+        <div className={styles.navigator_bar}>
+          <div>
+            <img className={styles.login_img} src={RayPlus} alt="RayPlus" />
+            <span className={styles.title}>{title}</span>
+          </div>
+          <div>
+            <span className={styles.user_title}>
+              您好，{props.user_div_info}医生
+            </span>
+            <Button type="primary" onClick={logout}>退出登录</Button>
+          </div>
+        </div>
+      </div>
+      <Divider style={{ marginTop: '15px', marginBottom: '15px' }} />
+      <div style={{ display: ifBack ? 'block' : 'none' }} className={styles.goBack_button}>
+        <Button type="primary" onClick={goBack}><Icon type="left" />返回</Button>
+      </div>
       {props.children}
-    </div>
-  );
+    </>
+  )
 }
 
-export default BasicLayout;
+function mapStateToProps(state) {
+  return {
+    user_div_info: state.global.user_div_info
+  }
+}
+
+export default connect(mapStateToProps)(BasicLayout)
