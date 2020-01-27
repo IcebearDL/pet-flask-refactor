@@ -7,12 +7,14 @@ import RayPlus from '../assets/Rayplus_title.png'
 
 function BasicLayout(props) {
   let title, ifBack = true
+  const sampleReg = /^\/project\/\d+\/sample$/
+  const detailReg = /^\/project\/\d+\/sample\/detail$/
   if (props.location.pathname === '/project') {
     title = '临床试验项目'
     ifBack = false
-  } else if (props.location.pathname === '/project/sample') {
+  } else if (sampleReg.test(props.location.pathname)) {
     title = '临床试验样本'
-  } else if (props.location.pathname === '/project/sample/detail') {
+  } else if (detailReg.test(props.location.pathname)) {
     title = 'CRF详情'
   }
 
@@ -35,7 +37,7 @@ function BasicLayout(props) {
           </div>
           <div>
             <span className={styles.user_title}>
-              您好，{props.user_div_info}医生
+              您好，{window.localStorage.getItem('user_name')}医生
             </span>
             <Button type="primary" onClick={logout}>退出登录</Button>
           </div>
@@ -52,7 +54,6 @@ function BasicLayout(props) {
 
 function mapStateToProps(state) {
   return {
-    user_div_info: state.global.user_div_info
   }
 }
 

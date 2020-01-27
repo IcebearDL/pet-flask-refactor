@@ -1,6 +1,7 @@
 .navigator_bar {
   height: 80px;
   max-width: 1280px;
+  padding: 0 15px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -29,4 +30,5 @@
 .goBack_button {
   max-width: 1280px;
   margin: 0 auto;
+  padding: 0 15px;
 }
