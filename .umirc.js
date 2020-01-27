@@ -21,12 +21,10 @@ export default {
         {
           path: '/project',
           component: '../pages/ProjectList/index',
-          routes: [
-            {
-              path: '/project/sample',
-              component: '../pages/SampleList/index'
-            }
-          ]
+        },
+        {
+          path: '/project/:id/sample',
+          component: '../pages/SampleList/index'
         }
       ]
     }

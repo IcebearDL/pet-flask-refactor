@@ -1,5 +1,12 @@
-.bodyContent{
-    padding: 30px;
-    background-color: white;
-    margin: 24px;
+.project_search{
+    margin: 10px 0;
+    max-width: 500px
+}
+
+.project_table{
+  margin-top: 20px
+}
+
+.project_table thead{
+  background-color: rgba(29, 165, 122, 0.2) !important
 }

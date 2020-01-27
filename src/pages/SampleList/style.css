@@ -1,0 +1,32 @@
+.sample_table{
+  margin-top: 20px
+}
+
+.sample_table thead{
+  background-color: rgba(29, 165, 122, 0.2) !important
+}
+
+.sample_info{
+  font-size: 18px;
+  margin: 25px 0;
+  padding: 10px;
+  background-color: rgba(29, 165, 122, 0.1)
+}
+
+.modal{
+  width: 600px !important
+}
+
+
+.modal_bottom{
+  text-align: center
+}
+
+.modal_divider{
+  margin-top: 10px;
+  margin-bottom: 15px
+}
+
+.modal_submit{
+  margin-right: 20px
+}

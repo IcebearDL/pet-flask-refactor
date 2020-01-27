@@ -6,3 +6,10 @@ export async function FetchUserInfo() {
         method: 'GET'
     })
 }
+
+//获取研究中心名
+export async function FetchResearchCenterInfo() {
+  return request('/research_center_all', {
+      method: 'GET'
+  })
+}
