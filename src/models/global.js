@@ -1,11 +1,11 @@
-import { FetchUserInfo } from '../services/global'
+import { FetchUserInfo, FetchResearchCenterInfo } from '../services/global'
 
 const Model = {
 
   namespace: "global",
 
   state: {
-    user_div_info: ''
+    research_center_info: []
   },
 
   reducers: {
@@ -17,10 +17,15 @@ const Model = {
   effects: {
     *fetchUserInfo({ payload }, { call, put }) {
       let rsp = yield call(FetchUserInfo)
+      window.localStorage.setItem('user_name', rsp.user_name)
+    },
+    
+    *fetchResearchCenterInfo({ payload }, { call, put }) {
+      let rsp = yield call(FetchResearchCenterInfo)
       yield put({
         type: "save",
         payload: {
-          user_div_info: rsp.user_name
+          research_center_info: rsp
         }
       })
     }
