@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/compare/v0.3.0...v0.4.0) (2020-01-27)
+
+
+### Bug Fixes
+
+* Delete the useless document. ([fa5e39a](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/commits/fa5e39a))
+* **global:** Modify global model. ([c39a33a](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/commits/c39a33a))
+* **layout:** Modify the BasicLayout. ([80ef57b](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/commits/80ef57b))
+* **util.js:** Add util. ([df655bf](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/commits/df655bf))
+
+
+### Features
+
+* **ProjectList page.:** Create projectList page. ([6bea85c](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/commits/6bea85c))
+* **SampleList:** Add SampleList page. ([486beec](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/commits/486beec))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://git.dev.tencent.com/ZipperDL/pet-flask-refactor/compare/v0.2.0...v0.3.0) (2020-01-26)
 
