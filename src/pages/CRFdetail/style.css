@@ -1,0 +1,27 @@
+.crf_content{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.crf_aside{
+  flex-grow: 0;
+  width: 240px;
+  font-weight: bold! important
+}
+
+.crf_body{
+  flex-grow: 1
+}
+
+.crf_info{
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 10px;
+  line-height: 30px;
+}
+
+.edit_title{
+  color: #faad14
+}
