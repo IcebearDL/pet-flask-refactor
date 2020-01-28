@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'dva'
+import router from 'umi/router'
 import {
   Table, Layout, Button,
   Menu, Dropdown, Icon,
-  Modal, Tooltip
+  Modal, Tooltip, Row, Col, Divider
 } from "antd"
 import Link from 'umi/link'
 import styles from './style.css'
@@ -202,7 +203,7 @@ class SampleList extends React.Component {
             </Menu>}
           >
             <Button type="primary" size="small">
-              <Link to={`/project/${record.project_id}/sample/${record.sample_id}`}>详情<Icon type="down" /></Link>
+              <Link to={`/project/${record.project_id}/sample/${record.sample_id}/crf`}>详情<Icon type="down" /></Link>
             </Button>
           </Dropdown >
         )
@@ -211,11 +212,19 @@ class SampleList extends React.Component {
 
     return (
       <Content className="body_content" >
-        <p className={styles.sample_info}>
-          {this.props.sample_info.description}&nbsp;&nbsp;&nbsp;
-          编号：{this.props.sample_info.project_ids}&nbsp;&nbsp;&nbsp;
-          负责单位：{this.props.sample_info.research_center_ids}
-        </p>
+        <Row type="flex" align="middle">
+          <Col>
+            <Button type="primary" onClick={router.goBack}><Icon type="left" />返回</Button>
+          </Col>
+          <Col>
+            <div className={styles.sample_info}>
+              {this.props.sample_info.description}&nbsp;&nbsp;&nbsp;
+              编号：{this.props.sample_info.project_ids}&nbsp;&nbsp;&nbsp;
+              负责单位：{this.props.sample_info.research_center_ids}
+            </div>
+          </Col>
+        </Row>
+        <Divider/>
         <Button type="primary" onClick={this.handleCreateSample}><Icon type="plus" />添加</Button>
         <Table
           loading={tableLoading}
