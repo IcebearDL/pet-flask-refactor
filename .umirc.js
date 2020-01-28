@@ -16,7 +16,7 @@ export default {
     },
     {
       path: '/',
-      component: '../layouts/index',
+      component: '../layouts/PageHeader',
       routes: [
         {
           path: '/project',
@@ -25,6 +25,10 @@ export default {
         {
           path: '/project/:id/sample',
           component: '../pages/SampleList/index'
+        },
+        {
+          path: '/project/:id/sample/:id/crf',
+          component: '../pages/CRFdetail/index'
         }
       ]
     }
