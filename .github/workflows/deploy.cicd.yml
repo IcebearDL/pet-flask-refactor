@@ -13,14 +13,11 @@ jobs:
     steps:
     - name: Clone code
       uses: actions/checkout@v2
-      
     - name: Use Node.js
       uses: actions/setup-node@v1
-   
     - name: Npm build
     - run: npm install
     - run: npm run build
-      
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@v2.0.7
       env:
