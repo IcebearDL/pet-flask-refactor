@@ -42,11 +42,10 @@ const request = extend({
       });
     }
   }
-
-  //这里的header token放在了login的model里，使用extendOptions补充配置
-
 })
 
+//这里的request的header不能加在extend里，实例化会在login拿到token之前，之后的request并不带token
+//：重写request，每次请求都带上header
 const auth_request = (url, options) => {
   const { headers } = options
   const auth_header = {
