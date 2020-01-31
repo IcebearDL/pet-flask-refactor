@@ -1,4 +1,4 @@
-import { FetchCrfInfo, FetchNavInfo } from '../../services/crfBase'
+import { FetchCrfInfo, FetchNavInfo } from '../../../services/crfBase'
 
 const Model = {
 

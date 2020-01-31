@@ -5,6 +5,10 @@ import {
   Button, Divider, Icon,
   Row, Col, Menu, message
 } from 'antd'
+import FirstDiagnose from './components/FirstDiagnose'
+import CycleRecord from './components/CycleRecord'
+import InterviewTable from './components/InterviewTable'
+import SummaryTable from './components/SummaryTable'
 import styles from './style.css'
 
 const { SubMenu } = Menu
@@ -16,14 +20,20 @@ class CRFDetail extends React.Component {
       selectedKeys: ['first_diagnose'],
       cycle_navs: {
         children: []
-      }
+      },
+      current_select: []
     }
+  }
+
+  componentWillMount(){
+    const { pathname } = this.props.location
+    window.localStorage.setItem('sample_id', pathname.split('/')[4])
+    window.localStorage.setItem('project_id', pathname.split('/')[2])
   }
 
   componentDidMount() {
     const { dispatch } = this.props
-    const { pathname } = this.props.location
-    const sample_id = pathname.split('/')[4]
+    const sample_id = window.localStorage.getItem('sample_id')
     dispatch({
       type: 'crfBase/fetchCrfInfo',
       payload: { sample_id }
@@ -33,8 +43,7 @@ class CRFDetail extends React.Component {
 
   refreshList = () => {
     const { dispatch } = this.props
-    const { pathname } = this.props.location
-    const sample_id = pathname.split('/')[4]
+    const sample_id = window.localStorage.getItem('sample_id')
     dispatch({
       type: 'crfBase/fetchNavInfo',
       payload: { sample_id }
@@ -44,7 +53,6 @@ class CRFDetail extends React.Component {
   }
 
   handleMenuClick = ({ keyPath }) => {
-    console.log(keyPath)
     if (keyPath[0] === 'add') {
       const { cycle_navs } = this.state
 
@@ -63,7 +71,6 @@ class CRFDetail extends React.Component {
         cycle_number: -1,
         title: `访视${newKey}`
       })
-      console.log(cycle_navs)
       this.setState({ cycle_navs }, () => {
         this.setState({ selectedKeys: ['-1', 'cycle_record'] })
       })
@@ -76,6 +83,17 @@ class CRFDetail extends React.Component {
     const { description, patient_name, project_ids, research_center_ids,
       group_name, patient_ids } = this.props.crf_info
     const { selectedKeys, cycle_navs } = this.state
+
+    let crf_body
+    if (selectedKeys[0] === 'first_diagnose') {
+      crf_body = <FirstDiagnose />
+    } else if (selectedKeys[1] === 'cycle_record') {
+      crf_body = <CycleRecord key={selectedKeys[0] === 'add' ? '-1' : selectedKeys[0]} />
+    } else if (selectedKeys[0] === 'interview_table') {
+      crf_body = <InterviewTable />
+    } else if (selectedKeys[0] === 'summary_table') {
+      crf_body = <SummaryTable />
+    }
 
     return (
       <div className="body_content">
@@ -127,13 +145,13 @@ class CRFDetail extends React.Component {
               <Menu.Item key='interview_table'>
                 <span><Icon type="hourglass" />生存期随访</span>
               </Menu.Item>
-              <Menu.Item key='adverse_table'>
+              <Menu.Item key='summary_table'>
                 <span><Icon type="file-text" />项目总结</span>
               </Menu.Item>
             </Menu>
           </div>
           <div className={styles.crf_body}>
-            {this.props.children}
+            {crf_body}
           </div>
         </div>
       </div>

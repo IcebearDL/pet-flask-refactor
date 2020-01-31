@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.5.1...v0.6.0) (2020-01-31)
+
+
+### Bug Fixes
+
+* **CRFdetail:** Add menu component. ([d333913](https://github.com/IcebearDL/pet-flask-refactor/commit/d333913))
+* **requset.js:** Add notes. ([4fb2607](https://github.com/IcebearDL/pet-flask-refactor/commit/4fb2607))
+
+
+### Features
+
+* **CRFdetail:** Create FirstDiagnose apis. ([350a152](https://github.com/IcebearDL/pet-flask-refactor/commit/350a152))
+* **CRFdetail component:** Add CRFdetail components. ([48fa907](https://github.com/IcebearDL/pet-flask-refactor/commit/48fa907))
+* **CRFdetail model:** Add new models. ([3044223](https://github.com/IcebearDL/pet-flask-refactor/commit/3044223))
+
+
+
 <a name="0.5.1"></a>
 ## [0.5.1](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.5.0...v0.5.1) (2020-01-30)
 

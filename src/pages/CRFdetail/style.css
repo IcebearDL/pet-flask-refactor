@@ -11,7 +11,8 @@
 }
 
 .crf_body{
-  flex-grow: 1
+  flex-grow: 1;
+  padding-left: 20px
 }
 
 .crf_info{
@@ -24,4 +25,22 @@
 
 .edit_title{
   color: #faad14
+}
+
+.menu_title{
+  font-weight: bold
+}
+
+.menu_div{
+  border: 1px solid #d8d8d8;
+  border-radius: 4px
+}
+
+.menu_content{
+  padding: 20px
+}
+
+.submit_button_1{
+  margin-left: 80px;
+  margin-top: 15px
 }
