@@ -4,12 +4,19 @@ import {
 	Layout, Form, Icon,
 	Input, Button
 } from "antd"
+import router from 'umi/router'
 import styles from './style.css'
 import RayPlus from '../../assets/Rayplus_title.png'
 
 const Content = Layout.Content
 
 class Login extends React.Component {
+
+  componentDidMount(){
+    if(window.localStorage.getItem('token')){
+      router.push('/project')
+    }
+  }
 
 	handleSubmit = e => {
 		e.preventDefault()

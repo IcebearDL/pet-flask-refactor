@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.5.0...v0.5.1) (2020-01-30)
+
+
+### Bug Fixes
+
+* **Login page:** Add token confirm to the index login page, if there is a token, the login page will ([bd5fb04](https://github.com/IcebearDL/pet-flask-refactor/commit/bd5fb04))
+* **request.js:** Modify extend function, and rewrite request to make sure the header contain token i ([ea1b5d7](https://github.com/IcebearDL/pet-flask-refactor/commit/ea1b5d7))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.2.0...v0.5.0) (2020-01-28)
 
