@@ -11,8 +11,8 @@ import styles from './style.css'
 const { Option } = Select
 
 const formItemLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 17 }
+  labelCol: { span: 6 },
+  wrapperCol: { span: 17, offset: 1 }
 }
 
 
@@ -58,7 +58,6 @@ class SampleModal extends React.Component {
         <Form className="sample_form" {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="研究中心">
             {getFieldDecorator('research_center_id', {
-              rules: [{ required: true, message: '请选择研究中心!' }],
               initialValue: record.research_center_id
             })(
               <Select>
@@ -70,7 +69,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="患者姓名">
             {getFieldDecorator('patient_name', {
-              rules: [{ required: true, message: '请填写患者姓名!' }],
               initialValue: record.patient_name
             })(
               <Input />
@@ -78,7 +76,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="患者编号">
             {getFieldDecorator('patient_ids', {
-              rules: [{ required: true, message: '请填写患者编号!' }],
               initialValue: record.patient_ids
             })(
               <Input />
@@ -86,7 +83,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="患者身份证号">
             {getFieldDecorator('id_num', {
-              rules: [{ required: true, message: '请填写患者身份证号!' }],
               initialValue: record.id_num
             })(
               <Input />
@@ -94,7 +90,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="患者组别">
             {getFieldDecorator('group_id', {
-              rules: [{ required: true, message: '请选择患者组别!' }],
               initialValue: record.group_id
             })(
               <Select>
@@ -108,7 +103,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="性别">
             {getFieldDecorator('sex', {
-              rules: [{ required: true, message: '请选择患者性别!' }],
               initialValue: record.sex
             })(
               <Radio.Group
@@ -118,7 +112,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="出生日期">
             {getFieldDecorator('date', {
-              rules: [{ required: true, message: '请选择出生日期!' }],
               initialValue: record.date ? moment(record.date, 'YYYY-MM-DD') : null
             })(
               <DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />
@@ -126,7 +119,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="签署同意书日期">
             {getFieldDecorator('sign_time', {
-              rules: [{ required: true, message: '请选择签署同意书日期!' }],
               initialValue: record.sign_time ? moment(record.sign_time, 'YYYY-MM-DD') : null
             })(
               <DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />
@@ -134,7 +126,6 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="入组日期">
             {getFieldDecorator('in_group_time', {
-              rules: [{ required: true, message: '请选择入组日期!' }],
               initialValue: record.in_group_time ? moment(record.in_group_time, 'YYYY-MM-DD') : null
             })(
               <DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />
