@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.6.0...v0.7.0) (2020-02-01)
+
+
+### Bug Fixes
+
+* **CRFdetail FirstDiagnose:** Pick out the forms components. ([1382dcf](https://github.com/IcebearDL/pet-flask-refactor/commit/1382dcf))
+* **CRFdetail index:** Modify CRFdetail page. ([e0a6637](https://github.com/IcebearDL/pet-flask-refactor/commit/e0a6637))
+* Modify the token save type to cookie. ([7a1173e](https://github.com/IcebearDL/pet-flask-refactor/commit/7a1173e))
+* **crfFirstDiagnose api:** Fix the DeletePatientReportTable method to DELETE. ([92f9b95](https://github.com/IcebearDL/pet-flask-refactor/commit/92f9b95))
+* **global.css:** Add thead global style. ([81c039f](https://github.com/IcebearDL/pet-flask-refactor/commit/81c039f))
+* **PageHeader.js:** Add ConfigProvider to modify locale to zhCN. ([137f745](https://github.com/IcebearDL/pet-flask-refactor/commit/137f745))
+* **SampleList SampleModal:** Remove all the required rules. ([0df2ad6](https://github.com/IcebearDL/pet-flask-refactor/commit/0df2ad6))
+
+
+### Features
+
+* **CookieUtil:** Add cookie util. ([d27666f](https://github.com/IcebearDL/pet-flask-refactor/commit/d27666f))
+* **CRFdetail Forms:** Add Forms components. ([33d724e](https://github.com/IcebearDL/pet-flask-refactor/commit/33d724e))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.5.1...v0.6.0) (2020-01-31)
 
