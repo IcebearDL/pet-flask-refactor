@@ -12,7 +12,9 @@
 
 .crf_body{
   flex-grow: 1;
-  padding-left: 20px
+  padding-left: 30px;
+  padding-bottom: 30px;
+
 }
 
 .crf_info{
@@ -37,10 +39,9 @@
 }
 
 .menu_content{
-  padding: 20px
+  padding: 30px
 }
 
-.submit_button_1{
-  margin-left: 80px;
-  margin-top: 15px
+.patient_report_table{
+  margin-top: 20px
 }
