@@ -161,6 +161,6 @@ export function ModifyPatientReportTable({ sample_id, body }) {
 //删除体格报告列表
 export function DeletePatientReportTable({ sample_id, report_id }) {
   return request(`/patient_report/${sample_id}/${report_id}`, {
-    method: 'GET'
+    method: 'DELETE'
   })
 }
