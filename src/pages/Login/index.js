@@ -5,6 +5,7 @@ import {
 	Input, Button
 } from "antd"
 import router from 'umi/router'
+import CookieUtil from '../../utils/cookie'
 import styles from './style.css'
 import RayPlus from '../../assets/Rayplus_title.png'
 
@@ -13,7 +14,7 @@ const Content = Layout.Content
 class Login extends React.Component {
 
   componentDidMount(){
-    if(window.localStorage.getItem('token')){
+    if(CookieUtil.get('token')){
       router.push('/project')
     }
   }

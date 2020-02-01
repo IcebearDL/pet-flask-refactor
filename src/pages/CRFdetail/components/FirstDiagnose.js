@@ -2,30 +2,24 @@ import React from 'react'
 import { connect } from 'dva'
 import {
   Menu, Icon, Form,
-  DatePicker, Button
+  DatePicker, Button,
+  Radio, Input
 } from "antd"
-import moment from "moment"
+import { FirstDiagnoseForm1, FirstDiagnoseForm2, FirstDiagnoseTable3 } from './Forms'
 import styles from '../style.css'
-
-const { SubMenu } = Menu
-
-const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 }
-}
 
 class FirstDiagnose extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      current: '0'
+      current: '2'
     }
   }
 
   componentDidMount() {
     const cycle_number = 1
-    const sample_id = window.localStorage.getItem('sample_id')
+    const sample_id = window.location.pathname.split('/')[4]
     const { dispatch } = this.props
     dispatch({
       type: 'crf_first_diagnose/fetchPatient',
@@ -62,52 +56,19 @@ class FirstDiagnose extends React.Component {
   }
 
   handleMenuClick = e => {
-    console.log(e)
     this.setState({
       current: e.key,
     })
   }
 
-  handleSubmit_1 = e => {
-    e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log(values)
-      }
-    })
-  }
-
   render() {
-    const { getFieldDecorator } = this.props.form
-    const { patient, patient_report_table, cycle_time,
-      first_diagnose, diagnose_history, photo_evaluate_table,
-      patient_history, lab_inspection } = this.props.crf_first_diagnose
-    const submitLoading_1 = this.props.loading.effects['crf_first_diagnose/modifyCycleTime']
     const { current } = this.state
 
-    const menu_content = [(
-      <Form layout="inline" onSubmit={this.handleSubmit_1}>
-        <Form.Item label="访视时间">
-          {getFieldDecorator('cycle_time', {
-            rules: [{ required: true, message: '请选择访视时间!' }],
-            initialValue: cycle_time ? moment(cycle_time, 'YYYY-MM-DD') : null
-          })(
-            <DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />
-          )}
-        </Form.Item>
-        <br />
-        <Form.Item>
-          <Button
-            htmlType="submit"
-            type="primary"
-            className={styles.submit_button_1}
-            loading={submitLoading_1}
-          >保存</Button>
-        </Form.Item>
-      </Form>
-    ), (
-      <div></div>
-    )]
+    const menu_content = [
+      <FirstDiagnoseForm1 />,
+      <FirstDiagnoseForm2 />,
+      <FirstDiagnoseTable3 />
+    ]
 
     return (
       <div className={styles.menu_div}>
@@ -142,4 +103,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Form.create()(FirstDiagnose))
+export default connect(mapStateToProps)(FirstDiagnose)

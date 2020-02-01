@@ -2,11 +2,6 @@
   margin-top: 20px
 }
 
-.sample_table thead{
-  font-weight: bold !important;
-  background-color: rgba(29, 165, 122, 0.2) !important
-}
-
 .sample_info{
   font-size: 18px;
   font-weight: bold;

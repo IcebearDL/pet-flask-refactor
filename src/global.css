@@ -17,6 +17,11 @@ body {
   margin-bottom: 15px !important
 }
 
+thead{
+  font-weight: bold !important;
+  background-color: rgba(29, 165, 122, 0.2) !important
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;

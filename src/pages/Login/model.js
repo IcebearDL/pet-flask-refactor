@@ -1,5 +1,6 @@
 import { message } from "antd"
 import { Login } from '../../services/login'
+import CookieUtil from '../../utils/cookie'
 import router from 'umi/router'
 
 const Model = {
@@ -18,7 +19,8 @@ const Model = {
             if (rsp && rsp.code !== 200) {
                 message.error(`登录失败，${rsp.msg}`)
             } else {
-                window.localStorage.setItem('token', rsp.data)
+                const expires = new Date(new Date().getTime() + 40*60*1000)
+                CookieUtil.set('token',rsp.data,expires,'/')
                 router.push('/project')
             }
         }

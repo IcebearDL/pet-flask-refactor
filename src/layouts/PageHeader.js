@@ -1,6 +1,7 @@
 import { connect } from 'dva'
 import router from 'umi/router'
-import { Button, Modal } from 'antd'
+import { Button, Modal, ConfigProvider } from 'antd'
+import zhCN from 'antd/es/locale/zh_CN'
 
 import styles from './index.css'
 import RayPlus from '../assets/Rayplus_title.png'
@@ -49,7 +50,10 @@ function PageHeader(props) {
           </div>
         </div>
       </div>
-      {props.children}
+      <ConfigProvider locale={zhCN}>
+        {props.children}
+      </ConfigProvider>
+      )
     </>
   )
 }

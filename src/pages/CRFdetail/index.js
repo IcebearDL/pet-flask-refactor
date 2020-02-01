@@ -9,6 +9,7 @@ import FirstDiagnose from './components/FirstDiagnose'
 import CycleRecord from './components/CycleRecord'
 import InterviewTable from './components/InterviewTable'
 import SummaryTable from './components/SummaryTable'
+import { checkLogin } from '../../utils/util'
 import styles from './style.css'
 
 const { SubMenu } = Menu
@@ -25,15 +26,10 @@ class CRFDetail extends React.Component {
     }
   }
 
-  componentWillMount(){
-    const { pathname } = this.props.location
-    window.localStorage.setItem('sample_id', pathname.split('/')[4])
-    window.localStorage.setItem('project_id', pathname.split('/')[2])
-  }
-
   componentDidMount() {
+    if (!checkLogin()) return
     const { dispatch } = this.props
-    const sample_id = window.localStorage.getItem('sample_id')
+    const sample_id = window.location.pathname.split('/')[4]
     dispatch({
       type: 'crfBase/fetchCrfInfo',
       payload: { sample_id }
@@ -43,7 +39,7 @@ class CRFDetail extends React.Component {
 
   refreshList = () => {
     const { dispatch } = this.props
-    const sample_id = window.localStorage.getItem('sample_id')
+    const sample_id = window.location.pathname.split('/')[4]
     dispatch({
       type: 'crfBase/fetchNavInfo',
       payload: { sample_id }
