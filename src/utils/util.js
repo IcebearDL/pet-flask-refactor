@@ -1,7 +1,8 @@
 import router from 'umi/router'
+import CookieUtil from './cookie'
 
 export function checkLogin() {
-  if (!window.localStorage.getItem('token')) {
+  if (!CookieUtil.get('token')) {
     router.replace('/login')
     return false
   }
