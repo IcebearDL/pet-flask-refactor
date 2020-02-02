@@ -6,7 +6,6 @@
 
 .crf_aside{
   flex-grow: 0;
-  width: 240px;
   font-weight: bold! important
 }
 
@@ -44,4 +43,19 @@
 
 .patient_report_table{
   margin-top: 20px
+}
+
+.smock_item{
+  display: inline-block;
+  margin-left: 15px
+}
+
+.drinking_item{
+  display: inline-block;
+  margin-left: 15px
+}
+
+.from_item{
+  display: inline-block;
+  margin-left: 10px
 }

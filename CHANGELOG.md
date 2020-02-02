@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.7.0...v0.8.0) (2020-02-02)
+
+
+### Bug Fixes
+
+* **CRFdetail style:** Modify the crf_aside width. ([10c5472](https://github.com/IcebearDL/pet-flask-refactor/commit/10c5472))
+
+
+### Features
+
+* **CRFdetail FirstDiagnose:** Add FirstDiagnoseForm4 and FirstDiagnoseForm5 components. ([f259247](https://github.com/IcebearDL/pet-flask-refactor/commit/f259247))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.6.0...v0.7.0) (2020-02-01)
 
