@@ -5,7 +5,10 @@ import {
   DatePicker, Button,
   Radio, Input
 } from "antd"
-import { FirstDiagnoseForm1, FirstDiagnoseForm2, FirstDiagnoseTable3 } from './Forms'
+import {
+  FirstDiagnoseForm1, FirstDiagnoseForm2, FirstDiagnoseTable3,
+  FirstDiagnoseForm4, FirstDiagnoseForm5
+} from './Forms'
 import styles from '../style.css'
 
 class FirstDiagnose extends React.Component {
@@ -13,7 +16,7 @@ class FirstDiagnose extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      current: '2'
+      current: '4'
     }
   }
 
@@ -67,7 +70,9 @@ class FirstDiagnose extends React.Component {
     const menu_content = [
       <FirstDiagnoseForm1 />,
       <FirstDiagnoseForm2 />,
-      <FirstDiagnoseTable3 />
+      <FirstDiagnoseTable3 />,
+      <FirstDiagnoseForm4 />,
+      <FirstDiagnoseForm5 />
     ]
 
     return (
