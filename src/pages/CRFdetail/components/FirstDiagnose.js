@@ -1,13 +1,9 @@
 import React from 'react'
 import { connect } from 'dva'
-import {
-  Menu, Icon, Form,
-  DatePicker, Button,
-  Radio, Input
-} from "antd"
+import { Menu } from "antd"
 import {
   FirstDiagnoseForm1, FirstDiagnoseForm2, FirstDiagnoseTable3,
-  FirstDiagnoseForm4, FirstDiagnoseForm5
+  FirstDiagnoseForm4, FirstDiagnoseForm5, FirstDiagnoseTable6
 } from './Forms'
 import styles from '../style.css'
 
@@ -16,7 +12,7 @@ class FirstDiagnose extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      current: '4'
+      current: '5'
     }
   }
 
@@ -72,7 +68,8 @@ class FirstDiagnose extends React.Component {
       <FirstDiagnoseForm2 />,
       <FirstDiagnoseTable3 />,
       <FirstDiagnoseForm4 />,
-      <FirstDiagnoseForm5 />
+      <FirstDiagnoseForm5 />,
+      <FirstDiagnoseTable6 />
     ]
 
     return (
