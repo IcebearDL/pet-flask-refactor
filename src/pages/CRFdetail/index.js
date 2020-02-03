@@ -135,7 +135,7 @@ class CRFDetail extends React.Component {
                   </Menu.Item>
                 )}
                 <Menu.Item key='add'>
-                  <span style={{ color: '#1DA57A' }}>新增&nbsp;&nbsp;<Icon type="file-add" /></span>
+                  <span style={{ color: '#269f42' }}>新增&nbsp;&nbsp;<Icon type="file-add" /></span>
                 </Menu.Item>
               </SubMenu>
               <Menu.Item key='interview_table'>
@@ -147,7 +147,9 @@ class CRFDetail extends React.Component {
             </Menu>
           </div>
           <div className={styles.crf_body}>
-            {crf_body}
+            <div className="page_body">
+              {crf_body}
+            </div>
           </div>
         </div>
       </div>
