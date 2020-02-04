@@ -224,8 +224,10 @@ class SampleList extends React.Component {
             </div>
           </Col>
         </Row>
-        <Divider/>
-        <Button type="primary" onClick={this.handleCreateSample}><Icon type="plus" />添加</Button>
+        <Divider />
+        <div className="page_body">
+          <Button type="primary" onClick={this.handleCreateSample}><Icon type="plus" />添加</Button>
+        </div>
         <Table
           loading={tableLoading}
           className={styles.sample_table}

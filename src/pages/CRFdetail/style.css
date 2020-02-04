@@ -59,3 +59,14 @@
   display: inline-block;
   margin-left: 10px
 }
+
+.diagnose_history_modal{
+  margin-top: 20px;
+  width: 100% !important;
+  max-width: 800px;
+}
+
+.modal_divider{
+  margin-top: 5px;
+  margin-bottom: 20px
+}

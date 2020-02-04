@@ -3,7 +3,8 @@
 export default {
   treeShaking: true,
   theme: {
-    "primary-color": "#1DA57A",
+    "primary-color": "#4279E4",
+    // "primary-color": "#1DA57A",
   },
   routes: [
     {
