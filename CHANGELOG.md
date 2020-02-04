@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.8.0...v0.9.0) (2020-02-04)
+
+
+### Bug Fixes
+
+* **CRFdetail FirstDiagnose:** Add FirstDiagnoseTable6. ([9081b03](https://github.com/IcebearDL/pet-flask-refactor/commit/9081b03))
+* **css:** Modify the theme color to blue. ([e07e702](https://github.com/IcebearDL/pet-flask-refactor/commit/e07e702))
+* **request.js:** Add cookie confirm. ([2e83283](https://github.com/IcebearDL/pet-flask-refactor/commit/2e83283))
+* **SampleList page:** Add page_body content. ([7b50aa1](https://github.com/IcebearDL/pet-flask-refactor/commit/7b50aa1))
+
+
+### Features
+
+* **Forms.js:** Add FirstDiagnoseTable_6. ([476b114](https://github.com/IcebearDL/pet-flask-refactor/commit/476b114))
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.7.0...v0.8.0) (2020-02-02)
 
