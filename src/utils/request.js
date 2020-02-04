@@ -1,5 +1,6 @@
 import { extend } from 'umi-request'
 import { notification } from 'antd'
+import router from 'umi/router'
 import CookieUtil from './cookie'
 
 const codeMessage = {
@@ -44,6 +45,12 @@ const request = extend({
 //这里的request的header不能加在extend里，实例化会在login拿到token之前，之后的request并不带token
 //：重写request，每次请求都带上header
 const auth_request = (url, options) => {
+  
+  //判断cookie是否失效
+  if(url !== '/login' && CookieUtil.get('token') === null){
+    router.replace('/login')
+  }
+
   const { headers } = options
   const auth_header = {
     'Authorization': `Bearer ${CookieUtil.get('token')}`
