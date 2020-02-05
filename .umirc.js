@@ -6,6 +6,15 @@ export default {
     "primary-color": "#4279E4",
     // "primary-color": "#1DA57A",
   },
+  proxy: {
+    "/api": {
+      target: "http://39.96.191.139",
+      changeOrigin: true,
+      pathRewrite: { 
+        "^/api" : "" 
+      }
+    }
+  },
   routes: [
     {
       path: '/',
