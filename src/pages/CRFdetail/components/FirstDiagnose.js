@@ -3,7 +3,8 @@ import { connect } from 'dva'
 import { Menu } from "antd"
 import {
   FirstDiagnoseForm1, FirstDiagnoseForm2, FirstDiagnoseTable3,
-  FirstDiagnoseForm4, FirstDiagnoseForm5, FirstDiagnoseTable6
+  FirstDiagnoseForm4, FirstDiagnoseForm5, FirstDiagnoseTable6,
+  FirstDiagnoseForm7, FirstDiagnoseTable8
 } from './Forms'
 import styles from '../style.css'
 
@@ -69,7 +70,9 @@ class FirstDiagnose extends React.Component {
       <FirstDiagnoseTable3 />,
       <FirstDiagnoseForm4 />,
       <FirstDiagnoseForm5 />,
-      <FirstDiagnoseTable6 />
+      <FirstDiagnoseTable6 />,
+      <FirstDiagnoseForm7 />,
+      <FirstDiagnoseTable8 />
     ]
 
     return (
