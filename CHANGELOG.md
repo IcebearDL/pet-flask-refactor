@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.9.0...v0.10.0) (2020-02-05)
+
+
+### Bug Fixes
+
+* **crfFirstDiagnose api:** Delete fixed number cycle_number. ([6b10f87](https://github.com/IcebearDL/pet-flask-refactor/commit/6b10f87))
+* **request.js:** Add NODE_ENV environment variable. ([dd24543](https://github.com/IcebearDL/pet-flask-refactor/commit/dd24543))
+
+
+### Features
+
+* **CRFdetail FirstDiagnose:** Add FirstDiagnoseTable8. ([6ec0f3f](https://github.com/IcebearDL/pet-flask-refactor/commit/6ec0f3f))
+* **CRFdetail Form:** Add FirstDiagnoseForm7. ([a038860](https://github.com/IcebearDL/pet-flask-refactor/commit/a038860))
+* **umirc.js:** Add proxy to avoid cors. ([6f3e396](https://github.com/IcebearDL/pet-flask-refactor/commit/6f3e396))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.8.0...v0.9.0) (2020-02-04)
 

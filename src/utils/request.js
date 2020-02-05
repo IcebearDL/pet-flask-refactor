@@ -25,8 +25,6 @@ const codeMessage = {
  * 配置request请求时的默认参数
  */
 const request = extend({
-  // prefix 阿里云的测试服务器
-  prefix: 'http://39.96.191.139',
   // 错误处理
   errorHandler: error => {
     const { response } = error;
@@ -45,9 +43,9 @@ const request = extend({
 //这里的request的header不能加在extend里，实例化会在login拿到token之前，之后的request并不带token
 //：重写request，每次请求都带上header
 const auth_request = (url, options) => {
-  
+
   //判断cookie是否失效
-  if(url !== '/login' && CookieUtil.get('token') === null){
+  if (url !== '/login' && CookieUtil.get('token') === null) {
     router.replace('/login')
   }
 
@@ -55,7 +53,11 @@ const auth_request = (url, options) => {
   const auth_header = {
     'Authorization': `Bearer ${CookieUtil.get('token')}`
   }
-  return request(url, {
+
+  const { NODE_ENV } = process.env
+  // prefix 阿里云的测试服务器
+  const prefix = NODE_ENV === 'development' ? '/api' : 'http://39.96.191.139'
+  return request(prefix + url, {
     ...options,
     headers: headers ? { ...headers, ...auth_header } : auth_header
   })
