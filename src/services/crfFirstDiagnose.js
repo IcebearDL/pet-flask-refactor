@@ -37,15 +37,15 @@ export function ModifyPatientHistory({ sample_id, body }) {
 }
 
 //获取实验室检查表单
-export function FetchLabInspection({ sample_id }) {
-  return request(`/lab_inspection/${sample_id}/1`, {
+export function FetchLabInspection({ sample_id, cycle_number }) {
+  return request(`/lab_inspection/${sample_id}/${cycle_number}`, {
     method: 'GET'
   })
 }
 
 //添加或修改实验室检查表单
-export function ModifyLabInspection({ sample_id, body }) {
-  return request(`/lab_inspection/${sample_id}/1`, {
+export function ModifyLabInspection({ sample_id, cycle_number, body }) {
+  return request(`/lab_inspection/${sample_id}/${cycle_number}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -91,15 +91,15 @@ export function ModifyCycleTime({ sample_id, cycle_number, body }) {
 }
 
 //获取影像学评估表单
-export function FetchPhotoEvaluateTable({ sample_id }) {
-  return request(`/photo_evaluate_table/${sample_id}/1`, {
+export function FetchPhotoEvaluateTable({ sample_id, cycle_number}) {
+  return request(`/photo_evaluate_table/${sample_id}/${cycle_number}`, {
     method: 'GET'
   })
 }
 
 //添加或修改影像学评估表单
-export function ModifyPhotoEvaluateTable({ sample_id, body }) {
-  return request(`/photo_evaluate/${sample_id}/1`, {
+export function ModifyPhotoEvaluateTable({ sample_id, cycle_number, body }) {
+  return request(`/photo_evaluate/${sample_id}/${cycle_number}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -109,8 +109,8 @@ export function ModifyPhotoEvaluateTable({ sample_id, body }) {
 }
 
 //删除影像学评估
-export function DeletePhotoEvaluateTable({ sample_id, evaluate_id }) {
-  return request(`/photo_evaluate/${sample_id}/1/${evaluate_id}`, {
+export function DeletePhotoEvaluateTable({ sample_id, cycle_number, evaluate_id }) {
+  return request(`/photo_evaluate/${sample_id}/${cycle_number}/${evaluate_id}`, {
     method: 'DELETE'
   })
 }
