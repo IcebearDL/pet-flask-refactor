@@ -84,7 +84,10 @@ class CRFDetail extends React.Component {
     if (selectedKeys[0] === 'first_diagnose') {
       crf_body = <FirstDiagnose />
     } else if (selectedKeys[1] === 'cycle_record') {
-      crf_body = <CycleRecord key={selectedKeys[0] === 'add' ? '-1' : selectedKeys[0]} />
+      crf_body = <CycleRecord
+        cycle_number={selectedKeys[0] === 'add' ? '-1' : selectedKeys[0]}
+        key={selectedKeys[0] === 'add' ? '-1' : selectedKeys[0]}
+      />
     } else if (selectedKeys[0] === 'interview_table') {
       crf_body = <InterviewTable />
     } else if (selectedKeys[0] === 'summary_table') {

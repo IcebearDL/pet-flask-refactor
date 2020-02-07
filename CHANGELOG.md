@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.10.0...v0.11.0) (2020-02-07)
+
+
+### Bug Fixes
+
+* Fix the userless import. ([9557464](https://github.com/IcebearDL/pet-flask-refactor/commit/9557464))
+* **CRFdetail FirstDiagnose:** Modify the FirstDiagnoseForm1, FirstDiagnoseForm7, FirstDiagnoseTable8 ([27185ba](https://github.com/IcebearDL/pet-flask-refactor/commit/27185ba))
+* **CRFdetail index:** Add cycle_number prop to CycleRecord. ([9aef776](https://github.com/IcebearDL/pet-flask-refactor/commit/9aef776))
+* **crfFirstDiagnose api:** Fix cycle_number as params. ([2de3c05](https://github.com/IcebearDL/pet-flask-refactor/commit/2de3c05))
+* **request.js:** Add cookie useless warning. ([8fbda1d](https://github.com/IcebearDL/pet-flask-refactor/commit/8fbda1d))
+
+
+### Features
+
+* **CRFdetail CycleRecord:** Add CycleRecord page. ([7e4830a](https://github.com/IcebearDL/pet-flask-refactor/commit/7e4830a))
+* **CRFdetail Forms:** Modify the FirstDiagnoseForm1, FirstDiagnoseForm7, FirstDiagnoseTable8 to com ([e16b110](https://github.com/IcebearDL/pet-flask-refactor/commit/e16b110))
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.9.0...v0.10.0) (2020-02-05)
 

@@ -1,5 +1,5 @@
 import { extend } from 'umi-request'
-import { notification } from 'antd'
+import { notification, message } from 'antd'
 import router from 'umi/router'
 import CookieUtil from './cookie'
 
@@ -46,6 +46,7 @@ const auth_request = (url, options) => {
 
   //判断cookie是否失效
   if (url !== '/login' && CookieUtil.get('token') === null) {
+    message.warning('登陆状态失效，请重新登陆！')
     router.replace('/login')
   }
 

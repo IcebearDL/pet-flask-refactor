@@ -20,34 +20,36 @@ const formItemLayout = {
 function mapStateToProps(state) {
   return {
     crf_first_diagnose: state.crf_first_diagnose,
+    crf_cycle_record: state.crf_cycle_record,
     loading: state.loading
   }
 }
 
 class FirstDiagnoseForm_1 extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-    }
+  componentDidMount() {
+    const { dispatch, cycle_number } = this.props
+    const sample_id = window.location.pathname.split('/')[4]
+    dispatch({
+      type: 'crf_first_diagnose/fetchCycleTime',
+      payload: { sample_id, cycle_number }
+    })
   }
 
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, { cycle_time }) => {
       if (!err) {
-        const { dispatch } = this.props
+        const { dispatch, cycle_number } = this.props
         const sample_id = window.location.pathname.split('/')[4]
         dispatch({
           type: 'crf_first_diagnose/modifyCycleTime',
           payload: {
-            sample_id,
-            cycle_number: 1,
+            sample_id, cycle_number,
             body: { cycle_time: cycle_time.format('YYYY-MM-DD') }
           }
         }).then(() => dispatch({
           type: 'crf_first_diagnose/fetchCycleTime',
-          payload: { sample_id, cycle_number: 1 }
+          payload: { sample_id, cycle_number }
         }))
       }
     })
@@ -2094,6 +2096,15 @@ class FirstDiagnoseForm_7 extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { dispatch, cycle_number } = this.props
+    const sample_id = window.location.pathname.split('/')[4]
+    dispatch({
+      type: 'crf_first_diagnose/fetchLabInspection',
+      payload: { sample_id, cycle_number }
+    })
+  }
+
   handleStateChange = (type, { target: { value } }) => {
     this.setState({ [type]: value })
   }
@@ -2106,14 +2117,14 @@ class FirstDiagnoseForm_7 extends React.Component {
         //重构time
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
 
-        const { dispatch } = this.props
+        const { dispatch, cycle_number } = this.props
         const sample_id = window.location.pathname.split('/')[4]
         dispatch({
           type: 'crf_first_diagnose/modifyLabInspection',
-          payload: { sample_id, body: values }
+          payload: { sample_id, cycle_number, body: values }
         }).then(() => dispatch({
           type: 'crf_first_diagnose/fetchLabInspection',
-          payload: { sample_id }
+          payload: { sample_id, cycle_number }
         }))
       }
     })
@@ -2493,22 +2504,31 @@ class FirstDiagnoseTable_8 extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { dispatch, cycle_number } = this.props
+    const sample_id = window.location.pathname.split('/')[4]
+    dispatch({
+      type: 'crf_first_diagnose/fetchPhotoEvaluateTable',
+      payload: { sample_id, cycle_number }
+    })
+  }
+
   handleDelete = evaluate_id => {
     Modal.confirm({
       title: '请问是否确认删除？',
       okText: '确定',
       cancelText: '取消',
       onOk: () => new Promise(resolve => {
-        const { dispatch } = this.props
+        const { dispatch, cycle_number } = this.props
         const sample_id = window.location.pathname.split('/')[4]
         dispatch({
           type: 'crf_first_diagnose/deletePhotoEvaluateTable',
-          payload: { sample_id, evaluate_id }
+          payload: { sample_id, cycle_number, evaluate_id }
         }).then(() => {
           resolve()
           dispatch({
             type: 'crf_first_diagnose/fetchPhotoEvaluateTable',
-            payload: { sample_id }
+            payload: { sample_id, cycle_number }
           })
         })
       })
@@ -2519,27 +2539,27 @@ class FirstDiagnoseTable_8 extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { dispatch } = this.props
+        const { dispatch, cycle_number } = this.props
         const { record } = this.state
         const sample_id = window.location.pathname.split('/')[4]
 
         //重构时间和其他空项
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
-        for(let type of ['method','method_other','time']){
+        for (let type of ['method', 'method_other', 'time']) {
           if (!values[type]) values[type] = ''
         }
-        if(!values.tumor_long) values.tumor_long = null
-        if(!values.tumor_short) values.tumor_short = null
+        if (!values.tumor_long) values.tumor_long = null
+        if (!values.tumor_short) values.tumor_short = null
 
         values.evaluate_id = record.evaluate_id
         dispatch({
           type: 'crf_first_diagnose/modifyPhotoEvaluateTable',
-          payload: { sample_id, body: values }
+          payload: { sample_id, cycle_number, body: values }
         }).then(() => {
           this.setState({ visible: false })
           dispatch({
             type: 'crf_first_diagnose/fetchPhotoEvaluateTable',
-            payload: { sample_id }
+            payload: { sample_id, cycle_number }
           })
         })
       }
@@ -2696,3 +2716,213 @@ class FirstDiagnoseTable_8 extends React.Component {
 }
 
 export const FirstDiagnoseTable8 = connect(mapStateToProps)(Form.create()(FirstDiagnoseTable_8))
+
+class CycleRecordTable_2 extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      record: {},
+      visible: false,
+      symptom_description: '',
+      existence: ''
+    }
+  }
+
+  handleDelete = main_symptom_id => {
+    Modal.confirm({
+      title: '请问是否确认删除？',
+      okText: '确定',
+      cancelText: '取消',
+      onOk: () => new Promise(resolve => {
+        const { dispatch, cycle_number } = this.props
+        const sample_id = window.location.pathname.split('/')[4]
+        dispatch({
+          type: 'crf_cycle_record/deleteMainSymptom',
+          payload: { sample_id, cycle_number, main_symptom_id }
+        }).then(() => {
+          resolve()
+          dispatch({
+            type: 'crf_cycle_record/fetchMainSymptom',
+            payload: { sample_id, cycle_number }
+          })
+        })
+      })
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { dispatch, cycle_number } = this.props
+        const { record } = this.state
+        const sample_id = window.location.pathname.split('/')[4]
+        if (values.time) values.time = values.time.format('YYYY-MM-DD')
+
+        values.main_symptom_id = record.main_symptom_id
+        dispatch({
+          type: 'crf_cycle_record/modifyMainSymptom',
+          payload: { sample_id, cycle_number, body: values }
+        }).then(() => {
+          this.setState({ visible: false })
+          dispatch({
+            type: 'crf_cycle_record/fetchMainSymptom',
+            payload: { sample_id, cycle_number }
+          })
+        })
+      }
+    })
+  }
+
+  handleEditModel = record => {
+    this.setState({
+      record,
+      visible: true,
+      symptom_description: record.symptom_description,
+      existence: record.existence
+    })
+  }
+
+  handleCancel = () => {
+    this.setState({ visible: false })
+  }
+
+  handleStateChange = (type, { target: { value } }) => {
+    this.setState({ [type]: value })
+  }
+
+  render() {
+    const { main_symptom_table } = this.props.crf_cycle_record
+    const tableLoading = this.props.loading.effects['crf_cycle_record/fetchMainSymptom']
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyMainSymptom']
+    const { getFieldDecorator } = this.props.form
+    const { record, visible, symptom_description, existence } = this.state
+
+    const columns = [{
+      title: '病状体征和描述',
+      dataIndex: 'symptom_description',
+      align: 'center'
+    }, {
+      title: '开始时间',
+      dataIndex: 'start_time',
+      align: 'center'
+    }, {
+      title: '消失时间',
+      dataIndex: 'end_time',
+      align: 'center'
+    }, {
+      title: '存在状态',
+      dataIndex: 'existence',
+      align: 'center',
+      render: text => text === '0' ? '存在' : text === '1' ? '消失' : null
+    }, {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button type="primary" size="small"
+            onClick={() => this.handleEditModel(record)}>
+            编辑</Button>
+          <Button style={{ marginLeft: '10px' }} type="danger" size="small"
+            onClick={() => this.handleDelete(record.main_symptom_id)}>
+            删除</Button>
+        </>
+      )
+    }]
+
+    return (
+      <>
+        <Button type="primary" onClick={() => this.handleEditModel({ main_symptom_id: '' })}>添加</Button>
+        <Table
+          loading={tableLoading}
+          className={styles.patient_report_table}
+          rowKey={'main_symptom_id'}
+          size="small"
+          bordered={true}
+          pagination={false}
+          scroll={{ x: true }}
+          columns={columns}
+          dataSource={main_symptom_table}
+        />
+        <Modal
+          title="编辑主要症状体征"
+          visible={visible}
+          okText="保存"
+          destroyOnClose
+          onCancel={this.handleCancel}
+          centered
+          footer={null}
+        >
+          <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onSubmit={this.handleSubmit}>
+            <Form.Item label="症状体征和描述">
+              {getFieldDecorator('symptom_description', {
+                initialValue: record.symptom_description
+              })(
+                <Radio.Group onChange={e => this.handleStateChange('symptom_description', e)}>
+                  <Radio value='高血压'>高血压</Radio>
+                  <Radio value='腹泻'>腹泻</Radio>
+                  <Radio value='皮疹'>皮疹</Radio>
+                  <Radio value='蛋白尿'>蛋白尿</Radio>
+                  <Radio value='出血'>出血</Radio>
+                  <Radio value='其他'>其他
+                    {symptom_description === '其他'
+                      ?
+                      <div style={{ display: 'inline-block' }}>
+                        {getFieldDecorator('symptom_description_other', {
+                          initialValue: record.symptom_description_other
+                        })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他症状体征和描述" />)}
+                      </div>
+                      : null}
+                  </Radio>
+                </Radio.Group>
+              )}
+            </Form.Item>
+            <Form.Item label="开始时间">
+              {getFieldDecorator('start_time', {
+                initialValue: record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null
+              })(
+                <DatePicker format={'YYYY-MM-DD'} />
+              )}
+            </Form.Item>
+            <Form.Item label="存在状态">
+              {getFieldDecorator('existence', {
+                initialValue: record.existence
+              })(
+                <Radio.Group onChange={e => this.handleStateChange('existence', e)}>
+                  <Radio value='0'>存在</Radio>
+                  <Radio value='1'>消失</Radio>
+                </Radio.Group>
+              )}
+            </Form.Item>
+            {
+              existence === '1'
+                ?
+                <Form.Item label="结束时间">
+                  {getFieldDecorator('end_time', {
+                    initialValue: record.end_time ? moment(record.end_time, 'YYYY-MM-DD') : null
+                  })(
+                    <DatePicker format={'YYYY-MM-DD'} />
+                  )}
+                </Form.Item>
+                : null
+            }
+            <Row type="flex" justify="center">
+              <Button
+                htmlType="submit"
+                type="primary"
+                loading={submitLoading}
+              >保存</Button>
+              <Button
+                style={{ marginLeft: 20 }}
+                onClick={this.handleCancel}
+              >取消</Button>
+            </Row>
+          </Form>
+        </Modal >
+      </>
+    )
+  }
+}
+
+export const CycleRecordTable2 = connect(mapStateToProps)(Form.create()(CycleRecordTable_2))

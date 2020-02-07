@@ -13,12 +13,11 @@ class FirstDiagnose extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      current: '5'
+      current: '0'
     }
   }
 
   componentDidMount() {
-    const cycle_number = 1
     const sample_id = window.location.pathname.split('/')[4]
     const { dispatch } = this.props
     dispatch({
@@ -30,20 +29,8 @@ class FirstDiagnose extends React.Component {
       payload: { sample_id }
     })
     dispatch({
-      type: 'crf_first_diagnose/fetchLabInspection',
-      payload: { sample_id, cycle_number }
-    })
-    dispatch({
       type: 'crf_first_diagnose/fetchFirstDiagnose',
       payload: { sample_id }
-    })
-    dispatch({
-      type: 'crf_first_diagnose/fetchCycleTime',
-      payload: { sample_id, cycle_number }
-    })
-    dispatch({
-      type: 'crf_first_diagnose/fetchPhotoEvaluateTable',
-      payload: { sample_id, cycle_number }
     })
     dispatch({
       type: 'crf_first_diagnose/fetchDiagnoseHistory',
@@ -65,14 +52,14 @@ class FirstDiagnose extends React.Component {
     const { current } = this.state
 
     const menu_content = [
-      <FirstDiagnoseForm1 />,
+      <FirstDiagnoseForm1 key={1} cycle_number={1}/>,
       <FirstDiagnoseForm2 />,
       <FirstDiagnoseTable3 />,
       <FirstDiagnoseForm4 />,
       <FirstDiagnoseForm5 />,
       <FirstDiagnoseTable6 />,
-      <FirstDiagnoseForm7 />,
-      <FirstDiagnoseTable8 />
+      <FirstDiagnoseForm7 key={1} cycle_number={1} />,
+      <FirstDiagnoseTable8 key={1} cycle_number={1} />
     ]
 
     return (
@@ -101,11 +88,4 @@ class FirstDiagnose extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    crf_first_diagnose: state.crf_first_diagnose,
-    loading: state.loading
-  }
-}
-
-export default connect(mapStateToProps)(FirstDiagnose)
+export default connect()(FirstDiagnose)
