@@ -4,8 +4,8 @@ import { Menu } from "antd"
 import styles from '../style.css'
 import {
   FirstDiagnoseForm1, FirstDiagnoseForm7, FirstDiagnoseTable8,
-  CycleRecordTable2
-  // CycleRecordTable4, CycleRecordTable6,
+  CycleRecordTable2, CycleRecordForm4, CycleRecordTable6,
+  AdverseEventTable
   // AdverseEventTable
 } from './Forms'
 
@@ -14,7 +14,7 @@ class CycleRecord extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      current: '5'
+      current: '0'
     }
   }
 
@@ -33,11 +33,15 @@ class CycleRecord extends React.Component {
       type: 'crf_cycle_record/fetchEvaluation',
       payload: { sample_id, cycle_number }
     })
+    dispatch({
+      type: 'crf_cycle_record/fetchECOG',
+      payload: { sample_id, cycle_number }
+    })
   }
 
   handleMenuClick = e => {
     this.setState({
-      current: e.key,
+      current: e.key
     })
   }
 
@@ -47,12 +51,12 @@ class CycleRecord extends React.Component {
 
     const menu_content = [
       <FirstDiagnoseForm1 key={2} cycle_number={cycle_number} />,
-      <CycleRecordTable2 />,
+      <CycleRecordTable2 cycle_number={cycle_number}/>,
       <FirstDiagnoseTable8 key={2} cycle_number={cycle_number} />,
-      // <CycleRecordTable4 />,
+      <CycleRecordForm4 cycle_number={cycle_number} />,
       <FirstDiagnoseForm7 key={2} cycle_number={cycle_number} />,
-      // <CycleRecordTable6 />,
-      // <AdverseEventTable key={1} cycle_number={cycle_number} />
+      <CycleRecordTable6 cycle_number={cycle_number} />,
+      <AdverseEventTable key={1} cycle_number={cycle_number} />
     ]
 
     return (
