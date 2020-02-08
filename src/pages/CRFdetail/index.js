@@ -3,7 +3,8 @@ import { connect } from 'dva'
 import router from 'umi/router'
 import {
   Button, Divider, Icon,
-  Row, Col, Menu, message
+  Row, Col, Menu, message,
+  Spin
 } from 'antd'
 import FirstDiagnose from './components/FirstDiagnose'
 import CycleRecord from './components/CycleRecord'
@@ -79,6 +80,7 @@ class CRFDetail extends React.Component {
     const { description, patient_name, project_ids, research_center_ids,
       group_name, patient_ids } = this.props.crf_info
     const { selectedKeys, cycle_navs } = this.state
+    const menuLoading = this.props.loading.effects['crfBase/fetchNavInfo']
 
     let crf_body
     if (selectedKeys[0] === 'first_diagnose') {
@@ -119,35 +121,37 @@ class CRFDetail extends React.Component {
         <Divider />
         <div className={styles.crf_content}>
           <div className={styles.crf_aside}>
-            <Menu
-              mode="inline"
-              defaultOpenKeys={['cycle_record']}
-              selectedKeys={selectedKeys}
-              onClick={this.handleMenuClick}
-            >
-              <Menu.Item key='first_diagnose'>
-                <span><Icon type="align-right" />基线资料（访视1）</span>
-              </Menu.Item>
-              <SubMenu
-                key='cycle_record'
-                title={<span><Icon type="dashboard" />治疗期随访</span>}
+            <Spin spinning={menuLoading}>
+              <Menu
+                mode="inline"
+                defaultOpenKeys={['cycle_record']}
+                selectedKeys={selectedKeys}
+                onClick={this.handleMenuClick}
               >
-                {cycle_navs.children.map(child =>
-                  <Menu.Item key={child.cycle_number}>
-                    <span className={child.cycle_number === -1 ? styles.edit_title : ''}>{child.title}</span>
-                  </Menu.Item>
-                )}
-                <Menu.Item key='add'>
-                  <span style={{ color: '#269f42' }}>新增&nbsp;&nbsp;<Icon type="file-add" /></span>
+                <Menu.Item key='first_diagnose'>
+                  <span><Icon type="align-right" />基线资料（访视1）</span>
                 </Menu.Item>
-              </SubMenu>
-              <Menu.Item key='interview_table'>
-                <span><Icon type="hourglass" />生存期随访</span>
-              </Menu.Item>
-              <Menu.Item key='summary_table'>
-                <span><Icon type="file-text" />项目总结</span>
-              </Menu.Item>
-            </Menu>
+                <SubMenu
+                  key='cycle_record'
+                  title={<span><Icon type="dashboard" />治疗期随访</span>}
+                >
+                  {cycle_navs.children.map(child =>
+                    <Menu.Item key={child.cycle_number}>
+                      <span className={child.cycle_number === -1 ? styles.edit_title : ''}>{child.title}</span>
+                    </Menu.Item>
+                  )}
+                  <Menu.Item key='add'>
+                    <span style={{ color: '#269f42' }}>新增&nbsp;&nbsp;<Icon type="file-add" /></span>
+                  </Menu.Item>
+                </SubMenu>
+                <Menu.Item key='interview_table'>
+                  <span><Icon type="hourglass" />生存期随访</span>
+                </Menu.Item>
+                <Menu.Item key='summary_table'>
+                  <span><Icon type="file-text" />项目总结</span>
+                </Menu.Item>
+              </Menu>
+            </Spin>
           </div>
           <div className={styles.crf_body}>
             <div className="page_body">
@@ -163,7 +167,8 @@ class CRFDetail extends React.Component {
 function mapStateToProps(state) {
   return {
     crf_info: state.crfBase.crf_info,
-    nav_info: state.crfBase.nav_info
+    nav_info: state.crfBase.nav_info,
+    loading: state.loading
   }
 }
 
