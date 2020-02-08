@@ -99,3 +99,21 @@ export function DeleteAdverseEvent({ sample_id, cycle_number, adverse_event_id }
     method: 'DELETE'
   })
 }
+
+//获取ECOG评分
+export function FetchECOG({ sample_id, cycle_number}) {
+  return request(`/ECOG/${sample_id}/${cycle_number}`, {
+    method: 'GET'
+  })
+}
+
+//添加或修改ECOG评分
+export function ModifyECOG({ sample_id, cycle_number, body }) {
+  return request(`/ECOG/${sample_id}/${cycle_number}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+}
