@@ -2133,6 +2133,7 @@ class FirstDiagnoseForm_7 extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const { lab_inspection } = this.props.crf_first_diagnose
+    console.log(lab_inspection)
     const submitLoading = this.props.loading.effects['crf_first_diagnose/modifyLabInspection']
 
     return (
@@ -2758,7 +2759,13 @@ class CycleRecordTable_2 extends React.Component {
         const { dispatch, cycle_number } = this.props
         const { record } = this.state
         const sample_id = window.location.pathname.split('/')[4]
-        if (values.time) values.time = values.time.format('YYYY-MM-DD')
+        if (values.start_time) {
+          values.start_time = values.start_time.format('YYYY-MM-DD')
+        } else values.start_time = ''
+        if (values.end_time) {
+          values.end_time = values.end_time.format('YYYY-MM-DD')
+        } else values.end_time = ''
+        if (!values.symptom_description_other) values.symptom_description_other = ''
 
         values.main_symptom_id = record.main_symptom_id
         dispatch({
@@ -2771,6 +2778,23 @@ class CycleRecordTable_2 extends React.Component {
             payload: { sample_id, cycle_number }
           })
         })
+      }
+    })
+  }
+
+  handleSubmitECOG = e => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { dispatch, cycle_number } = this.props
+        const sample_id = window.location.pathname.split('/')[4]
+        dispatch({
+          type: 'crf_cycle_record/modifyECOG',
+          payload: { sample_id, cycle_number, body: values }
+        }).then(() => dispatch({
+          type: 'crf_cycle_record/fetchECOG',
+          payload: { sample_id, cycle_number }
+        }))
       }
     })
   }
@@ -2793,9 +2817,10 @@ class CycleRecordTable_2 extends React.Component {
   }
 
   render() {
-    const { main_symptom_table } = this.props.crf_cycle_record
+    const { main_symptom_table, ECOG } = this.props.crf_cycle_record
     const tableLoading = this.props.loading.effects['crf_cycle_record/fetchMainSymptom']
     const submitLoading = this.props.loading.effects['crf_cycle_record/modifyMainSymptom']
+    const submitLoadingECOG = this.props.loading.effects['crf_cycle_record/modifyECOG']
     const { getFieldDecorator } = this.props.form
     const { record, visible, symptom_description, existence } = this.state
 
@@ -2845,6 +2870,23 @@ class CycleRecordTable_2 extends React.Component {
           columns={columns}
           dataSource={main_symptom_table}
         />
+        <Form layout="inline" style={{ marginTop: '20px' }} onSubmit={this.handleSubmitECOG}>
+          <Form.Item label="ECOG评分">
+            {getFieldDecorator('ECOG', {
+              initialValue: ECOG
+            })(
+              <Input className={styles.ECOG_input} placeholder="请输入ECOG评分" />
+            )}
+            <div>
+              <Button
+                style={{ marginLeft: '20px', marginTop: '20px' }}
+                htmlType="submit"
+                type="primary"
+                loading={submitLoadingECOG}
+              >保存</Button>
+            </div>
+          </Form.Item>
+        </Form>
         <Modal
           title="编辑主要症状体征"
           visible={visible}
@@ -2926,3 +2968,56 @@ class CycleRecordTable_2 extends React.Component {
 }
 
 export const CycleRecordTable2 = connect(mapStateToProps)(Form.create()(CycleRecordTable_2))
+
+
+class CycleRecordForm_4 extends React.Component {
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { dispatch, cycle_number } = this.props
+        const sample_id = window.location.pathname.split('/')[4]
+        dispatch({
+          type: 'crf_cycle_record/modifyEvaluation',
+          payload: { sample_id, cycle_number, body: values }
+        }).then(() => dispatch({
+          type: 'crf_cycle_record/fetchEvaluation',
+          payload: { sample_id, cycle_number }
+        }))
+      }
+    })
+  }
+
+  render() {
+    const { evaluation } = this.props.crf_cycle_record
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyEvaluation']
+    const { getFieldDecorator } = this.props.form
+
+    return (
+      <Form layout="inline" onSubmit={this.handleSubmit}>
+        <Form.Item label="疗效评价">
+          {getFieldDecorator('evaluation', {
+            initialValue: evaluation + ''
+          })(
+            <Radio.Group style={{ marginLeft: '20px' }}>
+              <Radio value='0'>完全缓解（CR）</Radio>
+              <Radio value='1'>部分缓解（PR）</Radio>
+              <Radio value='2'>疾病稳定（SD）</Radio>
+              <Radio value='3'>疾病进展（PD）</Radio>
+            </Radio.Group>
+          )}
+          <div>
+            <Button
+              style={{ marginLeft: '20px', marginTop: '20px' }}
+              htmlType="submit"
+              type="primary"
+              loading={submitLoading}
+            >保存</Button>
+          </div>
+        </Form.Item>
+      </Form>
+    )
+  }
+}
+
+export const CycleRecordForm4 = connect(mapStateToProps)(Form.create()(CycleRecordForm_4))

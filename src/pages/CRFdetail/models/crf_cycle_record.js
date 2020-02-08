@@ -3,7 +3,8 @@ import {
   FetchMainSymptom, ModifyMainSymptom, DeleteMainSymptom,
   FetchTreatmentRecord, ModifyTreatmentRecord, DeleteTreatmentRecord,
   FetchEvaluation, ModifyEvaluation, FetchAdverseEvent,
-  ModifyAdverseEvent, DeleteAdverseEvent
+  ModifyAdverseEvent, DeleteAdverseEvent, FetchECOG,
+  ModifyECOG
 } from '../../../services/crfCycleRecord'
 
 const Model = {
@@ -13,8 +14,9 @@ const Model = {
   state: {
     main_symptom_table: [],
     treatment_record_table: [],
-    evaluation: {},
-    adverse_event_table: []
+    evaluation: '',
+    adverse_event_table: [],
+    ECOG: -1
   },
 
   reducers: {
@@ -26,19 +28,29 @@ const Model = {
   effects: {
     *fetchMainSymptom({ payload }, { call, put }) {
       let rsp = yield call(FetchMainSymptom, payload)
-      rsp.data.forEach(item => {
-        if (item.existence === '存在') {
-          item.existence = '0'
-        } else if (item.existence === '消失') {
-          item.existence = '1'
-        }
-      })
-      yield put({
-        type: "save",
-        payload: {
-          main_symptom_table: rsp.data
-        }
-      })
+      if(rsp.data){
+        rsp.data.forEach(item => {
+          if (item.existence === '存在') {
+            item.existence = '0'
+          } else if (item.existence === '消失') {
+            item.existence = '1'
+          }
+        })
+        yield put({
+          type: "save",
+          payload: {
+            main_symptom_table: rsp.data
+          }
+        })
+      } else {
+        yield put({
+          type: "save",
+          payload: {
+            main_symptom_table: []
+          }
+        })
+      }
+      
     },
 
     *modifyMainSymptom({ payload }, { call, put }) {
@@ -61,12 +73,21 @@ const Model = {
 
     *fetchTreatmentRecord({ payload }, { call, put }) {
       let rsp = yield call(FetchTreatmentRecord, payload)
-      yield put({
-        type: "save",
-        payload: {
-          treatment_record_table: rsp.data
-        }
-      })
+      if(rsp.data){
+        yield put({
+          type: "save",
+          payload: {
+            treatment_record_table: rsp.data
+          }
+        })
+      } else {
+        yield put({
+          type: "save",
+          payload: {
+            treatment_record_table: []
+          }
+        })
+      }
     },
 
     *modifyTreatmentRecord({ payload }, { call, put }) {
@@ -92,7 +113,7 @@ const Model = {
       yield put({
         type: "save",
         payload: {
-          evaluation: rsp
+          evaluation: rsp.evaluation
         }
       })
     },
@@ -108,12 +129,21 @@ const Model = {
 
     *fetchAdverseEvent({ payload }, { call, put }) {
       let rsp = yield call(FetchAdverseEvent, payload)
-      yield put({
-        type: "save",
-        payload: {
-          adverse_event_table: rsp.data
-        }
-      })
+      if(rsp.data){
+        yield put({
+          type: "save",
+          payload: {
+            adverse_event_table: rsp.data
+          }
+        })
+      } else {
+        yield put({
+          type: "save",
+          payload: {
+            adverse_event_table: []
+          }
+        })
+      }
     },
 
     *modifyAdverseEvent({ payload }, { call, put }) {
@@ -133,6 +163,25 @@ const Model = {
         message.success('删除严重不良事件成功！')
       }
     },
+
+    *fetchECOG({ payload }, { call, put }) {
+      let rsp = yield call(FetchECOG, payload)
+      yield put({
+        type: "save",
+        payload: {
+          ECOG: rsp.ECOG
+        }
+      })
+    },
+
+    *modifyECOG({ payload }, { call, put }) {
+      let rsp = yield call(ModifyECOG, payload)
+      if (rsp && rsp.code !== 200) {
+        message.error(`保存ECOG评分失败，${rsp.msg}`)
+      } else {
+        message.success('保存ECOG评分成功！')
+      }
+    }
   }
 
 }

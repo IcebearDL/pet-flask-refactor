@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.1"></a>
+## [0.11.1](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.11.0...v0.11.1) (2020-02-08)
+
+
+### Bug Fixes
+
+* **CRFdetail:** Add CycleRecord component. ([339fa07](https://github.com/IcebearDL/pet-flask-refactor/commit/339fa07))
+* **CRFdetail Forms:** Add CycleRecordForm_4. ([46cac30](https://github.com/IcebearDL/pet-flask-refactor/commit/46cac30))
+* **CRFdetail index:** Add Spin container. ([354f439](https://github.com/IcebearDL/pet-flask-refactor/commit/354f439))
+* **CRFdetail model:** Add FetchECOG, ModifyECOG. ([23f8693](https://github.com/IcebearDL/pet-flask-refactor/commit/23f8693))
+
+
+
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.10.0...v0.11.0) (2020-02-07)
 
