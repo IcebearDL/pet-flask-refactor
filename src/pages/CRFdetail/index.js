@@ -3,8 +3,8 @@ import { connect } from 'dva'
 import router from 'umi/router'
 import {
   Button, Divider, Icon,
-  Row, Col, Menu, message,
-  Spin
+  Row, Col, Menu, Spin,
+  Modal
 } from 'antd'
 import FirstDiagnose from './components/FirstDiagnose'
 import CycleRecord from './components/CycleRecord'
@@ -20,9 +20,6 @@ class CRFDetail extends React.Component {
     super(props)
     this.state = {
       selectedKeys: ['first_diagnose'],
-      cycle_navs: {
-        children: []
-      },
       current_select: []
     }
   }
@@ -35,41 +32,48 @@ class CRFDetail extends React.Component {
       type: 'crfBase/fetchCrfInfo',
       payload: { sample_id }
     })
-    this.refreshList()
-  }
-
-  refreshList = () => {
-    const { dispatch } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
     dispatch({
       type: 'crfBase/fetchNavInfo',
       payload: { sample_id }
-    }).then(() => this.setState({
-      cycle_navs: this.props.nav_info[1]
-    }))
+    })
   }
 
   handleMenuClick = ({ keyPath }) => {
+    const { dispatch } = this.props
+    const sample_id = window.location.pathname.split('/')[4]
     if (keyPath[0] === 'add') {
-      const { cycle_navs } = this.state
-
-      //如果已存在新增访视
-      if (cycle_navs.children[cycle_navs.children.length - 1].cycle_number === -1) {
-        message.warning('请先保存增加的访视记录！')
-        return
-      }
-
-      //不存在则新增访视记录
-      const newKey = cycle_navs.children.length !== 0
-        ?
-        parseInt(cycle_navs.children[cycle_navs.children.length - 1].title.split('访视')[1]) + 1
-        : 2
-      cycle_navs.children.push({
-        cycle_number: -1,
-        title: `访视${newKey}`
+      dispatch({
+        type: 'crfBase/addCycle',
+        payload: { sample_id }
+      }).then(() => dispatch({
+        type: 'crfBase/fetchNavInfo',
+        payload: { sample_id }
+      })).then(() => {
+        const { nav_info } = this.props
+        this.setState({
+          selectedKeys: [nav_info.length + 1 + '', 'cycle_record']
+        })
       })
-      this.setState({ cycle_navs }, () => {
-        this.setState({ selectedKeys: ['-1', 'cycle_record'] })
+      return
+    } else if (keyPath[0] === 'delete') {
+      const { nav_info } = this.props
+      const { cycle_number } = nav_info[nav_info.length - 1]
+      Modal.confirm({
+        title: `请问是否确认删除访视${cycle_number}`,
+        okText: '确定',
+        cancelText: '取消',
+        onOk: () => new Promise(resolve => {
+          dispatch({
+            type: 'crfBase/deleteCycle',
+            payload: { sample_id }
+          }).then(() => {
+            resolve()
+            dispatch({
+              type: 'crfBase/fetchNavInfo',
+              payload: { sample_id }
+            })
+          })
+        })
       })
       return
     }
@@ -79,7 +83,8 @@ class CRFDetail extends React.Component {
   render() {
     const { description, patient_name, project_ids, research_center_ids,
       group_name, patient_ids } = this.props.crf_info
-    const { selectedKeys, cycle_navs } = this.state
+    const { nav_info } = this.props
+    const { selectedKeys } = this.state
     const menuLoading = this.props.loading.effects['crfBase/fetchNavInfo']
 
     let crf_body
@@ -87,8 +92,8 @@ class CRFDetail extends React.Component {
       crf_body = <FirstDiagnose />
     } else if (selectedKeys[1] === 'cycle_record') {
       crf_body = <CycleRecord
-        cycle_number={selectedKeys[0] === 'add' ? '-1' : selectedKeys[0]}
-        key={selectedKeys[0] === 'add' ? '-1' : selectedKeys[0]}
+        cycle_number={selectedKeys[0] === '-1' ? nav_info.length + 1 : selectedKeys[0]}
+        key={selectedKeys[0] === '-1' ? '-1' : selectedKeys[0]}
       />
     } else if (selectedKeys[0] === 'interview_table') {
       crf_body = <InterviewTable />
@@ -135,13 +140,16 @@ class CRFDetail extends React.Component {
                   key='cycle_record'
                   title={<span><Icon type="dashboard" />治疗期随访</span>}
                 >
-                  {cycle_navs.children.map(child =>
+                  {nav_info.map(child =>
                     <Menu.Item key={child.cycle_number}>
-                      <span className={child.cycle_number === -1 ? styles.edit_title : ''}>{child.title}</span>
+                      <span>{child.title}</span>
                     </Menu.Item>
                   )}
                   <Menu.Item key='add'>
                     <span style={{ color: '#269f42' }}>新增&nbsp;&nbsp;<Icon type="file-add" /></span>
+                  </Menu.Item>
+                  <Menu.Item key='delete'>
+                    <span style={{ color: '#faad14' }}>删除&nbsp;&nbsp;<Icon type="delete" /></span>
                   </Menu.Item>
                 </SubMenu>
                 <Menu.Item key='interview_table'>

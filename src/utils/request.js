@@ -42,14 +42,22 @@ const request = extend({
 
 //这里的request的header不能加在extend里，实例化会在login拿到token之前，之后的request并不带token
 //：重写request，每次请求都带上header
+let COOKIE_CONFIRM = true
+
 const auth_request = (url, options) => {
 
   //判断cookie是否失效
   if (url !== '/login' && CookieUtil.get('token') === null) {
+    if(!COOKIE_CONFIRM){
+      return
+    }
+    COOKIE_CONFIRM = false
     message.warning('登陆状态失效，请重新登陆！')
     router.replace('/login')
-  }
+    return
+  } 
 
+  if(!COOKIE_CONFIRM) COOKIE_CONFIRM = true
   const { headers } = options
   const auth_header = {
     'Authorization': `Bearer ${CookieUtil.get('token')}`

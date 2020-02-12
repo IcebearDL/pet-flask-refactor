@@ -28,29 +28,20 @@ const Model = {
   effects: {
     *fetchMainSymptom({ payload }, { call, put }) {
       let rsp = yield call(FetchMainSymptom, payload)
-      if(rsp.data){
-        rsp.data.forEach(item => {
-          if (item.existence === '存在') {
-            item.existence = '0'
-          } else if (item.existence === '消失') {
-            item.existence = '1'
-          }
-        })
-        yield put({
-          type: "save",
-          payload: {
-            main_symptom_table: rsp.data
-          }
-        })
-      } else {
-        yield put({
-          type: "save",
-          payload: {
-            main_symptom_table: []
-          }
-        })
-      }
-      
+      rsp.data.forEach(item => {
+        if (item.existence === '存在') {
+          item.existence = '0'
+        } else if (item.existence === '消失') {
+          item.existence = '1'
+        }
+      })
+      yield put({
+        type: "save",
+        payload: {
+          main_symptom_table: rsp.data
+        }
+      })
+
     },
 
     *modifyMainSymptom({ payload }, { call, put }) {
@@ -73,21 +64,12 @@ const Model = {
 
     *fetchTreatmentRecord({ payload }, { call, put }) {
       let rsp = yield call(FetchTreatmentRecord, payload)
-      if(rsp.data){
-        yield put({
-          type: "save",
-          payload: {
-            treatment_record_table: rsp.data
-          }
-        })
-      } else {
-        yield put({
-          type: "save",
-          payload: {
-            treatment_record_table: []
-          }
-        })
-      }
+      yield put({
+        type: "save",
+        payload: {
+          treatment_record_table: rsp.data
+        }
+      })
     },
 
     *modifyTreatmentRecord({ payload }, { call, put }) {
@@ -129,21 +111,12 @@ const Model = {
 
     *fetchAdverseEvent({ payload }, { call, put }) {
       let rsp = yield call(FetchAdverseEvent, payload)
-      if(rsp.data){
-        yield put({
-          type: "save",
-          payload: {
-            adverse_event_table: rsp.data
-          }
-        })
-      } else {
-        yield put({
-          type: "save",
-          payload: {
-            adverse_event_table: []
-          }
-        })
-      }
+      yield put({
+        type: "save",
+        payload: {
+          adverse_event_table: rsp.data
+        }
+      })
     },
 
     *modifyAdverseEvent({ payload }, { call, put }) {

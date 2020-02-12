@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.12.0"></a>
+# [0.12.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.11.1...v0.12.0) (2020-02-12)
+
+
+### Bug Fixes
+
+* **CRFdetail index:** Add addCycle and deleteCycle. ([3ebeb6d](https://github.com/IcebearDL/pet-flask-refactor/commit/3ebeb6d))
+
+
+### Features
+
+* Add addCycle and deleteCycle. ([7f491de](https://github.com/IcebearDL/pet-flask-refactor/commit/7f491de))
+
+
+
 <a name="0.11.1"></a>
 ## [0.11.1](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.11.0...v0.11.1) (2020-02-08)
 
