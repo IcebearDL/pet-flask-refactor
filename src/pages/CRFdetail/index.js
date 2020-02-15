@@ -59,7 +59,7 @@ class CRFDetail extends React.Component {
       const { nav_info } = this.props
       const { cycle_number } = nav_info[nav_info.length - 1]
       Modal.confirm({
-        title: `请问是否确认删除访视${cycle_number}`,
+        title: `请问是否确认删除访视${cycle_number}？`,
         okText: '确定',
         cancelText: '取消',
         onOk: () => new Promise(resolve => {
