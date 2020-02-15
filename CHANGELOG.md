@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.12.0...v0.13.0) (2020-02-15)
+
+
+### Bug Fixes
+
+* Add new api. ([b18e149](https://github.com/IcebearDL/pet-flask-refactor/commit/b18e149))
+
+
+### Features
+
+* **Forms:** Add CycleRecordTable_6 component. ([1b75d82](https://github.com/IcebearDL/pet-flask-refactor/commit/1b75d82))
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.11.1...v0.12.0) (2020-02-12)
 
