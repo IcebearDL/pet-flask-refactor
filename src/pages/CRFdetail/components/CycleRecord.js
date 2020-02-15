@@ -37,6 +37,10 @@ class CycleRecord extends React.Component {
       type: 'crf_cycle_record/fetchECOG',
       payload: { sample_id, cycle_number }
     })
+    dispatch({
+      type: 'crf_cycle_record/fetchTreatmentStatusRecord',
+      payload: { sample_id, cycle_number }
+    })
   }
 
   handleMenuClick = e => {
