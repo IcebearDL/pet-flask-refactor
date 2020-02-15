@@ -4,7 +4,7 @@ import {
   FetchTreatmentRecord, ModifyTreatmentRecord, DeleteTreatmentRecord,
   FetchEvaluation, ModifyEvaluation, FetchAdverseEvent,
   ModifyAdverseEvent, DeleteAdverseEvent, FetchECOG,
-  ModifyECOG
+  ModifyECOG, FetchTreatmentStatusRecord, ModifyTreatmentStatusRecord
 } from '../../../services/crfCycleRecord'
 
 const Model = {
@@ -16,7 +16,8 @@ const Model = {
     treatment_record_table: [],
     evaluation: '',
     adverse_event_table: [],
-    ECOG: -1
+    ECOG: -1,
+    treatment_record_adjustment_status: {}
   },
 
   reducers: {
@@ -154,7 +155,35 @@ const Model = {
       } else {
         message.success('保存ECOG评分成功！')
       }
-    }
+    },
+
+    *fetchTreatmentStatusRecord({ payload }, { call, put }) {
+      let rsp = yield call(FetchTreatmentStatusRecord, payload)
+      if(rsp.adjustment){
+        yield put({
+          type: "save",
+          payload: {
+            treatment_record_adjustment_status: rsp
+          }
+        })
+      } else {
+        yield put({
+          type: "save",
+          payload: {
+            treatment_record_adjustment_status: {}
+          }
+        })
+      }
+    },
+
+    *modifyTreatmentStatusRecord({ payload }, { call, put }) {
+      let rsp = yield call(ModifyTreatmentStatusRecord, payload)
+      if (rsp && rsp.code !== 200) {
+        message.error(`保存治疗记录单调整表单失败，${rsp.msg}`)
+      } else {
+        message.success('保存治疗记录单调整表单成功！')
+      }
+    },
   }
 
 }

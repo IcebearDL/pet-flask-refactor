@@ -117,3 +117,21 @@ export function ModifyECOG({ sample_id, cycle_number, body }) {
     body: JSON.stringify(body)
   })
 }
+
+//获取治疗记录单调整表单
+export function FetchTreatmentStatusRecord({ sample_id, cycle_number}) {
+  return request(`/treatment_record_adjustment_status/${sample_id}/${cycle_number}`, {
+    method: 'GET'
+  })
+}
+
+//添加或修改治疗记录单调整表单
+export function ModifyTreatmentStatusRecord({ sample_id, cycle_number, body }) {
+  return request(`/treatment_record_adjustment_status/${sample_id}/${cycle_number}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+}

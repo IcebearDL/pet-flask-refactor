@@ -2112,7 +2112,6 @@ class FirstDiagnoseForm_7 extends React.Component {
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      console.log(values)
       if (!err) {
         //重构time
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
@@ -2133,7 +2132,6 @@ class FirstDiagnoseForm_7 extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const { lab_inspection } = this.props.crf_first_diagnose
-    console.log(lab_inspection)
     const submitLoading = this.props.loading.effects['crf_first_diagnose/modifyLabInspection']
 
     return (
@@ -3021,3 +3019,304 @@ class CycleRecordForm_4 extends React.Component {
 }
 
 export const CycleRecordForm4 = connect(mapStateToProps)(Form.create()(CycleRecordForm_4))
+
+class CycleRecordTable_6 extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      record: {},
+      visible: false,
+      adjustment: ''
+    }
+  }
+
+  componentDidMount() {
+    const { dispatch, cycle_number } = this.props
+    const sample_id = window.location.pathname.split('/')[4]
+    dispatch({
+      type: 'crf_first_diagnose/fetchPhotoEvaluateTable',
+      payload: { sample_id, cycle_number }
+    })
+  }
+
+  handleDelete = treatment_record_id => {
+    Modal.confirm({
+      title: '请问是否确认删除？',
+      okText: '确定',
+      cancelText: '取消',
+      onOk: () => new Promise(resolve => {
+        const { dispatch, cycle_number } = this.props
+        const sample_id = window.location.pathname.split('/')[4]
+        dispatch({
+          type: 'crf_cycle_record/deleteTreatmentRecord',
+          payload: { sample_id, cycle_number, treatment_record_id }
+        }).then(() => {
+          resolve()
+          dispatch({
+            type: 'crf_cycle_record/fetchTreatmentRecord',
+            payload: { sample_id, cycle_number }
+          })
+        })
+      })
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { dispatch, cycle_number } = this.props
+        const { record } = this.state
+        const sample_id = window.location.pathname.split('/')[4]
+        const adjustment = {}
+
+        //重构时间和其他空项
+        values.start_time ? adjustment.start_time = values.start_time.format('YYYY-MM-DD') : adjustment.start_time = ''
+        values.end_time ? adjustment.end_time = values.end_time.format('YYYY-MM-DD') : adjustment.end_time = ''
+        for (let type of ['description', 'medicine_name', 'treatment_name']) {
+          !values[type] ? adjustment[type] = '' : adjustment[type] = values[type]
+        }
+        adjustment.treatment_record_id = record.treatment_record_id
+        dispatch({
+          type: 'crf_cycle_record/modifyTreatmentRecord',
+          payload: { sample_id, cycle_number, body: adjustment }
+        }).then(() => {
+          this.setState({ visible: false })
+          dispatch({
+            type: 'crf_cycle_record/fetchTreatmentRecord',
+            payload: { sample_id, cycle_number }
+          })
+        })
+      }
+    })
+  }
+
+  handleSubmitAdjustment = e => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { dispatch, cycle_number } = this.props
+        const sample_id = window.location.pathname.split('/')[4]
+        const adjustment_status = {}
+        if (values.adjustment === '0') {
+          adjustment_status.adjustment = '0'
+          adjustment_status.adjust_percent = ''
+          adjustment_status.adjust_reason = ''
+        } else if(values.adjustment === '1') {
+          adjustment_status.adjustment = '1'
+          for (let type of ['adjust_percent', 'adjust_reason']) {
+            !values[type] ? adjustment_status[type] = '' : adjustment_status[type] = values[type]
+          }
+        } else if(!values.adjustment) {
+          adjustment_status.adjust_percent = ''
+          adjustment_status.adjust_reason = ''
+        } 
+        dispatch({
+          type: 'crf_cycle_record/modifyTreatmentStatusRecord',
+          payload: { sample_id, cycle_number, body: { adjustment_status } }
+        }).then(() => {
+          dispatch({
+            type: 'crf_cycle_record/fetchTreatmentStatusRecord',
+            payload: { sample_id, cycle_number }
+          })
+        })
+      }
+    })
+  }
+
+  handleEditModel = record => {
+    this.setState({ record, visible: true })
+  }
+
+  handleCancel = () => {
+    this.setState({ visible: false })
+  }
+
+  handleStateChange = ({ target: { value } }) => {
+    this.setState({ adjustment: value })
+  }
+
+  render() {
+    const { treatment_record_table, treatment_record_adjustment_status } = this.props.crf_cycle_record
+    const tableLoading = this.props.loading.effects['crf_cycle_record/fetchTreatmentRecord']
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyTreatmentRecord']
+    const submitLoadingAdjustment = this.props.loading.effects['crf_cycle_record/modifyTreatmentStatusRecord']
+    const { getFieldDecorator } = this.props.form
+    const { record, visible, adjustment } = this.state
+
+    const columns = [{
+      title: '治疗名称',
+      dataIndex: 'treatment_name',
+      align: 'center'
+    }, {
+      title: '药物名称',
+      dataIndex: 'medicine_name',
+      align: 'center'
+    }, {
+      title: '给药/治疗开始日期',
+      dataIndex: 'start_time',
+      align: 'center'
+    }, {
+      title: '给药/治疗结束日期',
+      dataIndex: 'end_time',
+      align: 'center'
+    }, {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button style={{ marginLeft: '10px' }} type="primary" size="small"
+            onClick={() => this.handleEditModel(record)}>
+            编辑</Button>
+          <Button style={{ marginLeft: '10px' }} type="danger" size="small"
+            onClick={() => this.handleDelete(record.treatment_record_id)}>
+            删除</Button>
+        </>
+      )
+    }]
+
+    return (
+      <>
+        <Button type="primary" onClick={() => this.handleEditModel({ treatment_record_id: '' })}>添加</Button>
+        <Table
+          loading={tableLoading}
+          className={styles.patient_report_table}
+          rowKey={'treatment_record_id'}
+          size="small"
+          bordered={true}
+          pagination={false}
+          scroll={{ x: true }}
+          columns={columns}
+          dataSource={treatment_record_table}
+        />
+        <Form
+          style={{ marginTop: '20px' }}
+          labelAlign='right'
+          labelCol={{ span: 6 }} wrapperCol={{ span: 17, offset: 1 }}
+          onSubmit={this.handleSubmitAdjustment}
+        >
+          <Form.Item label="治疗中用药剂量有无调整">
+            {getFieldDecorator('adjustment', {
+              rules: [{ required: true, message: '请选择剂量调整情况' }],
+              initialValue: treatment_record_adjustment_status.adjustment
+            })(
+              <Radio.Group onChange={this.handleStateChange}>
+                <Radio value='0'>无</Radio>
+                <Radio value='1'>有</Radio>
+              </Radio.Group>
+            )}
+          </Form.Item>
+          {
+            adjustment === '1' || (adjustment === '' && treatment_record_adjustment_status.adjustment === '1')
+              ?
+              <>
+                <Form.Item label="调整为标准剂量的百分比">
+                  {getFieldDecorator('adjust_percent', {
+                    initialValue: treatment_record_adjustment_status.adjust_percent
+                  })(
+                    <Input style={{ width: '200px' }} placeholder="请输入百分比数值（%）" />
+                  )}
+                </Form.Item>
+                <Form.Item label="调整原因">
+                  {getFieldDecorator('adjust_reason', {
+                    initialValue: treatment_record_adjustment_status.adjust_reason
+                  })(
+                    <Input style={{ width: '200px' }} placeholder="请输入调整原因" />
+                  )}
+                </Form.Item>
+              </>
+              : null
+          }
+          <Row>
+            <Col span={6}></Col>
+            <Col span={17} offset={1}>
+              <Button
+                htmlType="submit"
+                type="primary"
+                loading={submitLoadingAdjustment}
+              >保存</Button>
+            </Col>
+          </Row>
+        </Form>
+        <Modal
+          title="编辑治疗记录单"
+          visible={visible}
+          okText="保存"
+          destroyOnClose
+          onCancel={this.handleCancel}
+          centered
+          footer={null}
+        >
+          <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onSubmit={this.handleSubmit}>
+            <Form.Item label="治疗名称">
+              {getFieldDecorator('treatment_name', {
+                initialValue: record.treatment_name
+              })(
+                <Input placeholder="请输入治疗名称" />
+              )}
+            </Form.Item>
+            <Form.Item label="药物名称">
+              {getFieldDecorator('medicine_name', {
+                initialValue: record.medicine_name
+              })(
+                <Input placeholder="请输入药物名称" />
+              )}
+            </Form.Item>
+            <Form.Item label="给药/治疗开始日期">
+              {getFieldDecorator('start_time', {
+                initialValue: record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null
+              })(
+                <DatePicker format={'YYYY-MM-DD'} />
+              )}
+            </Form.Item>
+            <Form.Item label="给药/治疗结束日期">
+              {getFieldDecorator('end_time', {
+                initialValue: record.end_time ? moment(record.end_time, 'YYYY-MM-DD') : null
+              })(
+                <DatePicker format={'YYYY-MM-DD'} />
+              )}
+            </Form.Item>
+            <Form.Item label="剂量及用法">
+              {getFieldDecorator('description', {
+                initialValue: record.description
+              })(
+                <Input placeholder="请输入剂量及用法" />
+              )}
+            </Form.Item>
+            <Row type="flex" justify="center">
+              <Button
+                htmlType="submit"
+                type="primary"
+                loading={submitLoading}
+              >保存</Button>
+              <Button
+                style={{ marginLeft: 20 }}
+                onClick={this.handleCancel}
+              >取消</Button>
+            </Row>
+          </Form>
+        </Modal >
+      </>
+    )
+  }
+}
+
+export const CycleRecordTable6 = connect(mapStateToProps)(Form.create()(CycleRecordTable_6))
+
+class AdverseEventTable_ extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      record: {},
+      visible: false,
+      adjustment: ''
+    }
+  }
+
+  render() {
+    return <>asd</>
+  }
+}
+export const AdverseEventTable = connect(mapStateToProps)(Form.create()(AdverseEventTable_))
