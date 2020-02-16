@@ -252,28 +252,28 @@ class FirstDiagnoseForm_2 extends React.Component {
           {getFieldDecorator('id_num', {
             initialValue: patient.id_num
           })(
-            <Input style={{ width: 300 }} placeholder="请输入身份证号" />
+            <Input style={{ width: 250 }} placeholder="请输入身份证号" />
           )}
         </Form.Item>
         <Form.Item label="住院号">
           {getFieldDecorator('hospital_ids', {
             initialValue: patient.hospital_ids
           })(
-            <Input style={{ width: 300 }} placeholder="请输入住院号" />
+            <Input style={{ width: 250 }} placeholder="请输入住院号" />
           )}
         </Form.Item>
         <Form.Item label="患者电话">
           {getFieldDecorator('phone', {
             initialValue: patient.phone
           })(
-            <Input style={{ width: 300 }} placeholder="请输入患者电话" />
+            <Input style={{ width: 250 }} placeholder="请输入患者电话" />
           )}
         </Form.Item>
         <Form.Item label="家属电话">
           {getFieldDecorator('family_phone', {
             initialValue: patient.family_phone
           })(
-            <Input style={{ width: 300 }} placeholder="请输入家属电话" />
+            <Input style={{ width: 250 }} placeholder="请输入家属电话" />
           )}
         </Form.Item>
         <Col offset={4}>
@@ -365,23 +365,23 @@ class FirstDiagnoseTable_3 extends React.Component {
       dataIndex: 'time',
       align: 'center'
     }, {
-      title: '体温（℃）',
+      title: '体温(℃)',
       dataIndex: 'temperature',
       align: 'center'
     }, {
-      title: '呼吸（次/分）',
+      title: '呼吸(次/分)',
       dataIndex: 'breath_frequency',
       align: 'center'
     }, {
-      title: '舒张压（mmHg）',
+      title: '舒张压(mmHg)',
       dataIndex: 'maxpressure',
       align: 'center'
     }, {
-      title: '收缩压（mmHg）',
+      title: '收缩压(mmHg)',
       dataIndex: 'minpressure',
       align: 'center'
     }, {
-      title: '心率（次/分）',
+      title: '心率(次/分)',
       dataIndex: 'heart_rate',
       align: 'center'
     }, {
@@ -430,21 +430,21 @@ class FirstDiagnoseTable_3 extends React.Component {
                 <DatePicker format={'YYYY-MM-DD'} />
               )}
             </Form.Item>
-            <Form.Item label="体温（℃）">
+            <Form.Item label="体温(℃)">
               {getFieldDecorator('temperature', {
                 initialValue: record.temperature
               })(
-                <Input type="number" />
+                <Input style={{ width: '250px' }} type="number" />
               )}
             </Form.Item>
-            <Form.Item label="呼吸（次/分）">
+            <Form.Item label="呼吸(次/分)">
               {getFieldDecorator('breath_frequency', {
                 initialValue: record.breath_frequency
               })(
-                <Input type="number" />
+                <Input style={{ width: '250px' }} type="number" />
               )}
             </Form.Item>
-            <Form.Item label="血压（mmHg ）" style={{ marginBottom: 0 }}>
+            <Form.Item label="血压(mmHg)" style={{ marginBottom: 0 }}>
               <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
                 {getFieldDecorator('minpressure', {
                   initialValue: record.minpressure
@@ -461,11 +461,11 @@ class FirstDiagnoseTable_3 extends React.Component {
                 )}
               </Form.Item>
             </Form.Item>
-            <Form.Item label="心率（次/分）">
+            <Form.Item label="心率(次/分)">
               {getFieldDecorator('heart_rate', {
                 initialValue: record.heart_rate
               })(
-                <Input type="number" />
+                <Input style={{ width: '250px' }} type="number" />
               )}
             </Form.Item>
             <Row type="flex" justify="center">
@@ -762,7 +762,7 @@ class FirstDiagnoseForm_4 extends React.Component {
             ?
             <>
               <Form.Item className={styles.smock_item}>
-                平均吸烟（支/天）: {getFieldDecorator('smoke_size', {
+                平均吸烟(支/天): {getFieldDecorator('smoke_size', {
                   initialValue: patient_history.smoke_size
                 })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="" />)}
               </Form.Item>
@@ -873,32 +873,32 @@ class FirstDiagnoseForm_4 extends React.Component {
             </>
             : null}
         </Form.Item>
-        <Form.Item label="身高（cm）：">
+        <Form.Item label="身高(cm)">
           {getFieldDecorator('height', {
             initialValue: patient_history.height
           })(
-            <Input style={{ width: 300 }} placeholder="请输入身高（cm）" />
+            <Input style={{ width: 250 }} placeholder="请输入身高(cm)" />
           )}
         </Form.Item>
-        <Form.Item label="体重（kg）：">
+        <Form.Item label="体重(kg)">
           {getFieldDecorator('weight', {
             initialValue: patient_history.weight
           })(
-            <Input style={{ width: 300 }} placeholder="请输入体重（kg）" />
+            <Input style={{ width: 250 }} placeholder="请输入体重(kg)" />
           )}
         </Form.Item>
-        <Form.Item label="体表面积（m²）：">
+        <Form.Item label="体表面积(m²)">
           {getFieldDecorator('surface_area', {
             initialValue: patient_history.surface_area
           })(
-            <Input style={{ width: 300 }} placeholder="请输入体表面积（m²）" />
+            <Input style={{ width: 250 }} placeholder="请输入体表面积(m²)" />
           )}
         </Form.Item>
-        <Form.Item label="ECOG评分：">
+        <Form.Item label="ECOG评分">
           {getFieldDecorator('ECOG', {
             initialValue: patient_history.ECOG
           })(
-            <Input style={{ width: 300 }} placeholder="请输入ECOG评分" />
+            <Input style={{ width: 250 }} placeholder="请输入ECOG评分" />
           )}
         </Form.Item>
         <Col offset={4}>
@@ -1009,7 +1009,7 @@ class FirstDiagnoseForm_5 extends React.Component {
     const { biopsy_method, tumor_pathological_type, genetic_testing_specimen, tmb } = this.state
 
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+      <Form labelCol={{ span: 4 }} wrapperCol={{ span: 19, offset: 1 }} onSubmit={this.handleSubmit}>
         <Form.Item label="初诊临床症状">
           <Form.Item style={{ display: 'inline-block' }}>
             {getFieldDecorator('clinical_symptoms[咳嗽]', {
@@ -1352,7 +1352,7 @@ class FirstDiagnoseForm_5 extends React.Component {
             </Radio.Group>
           )}
         </Form.Item>
-        <Form.Item label="肿瘤突变负荷（TMB）">
+        <Form.Item label="肿瘤突变负荷(TMB)">
           {getFieldDecorator('tmb', {
             initialValue: first_diagnose.tmb
           })(
@@ -1360,7 +1360,7 @@ class FirstDiagnoseForm_5 extends React.Component {
               <Radio value='未测'>未测</Radio>
               <Radio value='不详'>不详</Radio>
               <Radio value='其他'>
-                数量（个突变/Mb）{tmb === '其他' || (tmb === '' && first_diagnose.tmb === '其他')
+                数量(个突变/Mb){tmb === '其他' || (tmb === '' && first_diagnose.tmb === '其他')
                   ?
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('tmb_other', {
@@ -1372,7 +1372,7 @@ class FirstDiagnoseForm_5 extends React.Component {
             </Radio.Group>
           )}
         </Form.Item>
-        <Form.Item label="微卫星不稳定性（MSI）">
+        <Form.Item label="微卫星不稳定性(MSI)">
           {getFieldDecorator('msi', {
             initialValue: first_diagnose.msi
           })(
@@ -1384,7 +1384,7 @@ class FirstDiagnoseForm_5 extends React.Component {
             </Radio.Group>
           )}
         </Form.Item>
-        <Col offset={4}>
+        <Col offset={5}>
           <Button
             htmlType="submit"
             type="primary"
@@ -1667,7 +1667,6 @@ class FirstDiagnoseTable_6 extends React.Component {
                 </Radio.Group>
               )}
             </Form.Item>
-            <Divider className={styles.modal_divider} />
             {
               diagnose_existence === 2
                 ?
@@ -1676,16 +1675,17 @@ class FirstDiagnoseTable_6 extends React.Component {
                     diagnose_number !== 1
                       ?
                       <>
+                        <Divider className={styles.modal_divider} />
                         <Form.Item label={labelBefore + '最佳疗效'}>
                           {getFieldDecorator('last_front_best_efficacy', {
                             initialValue: record.last_front_best_efficacy
                           })(
                             <Radio.Group>
-                              <Radio value={0}>完求缓解（CR）</Radio>
-                              <Radio value={1}>部分缓解（PR）</Radio>
-                              <Radio value={2}>疾病稳定（SD）</Radio>
-                              <Radio value={3}>疾病进展（PD）</Radio>
-                              <Radio value={4}>疗效不详（UK）</Radio>
+                              <Radio value={0}>完求缓解(CR)</Radio>
+                              <Radio value={1}>部分缓解(PR)</Radio>
+                              <Radio value={2}>疾病稳定(SD)</Radio>
+                              <Radio value={3}>疾病进展(PD)</Radio>
+                              <Radio value={4}>疗效不详(UK)</Radio>
                             </Radio.Group>
                           )}
                         </Form.Item>
@@ -1957,7 +1957,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                             </Radio.Group>
                           )}
                         </Form.Item>
-                        <Form.Item label="肿瘤突变负荷（TMB）">
+                        <Form.Item label="肿瘤突变负荷(TMB)">
                           {getFieldDecorator('tmb', {
                             initialValue: record.tmb
                           })(
@@ -1965,7 +1965,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                               <Radio value='未测'>未测</Radio>
                               <Radio value='不详'>不详</Radio>
                               <Radio value='其他'>
-                                数量（个突变/Mb）{tmb === '其他' || (tmb === '' && record.tmb === '其他')
+                                数量(个突变/Mb){tmb === '其他' || (tmb === '' && record.tmb === '其他')
                                   ?
                                   <div style={{ display: 'inline-block' }}>
                                     {getFieldDecorator('tmb_other', {
@@ -1977,7 +1977,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                             </Radio.Group>
                           )}
                         </Form.Item>
-                        <Form.Item label="微卫星不稳定性（MSI）">
+                        <Form.Item label="微卫星不稳定性(MSI)">
                           {getFieldDecorator('msi', {
                             initialValue: record.msi
                           })(
@@ -1992,6 +1992,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                       </>
                       : null
                   }
+                  <Divider className={styles.modal_divider} />
                   <Form.Item label={labelAfter + '开始时间'}>
                     {getFieldDecorator('start_time', {
                       initialValue: record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null
@@ -2003,7 +2004,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                     {getFieldDecorator('diagnose_method[operation]_check', {
                       initialValue: record['diagnose_method[operation]'] === 'on',
                       valuePropName: 'checked'
-                    })(<Checkbox>手术（手术部位及方式）</Checkbox>)}
+                    })(<Checkbox>手术(手术部位及方式)</Checkbox>)}
                     <div style={{ display: 'inline-block' }}>
                       {getFieldDecorator('diagnose_method[operation]_other', {
                         initialValue: record['diagnose_method[operation]_other']
@@ -2013,7 +2014,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                     {getFieldDecorator('diagnose_method[radiotherapy]_check', {
                       initialValue: record['diagnose_method[radiotherapy]'] === 'on',
                       valuePropName: 'checked'
-                    })(<Checkbox>放疗（放疗部位及剂量）</Checkbox>)}
+                    })(<Checkbox>放疗(放疗部位及剂量)</Checkbox>)}
                     <div style={{ display: 'inline-block' }}>
                       {getFieldDecorator('diagnose_method[radiotherapy]_other', {
                         initialValue: record['diagnose_method[radiotherapy]_other']
@@ -2023,7 +2024,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                     {getFieldDecorator('diagnose_method[chemotherapy]_check', {
                       initialValue: record['diagnose_method[chemotherapy]'] === 'on',
                       valuePropName: 'checked'
-                    })(<Checkbox>化疗（药名，使用剂量、频率及副作用）</Checkbox>)}
+                    })(<Checkbox>化疗(药名，使用剂量、频率及副作用)</Checkbox>)}
                     <div style={{ display: 'inline-block' }}>
                       {getFieldDecorator('diagnose_method[chemotherapy]_other', {
                         initialValue: record['diagnose_method[chemotherapy]_other']
@@ -2033,7 +2034,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                     {getFieldDecorator('diagnose_method[targetedtherapy]_check', {
                       initialValue: record['diagnose_method[targetedtherapy]'] === 'on',
                       valuePropName: 'checked'
-                    })(<Checkbox>靶向治疗（药名，使用剂量、频率及副作用）</Checkbox>)}
+                    })(<Checkbox>靶向治疗(药名，使用剂量、频率及副作用)</Checkbox>)}
                     <div style={{ display: 'inline-block' }}>
                       {getFieldDecorator('diagnose_method[targetedtherapy]_other', {
                         initialValue: record['diagnose_method[targetedtherapy]_other']
@@ -2043,7 +2044,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                     {getFieldDecorator('diagnose_method[immunotherapy]_check', {
                       initialValue: record['diagnose_method[immunotherapy]'] === 'on',
                       valuePropName: 'checked'
-                    })(<Checkbox>免疫治疗（药名，使用剂量、频率及副作用）</Checkbox>)}
+                    })(<Checkbox>免疫治疗(药名，使用剂量、频率及副作用)</Checkbox>)}
                     <div style={{ display: 'inline-block' }}>
                       {getFieldDecorator('diagnose_method[immunotherapy]_other', {
                         initialValue: record['diagnose_method[immunotherapy]_other']
@@ -2053,7 +2054,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                     {getFieldDecorator('diagnose_method[othertherapy]_check', {
                       initialValue: record['diagnose_method[othertherapy]'] === 'on',
                       valuePropName: 'checked'
-                    })(<Checkbox>其他（药名，使用剂量、频率及副作用）</Checkbox>)}
+                    })(<Checkbox>其他(药名，使用剂量、频率及副作用)</Checkbox>)}
                     <div style={{ display: 'inline-block' }}>
                       {getFieldDecorator('diagnose_method[othertherapy]_other', {
                         initialValue: record['diagnose_method[othertherapy]_other']
@@ -2064,6 +2065,7 @@ class FirstDiagnoseTable_6 extends React.Component {
                 :
                 null
             }
+            <Divider className={styles.modal_divider} />
             <Row type="flex" justify="center">
               <Button
                 htmlType="submit"
@@ -2644,12 +2646,12 @@ class FirstDiagnoseTable_8 extends React.Component {
           centered
           footer={null}
         >
-          <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onSubmit={this.handleSubmit}>
+          <Form className="page_body" labelCol={{ span: 6 }} wrapperCol={{ span: 17, offset: 1 }} onSubmit={this.handleSubmit}>
             <Form.Item label="部位">
               {getFieldDecorator('part', {
                 initialValue: record.part
               })(
-                <Input placeholder="请输入部位" />
+                <Input style={{ width: '250px' }} placeholder="请输入部位" />
               )}
             </Form.Item>
             <Form.Item label="方法">
@@ -2663,7 +2665,7 @@ class FirstDiagnoseTable_8 extends React.Component {
                   <Radio value='X线平片'>X线平片</Radio>
                   <Radio value='PET-CT'>PET-CT</Radio>
                   <Radio value='其他'>
-                    数量（个突变/Mb）{method === '其他' || (method === '' && record.method === '其他')
+                    数量(个突变/Mb){method === '其他' || (method === '' && record.method === '其他')
                       ?
                       <div style={{ display: 'inline-block' }}>
                         {getFieldDecorator('method_other', {
@@ -2679,14 +2681,14 @@ class FirstDiagnoseTable_8 extends React.Component {
               {getFieldDecorator('tumor_long', {
                 initialValue: record.tumor_long
               })(
-                <Input type="number" placeholder="请输入肿瘤长径(cm)" />
+                <Input style={{ width: '250px' }} type="number" placeholder="请输入肿瘤长径(cm)" />
               )}
             </Form.Item>
             <Form.Item label="肿瘤短径(cm)">
               {getFieldDecorator('tumor_short', {
                 initialValue: record.tumor_short
               })(
-                <Input type="number" placeholder="请输入肿瘤短径(cm)" />
+                <Input style={{ width: '250px' }} type="number" placeholder="请输入肿瘤短径(cm)" />
               )}
             </Form.Item>
             <Form.Item label="时间">
@@ -2894,7 +2896,7 @@ class CycleRecordTable_2 extends React.Component {
           centered
           footer={null}
         >
-          <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onSubmit={this.handleSubmit}>
+          <Form className="page_body" labelCol={{ span: 6 }} wrapperCol={{ span: 17, offset: 1 }} onSubmit={this.handleSubmit}>
             <Form.Item label="症状体征和描述">
               {getFieldDecorator('symptom_description', {
                 initialValue: record.symptom_description
@@ -2998,10 +3000,10 @@ class CycleRecordForm_4 extends React.Component {
             initialValue: evaluation + ''
           })(
             <Radio.Group style={{ marginLeft: '20px' }}>
-              <Radio value='0'>完全缓解（CR）</Radio>
-              <Radio value='1'>部分缓解（PR）</Radio>
-              <Radio value='2'>疾病稳定（SD）</Radio>
-              <Radio value='3'>疾病进展（PD）</Radio>
+              <Radio value='0'>完全缓解(CR)</Radio>
+              <Radio value='1'>部分缓解(PR)</Radio>
+              <Radio value='2'>疾病稳定(SD)</Radio>
+              <Radio value='3'>疾病进展(PD)</Radio>
             </Radio.Group>
           )}
           <div>
@@ -3103,15 +3105,15 @@ class CycleRecordTable_6 extends React.Component {
           adjustment_status.adjustment = '0'
           adjustment_status.adjust_percent = ''
           adjustment_status.adjust_reason = ''
-        } else if(values.adjustment === '1') {
+        } else if (values.adjustment === '1') {
           adjustment_status.adjustment = '1'
           for (let type of ['adjust_percent', 'adjust_reason']) {
             !values[type] ? adjustment_status[type] = '' : adjustment_status[type] = values[type]
           }
-        } else if(!values.adjustment) {
+        } else if (!values.adjustment) {
           adjustment_status.adjust_percent = ''
           adjustment_status.adjust_reason = ''
-        } 
+        }
         dispatch({
           type: 'crf_cycle_record/modifyTreatmentStatusRecord',
           payload: { sample_id, cycle_number, body: { adjustment_status } }
@@ -3191,6 +3193,7 @@ class CycleRecordTable_6 extends React.Component {
           dataSource={treatment_record_table}
         />
         <Form
+          className="page_body"
           style={{ marginTop: '20px' }}
           labelAlign='right'
           labelCol={{ span: 6 }} wrapperCol={{ span: 17, offset: 1 }}
@@ -3215,29 +3218,26 @@ class CycleRecordTable_6 extends React.Component {
                   {getFieldDecorator('adjust_percent', {
                     initialValue: treatment_record_adjustment_status.adjust_percent
                   })(
-                    <Input style={{ width: '200px' }} placeholder="请输入百分比数值（%）" />
+                    <Input style={{ width: '250px' }} placeholder="请输入百分比数值(%)" />
                   )}
                 </Form.Item>
                 <Form.Item label="调整原因">
                   {getFieldDecorator('adjust_reason', {
                     initialValue: treatment_record_adjustment_status.adjust_reason
                   })(
-                    <Input style={{ width: '200px' }} placeholder="请输入调整原因" />
+                    <Input style={{ width: '250px' }} placeholder="请输入调整原因" />
                   )}
                 </Form.Item>
               </>
               : null
           }
-          <Row>
-            <Col span={6}></Col>
-            <Col span={17} offset={1}>
-              <Button
-                htmlType="submit"
-                type="primary"
-                loading={submitLoadingAdjustment}
-              >保存</Button>
-            </Col>
-          </Row>
+          <Col offset={7}>
+            <Button
+              htmlType="submit"
+              type="primary"
+              loading={submitLoadingAdjustment}
+            >保存</Button>
+          </Col>
         </Form>
         <Modal
           title="编辑治疗记录单"
@@ -3248,19 +3248,19 @@ class CycleRecordTable_6 extends React.Component {
           centered
           footer={null}
         >
-          <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onSubmit={this.handleSubmit}>
+          <Form  className="page_body" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onSubmit={this.handleSubmit}>
             <Form.Item label="治疗名称">
               {getFieldDecorator('treatment_name', {
                 initialValue: record.treatment_name
               })(
-                <Input placeholder="请输入治疗名称" />
+                <Input style={{ width: 250 }} placeholder="请输入治疗名称" />
               )}
             </Form.Item>
             <Form.Item label="药物名称">
               {getFieldDecorator('medicine_name', {
                 initialValue: record.medicine_name
               })(
-                <Input placeholder="请输入药物名称" />
+                <Input style={{ width: 250 }} placeholder="请输入药物名称" />
               )}
             </Form.Item>
             <Form.Item label="给药/治疗开始日期">
@@ -3281,7 +3281,7 @@ class CycleRecordTable_6 extends React.Component {
               {getFieldDecorator('description', {
                 initialValue: record.description
               })(
-                <Input placeholder="请输入剂量及用法" />
+                <Input style={{ width: 250 }} placeholder="请输入剂量及用法" />
               )}
             </Form.Item>
             <Row type="flex" justify="center">
@@ -3311,12 +3311,356 @@ class AdverseEventTable_ extends React.Component {
     this.state = {
       record: {},
       visible: false,
-      adjustment: ''
+      is_server_event: 0,
+      SAE_state: 0
     }
   }
 
+  componentDidMount() {
+    const { dispatch, cycle_number } = this.props
+    const sample_id = window.location.pathname.split('/')[4]
+    dispatch({
+      type: 'crf_cycle_record/fetchAdverseEvent',
+      payload: { sample_id, cycle_number }
+    })
+  }
+
+  handleStateChange = (type, { target: { value } }) => {
+    this.setState({ [type]: value })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const { record } = this.state
+        //重构time
+        for (let type of ['SAE_start_time', 'die_time', 'recover_time', 'report_time', 'start_time']) {
+          values[type] ? values[type] = values[type].format('YYYY-MM-DD') : values[type] = ''
+        }
+
+        for (let type of ['adverse_event_name', 'SAE_diagnose', 'other_SAE_state']) {
+          if (!values[type]) values[type] = ''
+        }
+
+        const { dispatch, cycle_number } = this.props
+        const sample_id = window.location.pathname.split('/')[4]
+        values.adverse_event_id = record.adverse_event_id
+        dispatch({
+          type: 'crf_cycle_record/modifyAdverseEvent',
+          payload: { sample_id, cycle_number, body: values }
+        }).then(() => {
+          this.handleCancel()
+          dispatch({
+            type: 'crf_cycle_record/fetchAdverseEvent',
+            payload: { sample_id, cycle_number }
+          })
+        })
+      }
+    })
+  }
+
+  handleDelete = adverse_event_id => {
+    Modal.confirm({
+      title: '请问是否确认删除？',
+      okText: '确定',
+      cancelText: '取消',
+      onOk: () => new Promise(resolve => {
+        const { dispatch, cycle_number } = this.props
+        const sample_id = window.location.pathname.split('/')[4]
+        dispatch({
+          type: 'crf_cycle_record/deleteAdverseEvent',
+          payload: { sample_id, cycle_number, adverse_event_id }
+        }).then(() => {
+          resolve()
+          dispatch({
+            type: 'crf_cycle_record/fetchAdverseEvent',
+            payload: { sample_id, cycle_number }
+          })
+        })
+      })
+    })
+  }
+
+  handleEditModel = record => {
+    this.setState({
+      record,
+      visible: true,
+      is_server_event: record.is_server_event === '严重不良事件' ? 1 : record.is_server_event === '不良事件' ? 0 : null,
+      SAE_state: record.SAE_state ? record.SAE_state : null
+    })
+  }
+
+  handleCancel = () => {
+    this.setState({ visible: false })
+  }
+
   render() {
-    return <>asd</>
+    const { adverse_event_table } = this.props.crf_cycle_record
+    const tableLoading = this.props.loading.effects['crf_cycle_record/fetchAdverseEvent']
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyAdverseEvent']
+    const { getFieldDecorator } = this.props.form
+    const { record, visible, is_server_event, SAE_state } = this.state
+
+    const columns = [{
+      title: '不良事件名称',
+      dataIndex: 'adverse_event_name',
+      align: 'center'
+    }, {
+      title: '不良事件等级',
+      dataIndex: 'is_server_event',
+      align: 'center'
+    }, {
+      title: '开始时间',
+      dataIndex: 'start_time',
+      align: 'center'
+    }, {
+      title: '与药物关系',
+      dataIndex: 'medicine_relation',
+      align: 'center'
+    }, {
+      title: '采取措施',
+      dataIndex: 'measure',
+      align: 'center'
+    }, {
+      title: '转归',
+      dataIndex: 'recover',
+      align: 'center'
+    }, {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button style={{ marginLeft: '10px' }} type="primary" size="small"
+            onClick={() => this.handleEditModel(record)}>
+            编辑</Button>
+          <Button style={{ marginLeft: '10px' }} type="danger" size="small"
+            onClick={() => this.handleDelete(record.adverse_event_id)}>
+            删除</Button>
+        </>
+      )
+    }]
+
+    return (
+      <>
+        <Button type="primary" onClick={() => this.handleEditModel({ adverse_event_id: '' })}>添加</Button>
+        <Table
+          loading={tableLoading}
+          className={styles.patient_report_table}
+          rowKey={'adverse_event_id'}
+          size="small"
+          bordered={true}
+          pagination={false}
+          scroll={{ x: true }}
+          columns={columns}
+          dataSource={adverse_event_table}
+        />
+        <Modal
+          title="编辑不良事件"
+          className={styles.diagnose_history_modal}
+          visible={visible}
+          okText="保存"
+          destroyOnClose
+          onCancel={this.handleCancel}
+          centered
+          footer={null}
+        >
+          <Form  className="page_body" labelCol={{ span: 6 }} wrapperCol={{ span: 17, offset: 1 }} onSubmit={this.handleSubmit}>
+            <Form.Item label="不良事件名称">
+              {getFieldDecorator('adverse_event_name', {
+                initialValue: record.adverse_event_name
+              })(<Input style={{ width: 250, marginRight: 30 }} placeholder="请输入不良事件名称" />)}
+            </Form.Item>
+            <Form.Item label="是否为严重不良事件">
+              {getFieldDecorator('is_server_event', {
+                initialValue: record.is_server_event === '不良事件' ? 0 : record.is_server_event === '严重不良事件' ? 1 : null
+              })(<Radio.Group onChange={e => this.handleStateChange('is_server_event', e)}>
+                <Radio value={0}>否</Radio>
+                <Radio value={1}>是</Radio>
+              </Radio.Group>)}
+            </Form.Item>
+            <Form.Item label="毒性分级">
+              {getFieldDecorator('toxicity_classification', {
+                initialValue: record.toxicity_classification
+              })(<Radio.Group>
+                <Radio value={0}>1级</Radio>
+                <Radio value={1}>2级</Radio>
+                <Radio value={2}>3级</Radio>
+                <Radio value={3}>4级</Radio>
+                <Radio value={4}>5级</Radio>
+              </Radio.Group>)}
+            </Form.Item>
+            <Form.Item label={'开始日期'}>
+              {getFieldDecorator('start_time', {
+                initialValue: record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null
+              })(
+                <DatePicker format={'YYYY-MM-DD'} />
+              )}
+            </Form.Item>
+            <Form.Item label="与药物关系">
+              {getFieldDecorator('medicine_relation', {
+                initialValue: ['肯定有关', '很可能有关', '可能有关', '可能无关', '肯定无关'].indexOf(record.medicine_relation)
+              })(<Radio.Group>
+                <Radio value={0}>肯定有关</Radio>
+                <Radio value={1}>很可能有关</Radio>
+                <Radio value={2}>可能有关</Radio>
+                <Radio value={3}>可能无关</Radio>
+                <Radio value={4}>肯定无关</Radio>
+              </Radio.Group>)}
+            </Form.Item>
+            <Form.Item label="采取措施">
+              {getFieldDecorator('measure', {
+                initialValue: ['剂量不变', '减少剂量', '暂停用药', '停止用药', '实验用药已结束'].indexOf(record.measure)
+              })(<Radio.Group>
+                <Radio value={0}>剂量不变</Radio>
+                <Radio value={1}>减少剂量</Radio>
+                <Radio value={2}>暂停用药</Radio>
+                <Radio value={3}>停止用药</Radio>
+                <Radio value={4}>实验用药已结束</Radio>
+              </Radio.Group>)}
+            </Form.Item>
+            <Form.Item label="是否进行药物治疗">
+              {getFieldDecorator('is_using_medicine', {
+                initialValue: record.is_using_medicine
+              })(<Radio.Group>
+                <Radio value={0}>否</Radio>
+                <Radio value={1}>是</Radio>
+              </Radio.Group>)}
+            </Form.Item>
+            <Form.Item label="转归">
+              {getFieldDecorator('recover', {
+                initialValue: ['症状消失', '缓解', '持续', '加重', '恢复伴后遗症', '死亡'].indexOf(record.recover)
+              })(<Radio.Group>
+                <Radio value={0}>症状消失</Radio>
+                <Radio value={1}>缓解</Radio>
+                <Radio value={2}>持续</Radio>
+                <Radio value={3}>加重</Radio>
+                <Radio value={4}>恢复伴后遗症</Radio>
+                <Radio value={5}>死亡</Radio>
+              </Radio.Group>)}
+            </Form.Item>
+            <Form.Item label={'转归日期'}>
+              {getFieldDecorator('recover_time', {
+                initialValue: record.recover_time ? moment(record.recover_time, 'YYYY-MM-DD') : null
+              })(
+                <DatePicker format={'YYYY-MM-DD'} />
+              )}
+            </Form.Item>
+            {
+              is_server_event === 1
+                ?
+                <>
+                  <h2>严重不良事件</h2>
+                  <Divider className={styles.lab_inspection_divider} />
+                  <Form.Item label={'报告日期'}>
+                    {getFieldDecorator('report_time', {
+                      initialValue: record.report_time ? moment(record.report_time, 'YYYY-MM-DD') : null
+                    })(
+                      <DatePicker format={'YYYY-MM-DD'} />
+                    )}
+                  </Form.Item>
+                  <Form.Item label="报告类型">
+                    {getFieldDecorator('report_type', {
+                      initialValue: record.report_type
+                    })(<Radio.Group>
+                      <Radio value={0}>首次报告</Radio>
+                      <Radio value={1}>随访报告</Radio>
+                      <Radio value={1}>总结报告</Radio>
+                    </Radio.Group>)}
+                  </Form.Item>
+                  <Form.Item label="SAE医学术语(诊断)">
+                    {getFieldDecorator('SAE_diagnose', {
+                      initialValue: record.SAE_diagnose
+                    })(<Input style={{ width: 250, marginRight: 30 }} placeholder="请输入诊断" />)}
+                  </Form.Item>
+                  <Form.Item label="SAE情况">
+                    {getFieldDecorator('SAE_state', {
+                      initialValue: record.SAE_state
+                    })(<Radio.Group onChange={e => this.handleStateChange('SAE_state', e)}>
+                      <Radio value={0}>死亡</Radio>
+                      <Radio value={1}>导致住院</Radio>
+                      <Radio value={2}>延长住院时间</Radio>
+                      <Radio value={3}>伤残</Radio>
+                      <Radio value={4}>功能障碍</Radio>
+                      <Radio value={5}>导致先天畸形</Radio>
+                      <Radio value={6}>危及生命</Radio>
+                      <Radio value={7}>怀孕</Radio>
+                      <Radio value={8}>其他情况
+                        {SAE_state === 8
+                          ?
+                          <div style={{ display: 'inline-block' }}>
+                            {getFieldDecorator('other_SAE_state', {
+                              initialValue: record.other_SAE_state
+                            })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="请输入其他SAE情况" />)}
+                          </div>
+                          : null}
+                      </Radio>
+                    </Radio.Group>)}
+                  </Form.Item>
+                  <Form.Item label={'死亡日期'}>
+                    {getFieldDecorator('die_time', {
+                      initialValue: record.die_time ? moment(record.die_time, 'YYYY-MM-DD') : null
+                    })(
+                      <DatePicker format={'YYYY-MM-DD'} />
+                    )}
+                  </Form.Item>
+                  <Form.Item label={'SAE发生日期'}>
+                    {getFieldDecorator('SAE_start_time', {
+                      initialValue: record.SAE_start_time ? moment(record.SAE_start_time, 'YYYY-MM-DD') : null
+                    })(
+                      <DatePicker format={'YYYY-MM-DD'} />
+                    )}
+                  </Form.Item>
+                  <Form.Item label="对试验用药采取的措施">
+                    {getFieldDecorator('medicine_measure', {
+                      initialValue: record.medicine_measure
+                    })(<Radio.Group>
+                      <Radio value={0}>继续用药</Radio>
+                      <Radio value={1}>减少剂量</Radio>
+                      <Radio value={2}>药物暂停后又恢复</Radio>
+                      <Radio value={3}>停止用药</Radio>
+                    </Radio.Group>)}
+                  </Form.Item>
+                  <Form.Item label="SAE转归">
+                    {getFieldDecorator('SAE_recover', {
+                      initialValue: record.SAE_recover
+                    })(<Radio.Group>
+                      <Radio value={0}>症状消失后无后遗症</Radio>
+                      <Radio value={1}>症状消失后有后遗症</Radio>
+                      <Radio value={2}>症状持续</Radio>
+                    </Radio.Group>)}
+                  </Form.Item>
+                  <Form.Item label="SAE与试验药的关系">
+                    {getFieldDecorator('SAE_relations', {
+                      initialValue: record.SAE_relations
+                    })(<Radio.Group>
+                      <Radio value={0}>肯定有关</Radio>
+                      <Radio value={1}>很可能有关</Radio>
+                      <Radio value={2}>可能有关</Radio>
+                      <Radio value={3}>可能无关</Radio>
+                      <Radio value={4}>肯定无关</Radio>
+                    </Radio.Group>)}
+                  </Form.Item>
+                </>
+                : null
+            }
+            <Divider className={styles.modal_divider} />
+            <Row type="flex" justify="center">
+              <Button
+                htmlType="submit"
+                type="primary"
+                loading={submitLoading}
+              >保存</Button>
+              <Button
+                style={{ marginLeft: 20 }}
+                onClick={this.handleCancel}
+              >取消</Button>
+            </Row>
+          </Form>
+        </Modal>
+      </>
+    )
   }
 }
+
 export const AdverseEventTable = connect(mapStateToProps)(Form.create()(AdverseEventTable_))
