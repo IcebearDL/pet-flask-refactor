@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.13.1"></a>
+## [0.13.1](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.13.0...v0.13.1) (2020-02-16)
+
+
+### Bug Fixes
+
+* **global.css:** Add .ant-radio-wrapper. ([9d12f6f](https://github.com/IcebearDL/pet-flask-refactor/commit/9d12f6f))
+* Modify ECOG_input. ([c9c976c](https://github.com/IcebearDL/pet-flask-refactor/commit/c9c976c))
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.12.0...v0.13.0) (2020-02-15)
 
