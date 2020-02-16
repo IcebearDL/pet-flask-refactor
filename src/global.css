@@ -56,6 +56,10 @@ thead{
   background-color: #269f42 !important;
 }
 
+.ant-radio-wrapper{
+  margin-bottom: 10px !important
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
