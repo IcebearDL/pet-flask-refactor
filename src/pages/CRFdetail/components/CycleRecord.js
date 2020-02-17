@@ -8,6 +8,7 @@ import {
   AdverseEventTable
   // AdverseEventTable
 } from './Forms'
+import { getSampleId } from '../../../utils/location'
 
 class CycleRecord extends React.Component {
 
@@ -19,7 +20,7 @@ class CycleRecord extends React.Component {
   }
 
   componentDidMount() {
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     const { dispatch, cycle_number } = this.props
     dispatch({
       type: 'crf_cycle_record/fetchMainSymptom',

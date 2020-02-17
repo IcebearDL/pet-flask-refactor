@@ -2,6 +2,7 @@
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
+  history: 'hash',
   theme: {
     "primary-color": "#4279E4",
     // "primary-color": "#1DA57A",
