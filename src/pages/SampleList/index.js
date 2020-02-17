@@ -9,6 +9,7 @@ import {
 import Link from 'umi/link'
 import styles from './style.css'
 import { checkLogin } from '../../utils/util'
+import { getProjectId } from '../../utils/location'
 
 import SampleModal from './SampleModal'
 
@@ -31,15 +32,13 @@ class SampleList extends React.Component {
   componentDidMount() {
     if (!checkLogin()) return
     const { dispatch } = this.props
-    const { pathname } = this.props.location
+    const project_id = getProjectId()
     dispatch({
       type: 'global/fetchResearchCenterInfo'
     })
     dispatch({
       type: 'sample/fetchSampleInfo',
-      payload: {
-        project_id: pathname.split('/')[2]
-      }
+      payload: { project_id }
     })
     this.refreshList()
   }

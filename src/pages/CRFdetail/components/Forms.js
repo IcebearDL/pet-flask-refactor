@@ -8,6 +8,7 @@ import {
   Divider
 } from "antd"
 import moment from "moment"
+import { getSampleId } from '../../../utils/location'
 import styles from '../style.css'
 
 const { Option } = Select
@@ -28,7 +29,7 @@ function mapStateToProps(state) {
 class FirstDiagnoseForm_1 extends React.Component {
   componentDidMount() {
     const { dispatch, cycle_number } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     dispatch({
       type: 'crf_first_diagnose/fetchCycleTime',
       payload: { sample_id, cycle_number }
@@ -40,7 +41,7 @@ class FirstDiagnoseForm_1 extends React.Component {
     this.props.form.validateFields((err, { cycle_time }) => {
       if (!err) {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/modifyCycleTime',
           payload: {
@@ -124,7 +125,7 @@ class FirstDiagnoseForm_2 extends React.Component {
           } else values[`${type}_other`] = null
         }
         if (values.date) values.date = values.date.format('YYYY-MM-DD')
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/modifyPatient',
           payload: { sample_id, body: values }
@@ -307,7 +308,7 @@ class FirstDiagnoseTable_3 extends React.Component {
       cancelText: '取消',
       onOk: () => new Promise(resolve => {
         const { dispatch } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/deletePatientReportTable',
           payload: { sample_id, report_id }
@@ -328,7 +329,7 @@ class FirstDiagnoseTable_3 extends React.Component {
       if (!err) {
         const { dispatch } = this.props
         const { record } = this.state
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
         values.report_id = record.report_id
         dispatch({
@@ -555,7 +556,7 @@ class FirstDiagnoseForm_4 extends React.Component {
           if (values[type] === undefined) values[type] = null
         }
 
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/modifyPatientHistory',
           payload: { sample_id, body: values }
@@ -990,7 +991,7 @@ class FirstDiagnoseForm_5 extends React.Component {
         }
 
         const { dispatch } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/modifyFirstDiagnose',
           payload: { sample_id, body: values }
@@ -1421,7 +1422,7 @@ class FirstDiagnoseTable_6 extends React.Component {
       cancelText: '取消',
       onOk: () => new Promise(resolve => {
         const { dispatch } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/deleteDiagnoseHistory',
           payload: { sample_id, diagnose_number }
@@ -1539,7 +1540,7 @@ class FirstDiagnoseTable_6 extends React.Component {
         }
 
         const { dispatch } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/modifyDiagnoseHistory',
           payload: { sample_id, body: values }
@@ -2100,7 +2101,7 @@ class FirstDiagnoseForm_7 extends React.Component {
 
   componentDidMount() {
     const { dispatch, cycle_number } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     dispatch({
       type: 'crf_first_diagnose/fetchLabInspection',
       payload: { sample_id, cycle_number }
@@ -2119,7 +2120,7 @@ class FirstDiagnoseForm_7 extends React.Component {
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
 
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/modifyLabInspection',
           payload: { sample_id, cycle_number, body: values }
@@ -2507,7 +2508,7 @@ class FirstDiagnoseTable_8 extends React.Component {
 
   componentDidMount() {
     const { dispatch, cycle_number } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     dispatch({
       type: 'crf_first_diagnose/fetchPhotoEvaluateTable',
       payload: { sample_id, cycle_number }
@@ -2521,7 +2522,7 @@ class FirstDiagnoseTable_8 extends React.Component {
       cancelText: '取消',
       onOk: () => new Promise(resolve => {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_first_diagnose/deletePhotoEvaluateTable',
           payload: { sample_id, cycle_number, evaluate_id }
@@ -2542,7 +2543,7 @@ class FirstDiagnoseTable_8 extends React.Component {
       if (!err) {
         const { dispatch, cycle_number } = this.props
         const { record } = this.state
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
 
         //重构时间和其他空项
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
@@ -2737,7 +2738,7 @@ class CycleRecordTable_2 extends React.Component {
       cancelText: '取消',
       onOk: () => new Promise(resolve => {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_cycle_record/deleteMainSymptom',
           payload: { sample_id, cycle_number, main_symptom_id }
@@ -2758,7 +2759,7 @@ class CycleRecordTable_2 extends React.Component {
       if (!err) {
         const { dispatch, cycle_number } = this.props
         const { record } = this.state
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         if (values.start_time) {
           values.start_time = values.start_time.format('YYYY-MM-DD')
         } else values.start_time = ''
@@ -2787,7 +2788,7 @@ class CycleRecordTable_2 extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_cycle_record/modifyECOG',
           payload: { sample_id, cycle_number, body: values }
@@ -2976,7 +2977,7 @@ class CycleRecordForm_4 extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_cycle_record/modifyEvaluation',
           payload: { sample_id, cycle_number, body: values }
@@ -3035,7 +3036,7 @@ class CycleRecordTable_6 extends React.Component {
 
   componentDidMount() {
     const { dispatch, cycle_number } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     dispatch({
       type: 'crf_first_diagnose/fetchPhotoEvaluateTable',
       payload: { sample_id, cycle_number }
@@ -3049,7 +3050,7 @@ class CycleRecordTable_6 extends React.Component {
       cancelText: '取消',
       onOk: () => new Promise(resolve => {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_cycle_record/deleteTreatmentRecord',
           payload: { sample_id, cycle_number, treatment_record_id }
@@ -3070,7 +3071,7 @@ class CycleRecordTable_6 extends React.Component {
       if (!err) {
         const { dispatch, cycle_number } = this.props
         const { record } = this.state
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         const adjustment = {}
 
         //重构时间和其他空项
@@ -3099,7 +3100,7 @@ class CycleRecordTable_6 extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         const adjustment_status = {}
         if (values.adjustment === '0') {
           adjustment_status.adjustment = '0'
@@ -3318,7 +3319,7 @@ class AdverseEventTable_ extends React.Component {
 
   componentDidMount() {
     const { dispatch, cycle_number } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     dispatch({
       type: 'crf_cycle_record/fetchAdverseEvent',
       payload: { sample_id, cycle_number }
@@ -3344,7 +3345,7 @@ class AdverseEventTable_ extends React.Component {
         }
 
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         values.adverse_event_id = record.adverse_event_id
         dispatch({
           type: 'crf_cycle_record/modifyAdverseEvent',
@@ -3367,7 +3368,7 @@ class AdverseEventTable_ extends React.Component {
       cancelText: '取消',
       onOk: () => new Promise(resolve => {
         const { dispatch, cycle_number } = this.props
-        const sample_id = window.location.pathname.split('/')[4]
+        const sample_id = getSampleId()
         dispatch({
           type: 'crf_cycle_record/deleteAdverseEvent',
           payload: { sample_id, cycle_number, adverse_event_id }

@@ -6,6 +6,7 @@ import {
   FirstDiagnoseForm4, FirstDiagnoseForm5, FirstDiagnoseTable6,
   FirstDiagnoseForm7, FirstDiagnoseTable8
 } from './Forms'
+import { getSampleId } from '../../../utils/location'
 import styles from '../style.css'
 
 class FirstDiagnose extends React.Component {
@@ -18,7 +19,7 @@ class FirstDiagnose extends React.Component {
   }
 
   componentDidMount() {
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     const { dispatch } = this.props
     dispatch({
       type: 'crf_first_diagnose/fetchPatient',

@@ -11,6 +11,7 @@ import CycleRecord from './components/CycleRecord'
 import InterviewTable from './components/InterviewTable'
 import SummaryTable from './components/SummaryTable'
 import { checkLogin } from '../../utils/util'
+import { getSampleId } from '../../utils/location'
 import styles from './style.css'
 
 const { SubMenu } = Menu
@@ -27,7 +28,7 @@ class CRFDetail extends React.Component {
   componentDidMount() {
     if (!checkLogin()) return
     const { dispatch } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     dispatch({
       type: 'crfBase/fetchCrfInfo',
       payload: { sample_id }
@@ -40,7 +41,7 @@ class CRFDetail extends React.Component {
 
   handleMenuClick = ({ keyPath }) => {
     const { dispatch } = this.props
-    const sample_id = window.location.pathname.split('/')[4]
+    const sample_id = getSampleId()
     if (keyPath[0] === 'add') {
       dispatch({
         type: 'crfBase/addCycle',
