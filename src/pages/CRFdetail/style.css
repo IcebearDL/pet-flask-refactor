@@ -33,6 +33,12 @@
   border-radius: 4px
 }
 
+.interview_div{
+  padding: 15px;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px
+}
+
 .menu_content{
   padding: 30px
 }

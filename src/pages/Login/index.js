@@ -35,7 +35,8 @@ class Login extends React.Component {
 	}
 
 	render() {
-		const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator } = this.props.form
+    const submitLoading = this.props.loading.effects['login/login']
 
 		return (
 			<>
@@ -71,7 +72,8 @@ class Login extends React.Component {
 						<Button
 							size="large"
 							type="primary"
-							htmlType="submit"
+              htmlType="submit"
+              loading={submitLoading}
 							className={styles.login_form_button}>
 							登录
 						</Button>
@@ -83,7 +85,9 @@ class Login extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {}
+	return {
+    loading: state.loading
+  }
 }
 
 export default connect(mapStateToProps)(Form.create()(Login))
