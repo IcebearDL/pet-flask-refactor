@@ -60,6 +60,11 @@ thead{
   margin-bottom: 10px !important
 }
 
+/* 修改label自动换行 */
+.ant-form-item-label{
+  white-space: normal !important
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
