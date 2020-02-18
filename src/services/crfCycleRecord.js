@@ -75,13 +75,6 @@ export function FetchAdverseEvent({ sample_id, cycle_number}) {
   })
 }
 
-//获取全部严重不良事件
-export function FetchAdverseEventAll({ sample_id }) {
-  return request(`/adverse_event_table_all/${sample_id}`, {
-    method: 'GET'
-  })
-}
-
 //添加或修改严重不良事件
 export function ModifyAdverseEvent({ sample_id, cycle_number, body }) {
   return request(`/adverse_event/${sample_id}/${cycle_number}`, {
