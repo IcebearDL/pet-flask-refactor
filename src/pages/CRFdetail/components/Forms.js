@@ -3249,7 +3249,7 @@ class CycleRecordTable_6 extends React.Component {
           centered
           footer={null}
         >
-          <Form  className="page_body" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onSubmit={this.handleSubmit}>
+          <Form className="page_body" labelCol={{ span: 7 }} wrapperCol={{ span: 16, offset: 1 }} onSubmit={this.handleSubmit}>
             <Form.Item label="治疗名称">
               {getFieldDecorator('treatment_name', {
                 initialValue: record.treatment_name
@@ -3466,7 +3466,7 @@ class AdverseEventTable_ extends React.Component {
           centered
           footer={null}
         >
-          <Form  className="page_body" labelCol={{ span: 6 }} wrapperCol={{ span: 17, offset: 1 }} onSubmit={this.handleSubmit}>
+          <Form className="page_body" labelCol={{ span: 6 }} wrapperCol={{ span: 17, offset: 1 }} onSubmit={this.handleSubmit}>
             <Form.Item label="不良事件名称">
               {getFieldDecorator('adverse_event_name', {
                 initialValue: record.adverse_event_name
