@@ -2,6 +2,7 @@ import { connect } from 'dva'
 import router from 'umi/router'
 import { Button, Modal, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
+import CookieUtil from '../utils/cookie'
 
 import styles from './index.css'
 import RayPlus from '../assets/Rayplus_title.png'
@@ -27,7 +28,7 @@ function PageHeader(props) {
       cancelText: '取消',
       icon: 'warning',
       onOk: () => {
-        window.localStorage.clear()
+        CookieUtil.unset('token')
         router.push('/login')
       }
     })
@@ -53,7 +54,6 @@ function PageHeader(props) {
       <ConfigProvider locale={zhCN}>
         {props.children}
       </ConfigProvider>
-      )
     </>
   )
 }

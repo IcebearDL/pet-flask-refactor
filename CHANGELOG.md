@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.13.1...v1.0.0) (2020-02-18)
+
+
+### Bug Fixes
+
+* Modify the sample_id and project_id. ([8529193](https://github.com/IcebearDL/pet-flask-refactor/commit/8529193))
+* **cookie.js:** Fix the unset to function. ([df0740b](https://github.com/IcebearDL/pet-flask-refactor/commit/df0740b))
+* **crfCycleRecord.js:** Move api. ([b6c3bd5](https://github.com/IcebearDL/pet-flask-refactor/commit/b6c3bd5))
+* **global.css:** Fix the white-space. ([be2272f](https://github.com/IcebearDL/pet-flask-refactor/commit/be2272f))
+* **PageHeader.js:** Add CookieUtil. ([a848c23](https://github.com/IcebearDL/pet-flask-refactor/commit/a848c23))
+
+
+### Features
+
+* **.umirc.js:** Add history: 'hash' to solve the impossible refresh of the url. ([12f60d2](https://github.com/IcebearDL/pet-flask-refactor/commit/12f60d2))
+* **crfBase.js:** Add apis. ([3296ca8](https://github.com/IcebearDL/pet-flask-refactor/commit/3296ca8))
+* **CRFdetail:** Add InterviewTable. ([b883b96](https://github.com/IcebearDL/pet-flask-refactor/commit/b883b96))
+* **CRFdetail:** Add SummaryTable. ([3f8eac3](https://github.com/IcebearDL/pet-flask-refactor/commit/3f8eac3))
+* **util:** Add location.js ([17d196c](https://github.com/IcebearDL/pet-flask-refactor/commit/17d196c))
+
+
+
 <a name="0.13.1"></a>
 ## [0.13.1](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.13.0...v0.13.1) (2020-02-16)
 

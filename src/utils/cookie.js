@@ -11,7 +11,7 @@ const CookieUtil = {
       }
       cookieValue = decodeURIComponent(document.cookie.substring(cookieStart + cookieName.length, cookieEnd))
     }
-
+    
     return cookieValue
   },
   set: (name, value, expires, path, domain, secure) => {
@@ -23,7 +23,7 @@ const CookieUtil = {
     if (secure) cookieText += '; secure'
     document.cookie = cookieText
   },
-  unset: (name, path, domain, secure) => {
+  unset: function (name, path, domain, secure) {
     this.set(name, '', new Date(0), path, domain, secure)
   }
 }
