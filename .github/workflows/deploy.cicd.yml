@@ -25,6 +25,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
           ARGS: "-avz --delete"
           SOURCE: "dist/"
-          REMOTE_HOST: "120.26.130.244"
-          REMOTE_USER: "root"
-          TARGET: "/home/workspace/pet-flask-refactor/dist"
+          REMOTE_HOST: "62.234.60.83"
+          REMOTE_USER: "dengliang"
+          TARGET: "/home/dengliang/workspace/pet-flask-refactor/dist"
