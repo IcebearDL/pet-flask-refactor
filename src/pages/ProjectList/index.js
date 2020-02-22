@@ -24,6 +24,9 @@ class ProjectList extends React.Component {
     if (!checkLogin()) return
     const { dispatch } = this.props
     dispatch({
+      type: 'global/fetchResearchCenterInfo'
+    })
+    dispatch({
       type: 'project/fetchProjectList',
       payload: {
         page: 1,
