@@ -34,9 +34,6 @@ class SampleList extends React.Component {
     const { dispatch } = this.props
     const project_id = getProjectId()
     dispatch({
-      type: 'global/fetchResearchCenterInfo'
-    })
-    dispatch({
       type: 'sample/fetchSampleInfo',
       payload: { project_id }
     })
