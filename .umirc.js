@@ -3,16 +3,24 @@
 export default {
   treeShaking: true,
   history: 'hash',
+  publicPath: '/',
   theme: {
     "primary-color": "#4279E4",
     // "primary-color": "#1DA57A",
+    "heading-color": "#191919",
+    "text-color": "#404040",
+    "text-color-secondary": "#666666"
   },
+  //webpack copy favicon 文件，由于document.ejs没有引入，所以不会自动打包输出
+  copy: [
+    '/src/assets/favicon.png'
+  ],
   proxy: {
     "/api": {
       target: "http://39.96.191.139",
       changeOrigin: true,
-      pathRewrite: { 
-        "^/api" : "" 
+      pathRewrite: {
+        "^/api": ""
       }
     }
   },
