@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -6,37 +8,44 @@ body {
   margin: 0;
 }
 
-.body_content{
+.body_content {
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 15px;
-  background-color: white
+  background-color: white;
 }
 
-.sample_form .ant-form-item{
-  margin-bottom: 15px !important
+.sample_form .ant-form-item {
+  margin-bottom: 15px !important;
 }
 
-thead{
+thead {
   font-weight: bold !important;
-  background-color: rgba(59, 100, 180, 0.2) !important
+  background-color: rgba(59, 100, 180, 0.2) !important;
 }
 
 /* 覆盖ant主题，修改为绿色 */
-.page_body .ant-btn-primary,.ant-modal .ant-btn-primary{
+.page_body .ant-btn-primary,
+.ant-modal .ant-btn-primary {
   background-color: #269f42 !important;
-  background-image: linear-gradient(-180deg,#2fcb53,#269f42 90%) !important;
-  border: 1px solid rgba(27,31,35,.2) !important;
+  background-image: linear-gradient(-180deg, #2fcb53, #269f42 90%) !important;
+  border: 1px solid rgba(27, 31, 35, 0.2) !important;
 }
 
-.page_body .ant-btn-primary:hover,.ant-modal .ant-btn-primary:hover{
-  background-position: -.5em !important;
-  border-color: rgba(27,31,35,.5) !important;
+.page_body .ant-btn-primary:hover,
+.ant-modal .ant-btn-primary:hover {
+  background-position: -0.5em !important;
+  border-color: rgba(27, 31, 35, 0.5) !important;
 }
 
-.page_body .ant-checkbox-wrapper:hover .ant-checkbox-inner,.page_body .ant-checkbox:hover .ant-checkbox-inner,.page_body .ant-checkbox-input:focus + .ant-checkbox-inner,
-.page_body .ant-radio-checked .ant-radio-inner,.page_body .ant-radio-wrapper:hover .ant-radio,.page_body .ant-radio:hover .ant-radio-inner,.page_body .ant-radio-input:focus + .ant-radio-inner {
-  border-color: #269f42 !important
+.page_body .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.page_body .ant-checkbox:hover .ant-checkbox-inner,
+.page_body .ant-checkbox-input:focus + .ant-checkbox-inner,
+.page_body .ant-radio-checked .ant-radio-inner,
+.page_body .ant-radio-wrapper:hover .ant-radio,
+.page_body .ant-radio:hover .ant-radio-inner,
+.page_body .ant-radio-input:focus + .ant-radio-inner {
+  border-color: #269f42 !important;
 }
 
 .page_body .ant-checkbox-checked .ant-checkbox-inner {
@@ -52,17 +61,18 @@ thead{
   box-shadow: 0 0 0 2px rgba(38, 159, 66, 0.2) !important;
 } */
 
-.page_body .ant-radio-inner::after,.ant-switch-checked {
+.page_body .ant-radio-inner::after,
+.ant-switch-checked {
   background-color: #269f42 !important;
 }
 
-.ant-radio-wrapper{
-  margin-bottom: 10px !important
+.ant-radio-wrapper {
+  margin-bottom: 10px !important;
 }
 
 /* 修改label自动换行 */
-.ant-form-item-label{
-  white-space: normal !important
+.ant-form-item-label {
+  white-space: normal !important;
 }
 
 ::-webkit-scrollbar {

@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v1.0.0...v1.1.0) (2020-03-08)
+
+
+### Bug Fixes
+
+* **PageHeader:** Modify the document.title. ([a64697e](https://github.com/IcebearDL/pet-flask-refactor/commit/a64697e))
+* Fix the code format and eslint warning. ([8ed6188](https://github.com/IcebearDL/pet-flask-refactor/commit/8ed6188))
+* Fix the code format. ([50a3ca4](https://github.com/IcebearDL/pet-flask-refactor/commit/50a3ca4))
+* Move fetchResearchCenterInfo to project componentDidMount. ([c16a371](https://github.com/IcebearDL/pet-flask-refactor/commit/c16a371))
+
+
+### Features
+
+* Add eslint and prettier config. ([39c8f3f](https://github.com/IcebearDL/pet-flask-refactor/commit/39c8f3f))
+* Add prop-types to make sure there has correct props for component, and fix code format problem ([afd6472](https://github.com/IcebearDL/pet-flask-refactor/commit/afd6472))
+* Modify static png and add favicon.png ([b6b3e0f](https://github.com/IcebearDL/pet-flask-refactor/commit/b6b3e0f))
+* **.umirc.js:** Add targets and babel-plugin-transform-react-remove-prop-types, fix code format pro ([446b39f](https://github.com/IcebearDL/pet-flask-refactor/commit/446b39f))
+* **document.ejs:** Add document.ejs for favicon and title. ([d9d786b](https://github.com/IcebearDL/pet-flask-refactor/commit/d9d786b))
+* **umirc.js:** Modify the theme and add webpack copy for favicon.png. ([e4085a7](https://github.com/IcebearDL/pet-flask-refactor/commit/e4085a7))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v0.13.1...v1.0.0) (2020-02-18)
 

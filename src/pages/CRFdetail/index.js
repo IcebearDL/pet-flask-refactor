@@ -1,11 +1,8 @@
 import React from 'react'
 import { connect } from 'dva'
+import PropTypes from 'prop-types'
 import router from 'umi/router'
-import {
-  Button, Divider, Icon,
-  Row, Col, Menu, Spin,
-  Modal
-} from 'antd'
+import { Button, Divider, Icon, Row, Col, Menu, Spin, Modal } from 'antd'
 import FirstDiagnose from './components/FirstDiagnose'
 import CycleRecord from './components/CycleRecord'
 import InterviewTable from './components/InterviewTable'
@@ -20,15 +17,22 @@ class CRFDetail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedKeys: ['first_diagnose'],
-      current_select: []
+      selectedKeys: ['first_diagnose']
     }
+  }
+
+  static propTypes = {
+    crf_info: PropTypes.object.isRequired,
+    nav_info: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    loading: PropTypes.object.isRequired
   }
 
   componentDidMount() {
     if (!checkLogin()) return
     const { dispatch } = this.props
     const sample_id = getSampleId()
+
     dispatch({
       type: 'crfBase/fetchCrfInfo',
       payload: { sample_id }
@@ -42,39 +46,49 @@ class CRFDetail extends React.Component {
   handleMenuClick = ({ keyPath }) => {
     const { dispatch } = this.props
     const sample_id = getSampleId()
+
     if (keyPath[0] === 'add') {
       dispatch({
         type: 'crfBase/addCycle',
         payload: { sample_id }
-      }).then(() => dispatch({
-        type: 'crfBase/fetchNavInfo',
-        payload: { sample_id }
-      })).then(() => {
-        const { nav_info } = this.props
-        this.setState({
-          selectedKeys: [nav_info.length + 1 + '', 'cycle_record']
-        })
       })
+        .then(() =>
+          dispatch({
+            type: 'crfBase/fetchNavInfo',
+            payload: { sample_id }
+          })
+        )
+        .then(() => {
+          const { nav_info } = this.props
+
+          this.setState({
+            selectedKeys: [`${nav_info.length + 1}`, 'cycle_record']
+          })
+        })
       return
-    } else if (keyPath[0] === 'delete') {
+    }
+
+    if (keyPath[0] === 'delete') {
       const { nav_info } = this.props
       const { cycle_number } = nav_info[nav_info.length - 1]
+
       Modal.confirm({
         title: `请问是否确认删除访视${cycle_number}？`,
         okText: '确定',
         cancelText: '取消',
-        onOk: () => new Promise(resolve => {
-          dispatch({
-            type: 'crfBase/deleteCycle',
-            payload: { sample_id }
-          }).then(() => {
-            resolve()
+        onOk: () =>
+          new Promise(resolve => {
             dispatch({
-              type: 'crfBase/fetchNavInfo',
+              type: 'crfBase/deleteCycle',
               payload: { sample_id }
+            }).then(() => {
+              resolve()
+              dispatch({
+                type: 'crfBase/fetchNavInfo',
+                payload: { sample_id }
+              })
             })
           })
-        })
       })
       return
     }
@@ -82,20 +96,33 @@ class CRFDetail extends React.Component {
   }
 
   render() {
-    const { description, patient_name, project_ids, research_center_ids,
-      group_name, patient_ids } = this.props.crf_info
+    const {
+      description,
+      patient_name,
+      project_ids,
+      research_center_ids,
+      group_name,
+      patient_ids
+    } = this.props.crf_info
     const { nav_info } = this.props
     const { selectedKeys } = this.state
     const menuLoading = this.props.loading.effects['crfBase/fetchNavInfo']
 
     let crf_body
+
     if (selectedKeys[0] === 'first_diagnose') {
       crf_body = <FirstDiagnose />
     } else if (selectedKeys[1] === 'cycle_record') {
-      crf_body = <CycleRecord
-        cycle_number={selectedKeys[0] === '-1' ? nav_info.length + 1 : selectedKeys[0]}
-        key={selectedKeys[0] === '-1' ? '-1' : selectedKeys[0]}
-      />
+      crf_body = (
+        <CycleRecord
+          cycle_number={
+            selectedKeys[0] === '-1'
+              ? nav_info.length + 1
+              : parseInt(selectedKeys[0], 10)
+          }
+          key={selectedKeys[0] === '-1' ? '-1' : parseInt(selectedKeys[0], 10)}
+        />
+      )
     } else if (selectedKeys[0] === 'interview_table') {
       crf_body = <InterviewTable />
     } else if (selectedKeys[0] === 'summary_table') {
@@ -106,20 +133,21 @@ class CRFDetail extends React.Component {
       <div className="body_content">
         <Row type="flex" align="middle">
           <Col>
-            <Button type="primary" onClick={router.goBack}><Icon type="left" />返回</Button>
+            <Button type="primary" onClick={router.goBack}>
+              <Icon type="left" />
+              返回
+            </Button>
           </Col>
           <Col>
             <div className={styles.crf_info}>
               <div>
-                {description}&nbsp;&nbsp;&nbsp;
-              编号：{project_ids}&nbsp;&nbsp;&nbsp;
-              负责单位：{research_center_ids}
+                {description}&nbsp;&nbsp;&nbsp; 编号：{project_ids}
+                &nbsp;&nbsp;&nbsp; 负责单位：{research_center_ids}
               </div>
               <div>
-                受试者姓名：{patient_name}&nbsp;&nbsp;&nbsp;
-                受试者编号：{patient_ids}&nbsp;&nbsp;&nbsp;
-                组别：{group_name}&nbsp;&nbsp;&nbsp;
-                研究中心：{research_center_ids}
+                受试者姓名：{patient_name}&nbsp;&nbsp;&nbsp; 受试者编号：
+                {patient_ids}&nbsp;&nbsp;&nbsp; 组别：{group_name}
+                &nbsp;&nbsp;&nbsp; 研究中心：{research_center_ids}
               </div>
             </div>
           </Col>
@@ -134,38 +162,56 @@ class CRFDetail extends React.Component {
                 selectedKeys={selectedKeys}
                 onClick={this.handleMenuClick}
               >
-                <Menu.Item key='first_diagnose'>
-                  <span><Icon type="align-right" />基线资料（访视1）</span>
+                <Menu.Item key="first_diagnose">
+                  <span>
+                    <Icon type="align-right" />
+                    基线资料（访视1）
+                  </span>
                 </Menu.Item>
                 <SubMenu
-                  key='cycle_record'
-                  title={<span><Icon type="dashboard" />治疗期随访</span>}
+                  key="cycle_record"
+                  title={
+                    <span>
+                      <Icon type="dashboard" />
+                      治疗期随访
+                    </span>
+                  }
                 >
-                  {nav_info.map(child =>
+                  {nav_info.map(child => (
                     <Menu.Item key={child.cycle_number}>
                       <span>{child.title}</span>
                     </Menu.Item>
-                  )}
-                  <Menu.Item key='add'>
-                    <span style={{ color: '#269f42' }}>新增&nbsp;&nbsp;<Icon type="file-add" /></span>
+                  ))}
+                  <Menu.Item key="add">
+                    <span style={{ color: '#269f42' }}>
+                      新增&nbsp;&nbsp;
+                      <Icon type="file-add" />
+                    </span>
                   </Menu.Item>
-                  <Menu.Item key='delete'>
-                    <span style={{ color: '#faad14' }}>删除&nbsp;&nbsp;<Icon type="delete" /></span>
+                  <Menu.Item key="delete">
+                    <span style={{ color: '#faad14' }}>
+                      删除&nbsp;&nbsp;
+                      <Icon type="delete" />
+                    </span>
                   </Menu.Item>
                 </SubMenu>
-                <Menu.Item key='interview_table'>
-                  <span><Icon type="hourglass" />生存期随访</span>
+                <Menu.Item key="interview_table">
+                  <span>
+                    <Icon type="hourglass" />
+                    生存期随访
+                  </span>
                 </Menu.Item>
-                <Menu.Item key='summary_table'>
-                  <span><Icon type="file-text" />项目总结</span>
+                <Menu.Item key="summary_table">
+                  <span>
+                    <Icon type="file-text" />
+                    项目总结
+                  </span>
                 </Menu.Item>
               </Menu>
             </Spin>
           </div>
           <div className={styles.crf_body}>
-            <div className="page_body">
-              {crf_body}
-            </div>
+            <div className="page_body">{crf_body}</div>
           </div>
         </div>
       </div>

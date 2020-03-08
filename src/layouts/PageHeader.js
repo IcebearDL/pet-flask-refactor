@@ -1,4 +1,5 @@
-import { connect } from 'dva'
+import React from 'react'
+import PropTypes from 'prop-types'
 import router from 'umi/router'
 import { Button, Modal, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
@@ -13,6 +14,7 @@ function PageHeader(props) {
   const sampleReg = /^\/project\/\d+\/sample\/?$/
   const detailReg = /^\/project\/\d+\/sample\/\d+\/crf\/?$/
   const { pathname } = props.location
+
   if (projectReg.test(pathname)) {
     title = '临床试验项目'
     document.title = '临床试验项目'
@@ -34,7 +36,6 @@ function PageHeader(props) {
         router.push('/login')
       }
     })
-
   }
 
   return (
@@ -49,20 +50,20 @@ function PageHeader(props) {
             <span className={styles.user_title}>
               您好，{window.localStorage.getItem('user_name')}医生
             </span>
-            <Button type="default" size="small" onClick={logout}>退出登录</Button>
+            <Button type="default" size="small" onClick={logout}>
+              退出登录
+            </Button>
           </div>
         </div>
       </div>
-      <ConfigProvider locale={zhCN}>
-        {props.children}
-      </ConfigProvider>
+      <ConfigProvider locale={zhCN}>{props.children}</ConfigProvider>
     </>
   )
 }
 
-function mapStateToProps(state) {
-  return {
-  }
+PageHeader.propTypes = {
+  location: PropTypes.object,
+  children: PropTypes.element
 }
 
-export default connect(mapStateToProps)(PageHeader)
+export default PageHeader

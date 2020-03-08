@@ -1,27 +1,34 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Menu } from "antd"
+import PropTypes from 'prop-types'
+import { Menu } from 'antd'
 import styles from '../style.css'
 import {
-  FirstDiagnoseForm1, FirstDiagnoseForm7, FirstDiagnoseTable8,
-  CycleRecordTable2, CycleRecordForm4, CycleRecordTable6,
+  FirstDiagnoseForm1,
+  FirstDiagnoseForm7,
+  FirstDiagnoseTable8,
+  CycleRecordTable2,
+  CycleRecordForm4,
+  CycleRecordTable6,
   AdverseEventTable
   // AdverseEventTable
 } from './Forms'
 import { getSampleId } from '../../../utils/location'
 
-class CycleRecord extends React.Component {
+class CycleRecord extends React.PureComponent {
+  state = {
+    current: '0'
+  }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      current: '0'
-    }
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    cycle_number: PropTypes.number.isRequired
   }
 
   componentDidMount() {
     const sample_id = getSampleId()
     const { dispatch, cycle_number } = this.props
+
     dispatch({
       type: 'crf_cycle_record/fetchMainSymptom',
       payload: { sample_id, cycle_number }
@@ -55,13 +62,13 @@ class CycleRecord extends React.Component {
     const { cycle_number } = this.props
 
     const menu_content = [
-      <FirstDiagnoseForm1 key={2} cycle_number={cycle_number} />,
-      <CycleRecordTable2 cycle_number={cycle_number}/>,
-      <FirstDiagnoseTable8 key={2} cycle_number={cycle_number} />,
-      <CycleRecordForm4 cycle_number={cycle_number} />,
-      <FirstDiagnoseForm7 key={2} cycle_number={cycle_number} />,
-      <CycleRecordTable6 cycle_number={cycle_number} />,
-      <AdverseEventTable key={1} cycle_number={cycle_number} />
+      <FirstDiagnoseForm1 key={cycle_number} cycle_number={cycle_number} />,
+      <CycleRecordTable2 key={cycle_number} cycle_number={cycle_number} />,
+      <FirstDiagnoseTable8 key={cycle_number} cycle_number={cycle_number} />,
+      <CycleRecordForm4 key={cycle_number} cycle_number={cycle_number} />,
+      <FirstDiagnoseForm7 key={cycle_number} cycle_number={cycle_number} />,
+      <CycleRecordTable6 key={cycle_number} cycle_number={cycle_number} />,
+      <AdverseEventTable key={cycle_number} cycle_number={cycle_number} />
     ]
 
     return (
@@ -72,17 +79,17 @@ class CycleRecord extends React.Component {
           selectedKeys={[current]}
           mode="horizontal"
         >
-          <Menu.Item key='0'>访视时间</Menu.Item>
-          <Menu.Item key='1'>主要症状体征</Menu.Item>
-          <Menu.Item key='2'>影像学评估</Menu.Item>
-          <Menu.Item key='3'>疗效评价</Menu.Item>
-          <Menu.Item key='4'>实验室检查</Menu.Item>
-          <Menu.Item key='5'>治疗记录单</Menu.Item>
-          <Menu.Item key='6'>不良事件</Menu.Item>
-          <Menu.Item key='7'>研究者签字</Menu.Item>
+          <Menu.Item key="0">访视时间</Menu.Item>
+          <Menu.Item key="1">主要症状体征</Menu.Item>
+          <Menu.Item key="2">影像学评估</Menu.Item>
+          <Menu.Item key="3">疗效评价</Menu.Item>
+          <Menu.Item key="4">实验室检查</Menu.Item>
+          <Menu.Item key="5">治疗记录单</Menu.Item>
+          <Menu.Item key="6">不良事件</Menu.Item>
+          <Menu.Item key="7">研究者签字</Menu.Item>
         </Menu>
         <div className={styles.menu_content}>
-          {menu_content[parseInt(current)]}
+          {menu_content[parseInt(current, 10)]}
         </div>
       </div>
     )

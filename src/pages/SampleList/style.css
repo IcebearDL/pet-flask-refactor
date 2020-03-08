@@ -1,27 +1,27 @@
-.sample_table{
-  margin-top: 20px
+.sample_table {
+  margin-top: 20px;
 }
 
-.sample_info{
+.sample_info {
   font-size: 18px;
   font-weight: bold;
   margin-left: 10px;
-  padding: 10px
+  padding: 10px;
 }
 
-.modal{
-  width: 600px !important
+.modal {
+  width: 600px !important;
 }
 
-.modal_bottom{
-  text-align: center
+.modal_bottom {
+  text-align: center;
 }
 
-.modal_divider{
+.modal_divider {
   margin-top: 10px;
-  margin-bottom: 15px
+  margin-bottom: 15px;
 }
 
-.modal_submit{
-  margin-right: 20px
+.modal_submit {
+  margin-right: 20px;
 }

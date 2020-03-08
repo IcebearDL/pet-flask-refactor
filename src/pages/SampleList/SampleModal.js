@@ -1,11 +1,17 @@
 import React from 'react'
 import { connect } from 'dva'
-import moment from "moment"
+import PropTypes from 'prop-types'
+import moment from 'moment'
 import {
-  Modal, Form, Input,
-  Select, Button, Radio,
-  DatePicker, Divider
-} from "antd"
+  Modal,
+  Form,
+  Input,
+  Select,
+  Button,
+  Radio,
+  DatePicker,
+  Divider
+} from 'antd'
 import styles from './style.css'
 
 const { Option } = Select
@@ -15,11 +21,20 @@ const formItemLayout = {
   wrapperCol: { span: 17, offset: 1 }
 }
 
-
 class SampleModal extends React.Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props)
+  }
+  static propTypes = {
+    record: PropTypes.object.isRequired,
+    research_center_info: PropTypes.array.isRequired,
+    visible: PropTypes.bool.isRequired,
+    handleSaveSample: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    form: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    loading: PropTypes.object.isRequired
   }
 
   handleSubmit = e => {
@@ -27,11 +42,20 @@ class SampleModal extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { record, handleSaveSample } = this.props
+
         for (let col of ['date', 'in_group_time', 'sign_time']) {
           values[col] = values[col].format('YYYY-MM-DD')
         }
-        values.sex === '女' ? values.sex = 1 : values.sex = 0
-        record.sample_id ? values.sample_id = record.sample_id : values.sample_id = null
+        if (values.sex === '女') {
+          values.sex = 1
+        } else {
+          values.sex = 0
+        }
+        if (record.sample_id) {
+          values.sample_id = record.sample_id
+        } else {
+          values.sample_id = null
+        }
         handleSaveSample(values)
       }
     })
@@ -40,14 +64,13 @@ class SampleModal extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const submitLoading = this.props.loading.effects['sample/createSample']
-    const { record, visible, onOk, onCancel, research_center_info } = this.props
+    const { record, visible, onCancel, research_center_info } = this.props
 
     return (
       <Modal
         className={styles.modal}
         title="编辑样本"
         visible={visible}
-        onOk={onOk}
         onCancel={onCancel}
         okText="保存"
         cancelText="取消"
@@ -55,38 +78,41 @@ class SampleModal extends React.Component {
         centered
         footer={null}
       >
-        <Form className="sample_form" {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form
+          className="sample_form"
+          {...formItemLayout}
+          onSubmit={this.handleSubmit}
+        >
           <Form.Item label="研究中心">
             {getFieldDecorator('research_center_id', {
               initialValue: record.research_center_id
             })(
               <Select>
-                {research_center_info.map(item =>
-                  <Option key={item.research_center_id} value={item.research_center_id}>{item.research_center_ids}</Option>
-                )}
+                {research_center_info.map(item => (
+                  <Option
+                    key={item.research_center_id}
+                    value={item.research_center_id}
+                  >
+                    {item.research_center_ids}
+                  </Option>
+                ))}
               </Select>
             )}
           </Form.Item>
           <Form.Item label="患者姓名">
             {getFieldDecorator('patient_name', {
               initialValue: record.patient_name
-            })(
-              <Input />
-            )}
+            })(<Input />)}
           </Form.Item>
           <Form.Item label="患者编号">
             {getFieldDecorator('patient_ids', {
               initialValue: record.patient_ids
-            })(
-              <Input />
-            )}
+            })(<Input />)}
           </Form.Item>
           <Form.Item label="患者身份证号">
             {getFieldDecorator('id_num', {
               initialValue: record.id_num
-            })(
-              <Input />
-            )}
+            })(<Input />)}
           </Form.Item>
           <Form.Item label="患者组别">
             {getFieldDecorator('group_id', {
@@ -106,30 +132,33 @@ class SampleModal extends React.Component {
               initialValue: record.sex
             })(
               <Radio.Group
-                options={[{ label: '男性', value: '男' }, { label: '女性', value: '女' }]}
+                options={[
+                  { label: '男性', value: '男' },
+                  { label: '女性', value: '女' }
+                ]}
               />
             )}
           </Form.Item>
           <Form.Item label="出生日期">
             {getFieldDecorator('date', {
-              initialValue: record.date ? moment(record.date, 'YYYY-MM-DD') : null
-            })(
-              <DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />
-            )}
+              initialValue: record.date
+                ? moment(record.date, 'YYYY-MM-DD')
+                : null
+            })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
           </Form.Item>
           <Form.Item label="签署同意书日期">
             {getFieldDecorator('sign_time', {
-              initialValue: record.sign_time ? moment(record.sign_time, 'YYYY-MM-DD') : null
-            })(
-              <DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />
-            )}
+              initialValue: record.sign_time
+                ? moment(record.sign_time, 'YYYY-MM-DD')
+                : null
+            })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
           </Form.Item>
           <Form.Item label="入组日期">
             {getFieldDecorator('in_group_time', {
-              initialValue: record.in_group_time ? moment(record.in_group_time, 'YYYY-MM-DD') : null
-            })(
-              <DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />
-            )}
+              initialValue: record.in_group_time
+                ? moment(record.in_group_time, 'YYYY-MM-DD')
+                : null
+            })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
           </Form.Item>
           <Divider className={styles.modal_divider} />
           <div className={styles.modal_bottom}>
@@ -138,11 +167,13 @@ class SampleModal extends React.Component {
               htmlType="submit"
               type="primary"
               loading={submitLoading}
-            >保存</Button>
+            >
+              保存
+            </Button>
             <Button onClick={onCancel}>取消</Button>
           </div>
         </Form>
-      </Modal >
+      </Modal>
     )
   }
 }
@@ -154,6 +185,6 @@ function mapStateToProps(state) {
   }
 }
 
-const WrappedSampleModal = Form.create()(SampleModal);
+const WrappedSampleModal = Form.create()(SampleModal)
 
 export default connect(mapStateToProps)(WrappedSampleModal)

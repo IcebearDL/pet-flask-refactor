@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import {
-  Layout, Input, Select,
-  Table, Button, Tooltip
-} from "antd"
+import PropTypes from 'prop-types'
+import { Layout, Input, Select, Table, Button, Tooltip } from 'antd'
 import Link from 'umi/link'
 import styles from './style.css'
 import { checkLogin } from '../../utils/util'
@@ -12,7 +10,6 @@ const { Content } = Layout
 const { Option } = Select
 
 class ProjectList extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -20,9 +17,16 @@ class ProjectList extends React.Component {
     }
   }
 
+  static propTypes = {
+    project_list: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    loading: PropTypes.object.isRequired
+  }
+
   componentDidMount() {
     if (!checkLogin()) return
     const { dispatch } = this.props
+
     dispatch({
       type: 'global/fetchResearchCenterInfo'
     })
@@ -39,11 +43,11 @@ class ProjectList extends React.Component {
     this.setState({ select_type: value })
   }
 
-  handleSearch = value => {
-
-  }
+  // eslint-disable-next-line no-empty-function
+  handleSearch = () => {}
 
   render() {
+    const { project_list } = this.props
     const tableLoading = this.props.loading.effects['project/fetchProjectList']
     const selectBefore = (
       <Select
@@ -66,63 +70,93 @@ class ProjectList extends React.Component {
         align: 'center',
         width: 100,
         ellipsis: true,
-        render: text => <Tooltip title={text}><span>{text}</span></Tooltip>
-      }, {
+        render: text => (
+          <Tooltip title={text}>
+            <span>{text}</span>
+          </Tooltip>
+        )
+      },
+      {
         title: '研究名称',
         dataIndex: 'description',
         align: 'center',
         width: 150,
         render: text => (
           <Tooltip title={text}>
-            <span>{text.length > 26 ? text.slice(0, 26) + '...' : text}</span>
+            <span>{text.length > 26 ? `${text.slice(0, 26)}...` : text}</span>
           </Tooltip>
         )
-      }, {
+      },
+      {
         title: '负责单位',
         dataIndex: 'research_center_ids',
         align: 'center',
         width: 110,
-        render: text => <Tooltip title={text}><span>{text}</span></Tooltip>
-      }, {
+        render: text => (
+          <Tooltip title={text}>
+            <span>{text}</span>
+          </Tooltip>
+        )
+      },
+      {
         title: '负责人',
         dataIndex: 'principal',
         align: 'center',
         width: 60,
-        render: text => <Tooltip title={text}><span>{text}</span></Tooltip>
-      }, {
+        render: text => (
+          <Tooltip title={text}>
+            <span>{text}</span>
+          </Tooltip>
+        )
+      },
+      {
         title: '电话',
         dataIndex: 'phone',
         align: 'center',
         width: 110
-      }, {
+      },
+      {
         title: '研究方案',
         dataIndex: 'link',
         align: 'center',
         width: 80,
-        render: text => <a href="/research_scheme">点击下载</a>
-      }, {
+        render: () => <a href="/research_scheme">点击下载</a>
+      },
+      {
         title: '当前进度',
         dataIndex: 'now',
         align: 'center',
         width: 50
-      }, {
+      },
+      {
         title: '项目容量',
         dataIndex: 'total',
         align: 'center',
         width: 100
-      }, {
+      },
+      {
         title: '状态',
         dataIndex: 'status',
         align: 'center',
         width: 100,
-        render: text => <Tooltip title={text}><span>{text}</span></Tooltip>
-      }, {
+        render: text => (
+          <Tooltip title={text}>
+            <span>{text}</span>
+          </Tooltip>
+        )
+      },
+      {
         title: '备注',
         dataIndex: 'ps',
         align: 'center',
         width: 100,
-        render: text => <Tooltip title={text}><span>{text}</span></Tooltip>
-      }, {
+        render: text => (
+          <Tooltip title={text}>
+            <span>{text}</span>
+          </Tooltip>
+        )
+      },
+      {
         title: '操作',
         align: 'center',
         width: 60,
@@ -147,13 +181,13 @@ class ProjectList extends React.Component {
         <Table
           loading={tableLoading}
           className={styles.project_table}
-          rowKey={'project_id'}
+          rowKey="project_id"
           size="small"
-          bordered={true}
+          bordered
           pagination={false}
           scroll={{ x: true }}
           columns={columns}
-          dataSource={this.props.project_list}
+          dataSource={project_list}
         />
       </Content>
     )
