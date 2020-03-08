@@ -1,26 +1,33 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Menu } from "antd"
+import { Menu } from 'antd'
 import {
-  FirstDiagnoseForm1, FirstDiagnoseForm2, FirstDiagnoseTable3,
-  FirstDiagnoseForm4, FirstDiagnoseForm5, FirstDiagnoseTable6,
-  FirstDiagnoseForm7, FirstDiagnoseTable8
+  FirstDiagnoseForm1,
+  FirstDiagnoseForm2,
+  FirstDiagnoseTable3,
+  FirstDiagnoseForm4,
+  FirstDiagnoseForm5,
+  FirstDiagnoseTable6,
+  FirstDiagnoseForm7,
+  FirstDiagnoseTable8
 } from './Forms'
 import { getSampleId } from '../../../utils/location'
 import styles from '../style.css'
 
 class FirstDiagnose extends React.Component {
+  state = {
+    current: '0'
+  }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      current: '0'
-    }
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
   }
 
   componentDidMount() {
     const sample_id = getSampleId()
     const { dispatch } = this.props
+
     dispatch({
       type: 'crf_first_diagnose/fetchPatient',
       payload: { sample_id }
@@ -45,7 +52,7 @@ class FirstDiagnose extends React.Component {
 
   handleMenuClick = e => {
     this.setState({
-      current: e.key,
+      current: e.key
     })
   }
 
@@ -53,12 +60,12 @@ class FirstDiagnose extends React.Component {
     const { current } = this.state
 
     const menu_content = [
-      <FirstDiagnoseForm1 key={1} cycle_number={1}/>,
-      <FirstDiagnoseForm2 />,
-      <FirstDiagnoseTable3 />,
-      <FirstDiagnoseForm4 />,
-      <FirstDiagnoseForm5 />,
-      <FirstDiagnoseTable6 />,
+      <FirstDiagnoseForm1 key={1} cycle_number={1} />,
+      <FirstDiagnoseForm2 key={1} />,
+      <FirstDiagnoseTable3 key={1} />,
+      <FirstDiagnoseForm4 key={1} />,
+      <FirstDiagnoseForm5 key={1} />,
+      <FirstDiagnoseTable6 key={1} />,
       <FirstDiagnoseForm7 key={1} cycle_number={1} />,
       <FirstDiagnoseTable8 key={1} cycle_number={1} />
     ]
@@ -71,18 +78,18 @@ class FirstDiagnose extends React.Component {
           selectedKeys={[current]}
           mode="horizontal"
         >
-          <Menu.Item key='0'>访视时间</Menu.Item>
-          <Menu.Item key='1'>人口统计学</Menu.Item>
-          <Menu.Item key='2'>体格检查</Menu.Item>
-          <Menu.Item key='3'>既往史</Menu.Item>
-          <Menu.Item key='4'>初诊过程</Menu.Item>
-          <Menu.Item key='5'>治疗史</Menu.Item>
-          <Menu.Item key='6'>实验室检查 </Menu.Item>
-          <Menu.Item key='7'>影像学评估</Menu.Item>
-          <Menu.Item key='8'>研究者签字</Menu.Item>
+          <Menu.Item key="0">访视时间</Menu.Item>
+          <Menu.Item key="1">人口统计学</Menu.Item>
+          <Menu.Item key="2">体格检查</Menu.Item>
+          <Menu.Item key="3">既往史</Menu.Item>
+          <Menu.Item key="4">初诊过程</Menu.Item>
+          <Menu.Item key="5">治疗史</Menu.Item>
+          <Menu.Item key="6">实验室检查 </Menu.Item>
+          <Menu.Item key="7">影像学评估</Menu.Item>
+          <Menu.Item key="8">研究者签字</Menu.Item>
         </Menu>
         <div className={styles.menu_content}>
-          {menu_content[parseInt(current)]}
+          {menu_content[parseInt(current, 10)]}
         </div>
       </div>
     )
