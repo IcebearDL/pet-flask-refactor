@@ -1,17 +1,28 @@
-import { message } from "antd"
+import { message } from 'antd'
 import {
-  FetchPatient, ModifyPatient, FetchPatientHistory,
-  ModifyPatientHistory, FetchLabInspection, ModifyLabInspection,
-  FetchFirstDiagnose, ModifyFirstDiagnose, FetchCycleTime,
-  ModifyCycleTime, FetchPhotoEvaluateTable, ModifyPhotoEvaluateTable,
-  DeletePhotoEvaluateTable, FetchDiagnoseHistory, ModifyDiagnoseHistory,
-  DeleteDiagnoseHistory, FetchPatientReportTable, ModifyPatientReportTable,
+  FetchPatient,
+  ModifyPatient,
+  FetchPatientHistory,
+  ModifyPatientHistory,
+  FetchLabInspection,
+  ModifyLabInspection,
+  FetchFirstDiagnose,
+  ModifyFirstDiagnose,
+  FetchCycleTime,
+  ModifyCycleTime,
+  FetchPhotoEvaluateTable,
+  ModifyPhotoEvaluateTable,
+  DeletePhotoEvaluateTable,
+  FetchDiagnoseHistory,
+  ModifyDiagnoseHistory,
+  DeleteDiagnoseHistory,
+  FetchPatientReportTable,
+  ModifyPatientReportTable,
   DeletePatientReportTable
 } from '../../../services/crfFirstDiagnose'
 
 const Model = {
-
-  namespace: "crf_first_diagnose",
+  namespace: 'crf_first_diagnose',
 
   state: {
     patient: {},
@@ -33,16 +44,18 @@ const Model = {
   effects: {
     *fetchPatient({ payload }, { call, put }) {
       let rsp = yield call(FetchPatient, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           patient: rsp
         }
       })
     },
 
-    *modifyPatient({ payload }, { call, put }) {
+    *modifyPatient({ payload }, { call }) {
       let rsp = yield call(ModifyPatient, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存人口统计学表单失败，${rsp.msg}`)
       } else {
@@ -52,16 +65,18 @@ const Model = {
 
     *fetchPatientHistory({ payload }, { call, put }) {
       let rsp = yield call(FetchPatientHistory, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           patient_history: rsp
         }
       })
     },
 
-    *modifyPatientHistory({ payload }, { call, put }) {
+    *modifyPatientHistory({ payload }, { call }) {
       let rsp = yield call(ModifyPatientHistory, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存既往史表单失败，${rsp.msg}`)
       } else {
@@ -71,16 +86,18 @@ const Model = {
 
     *fetchLabInspection({ payload }, { call, put }) {
       let rsp = yield call(FetchLabInspection, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           lab_inspection: rsp
         }
       })
     },
 
-    *modifyLabInspection({ payload }, { call, put }) {
+    *modifyLabInspection({ payload }, { call }) {
       let rsp = yield call(ModifyLabInspection, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存实验室检查表单失败，${rsp.msg}`)
       } else {
@@ -90,16 +107,18 @@ const Model = {
 
     *fetchFirstDiagnose({ payload }, { call, put }) {
       let rsp = yield call(FetchFirstDiagnose, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           first_diagnose: rsp
         }
       })
     },
 
-    *modifyFirstDiagnose({ payload }, { call, put }) {
+    *modifyFirstDiagnose({ payload }, { call }) {
       let rsp = yield call(ModifyFirstDiagnose, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存初诊过程表单失败，${rsp.msg}`)
       } else {
@@ -109,16 +128,18 @@ const Model = {
 
     *fetchCycleTime({ payload }, { call, put }) {
       let rsp = yield call(FetchCycleTime, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           cycle_time: rsp.cycle_time
         }
       })
     },
 
-    *modifyCycleTime({ payload }, { call, put }) {
+    *modifyCycleTime({ payload }, { call }) {
       let rsp = yield call(ModifyCycleTime, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存访视时间失败，${rsp.msg}`)
       } else {
@@ -128,16 +149,18 @@ const Model = {
 
     *fetchPhotoEvaluateTable({ payload }, { call, put }) {
       let rsp = yield call(FetchPhotoEvaluateTable, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           photo_evaluate_table: rsp.data
         }
       })
     },
 
-    *modifyPhotoEvaluateTable({ payload }, { call, put }) {
+    *modifyPhotoEvaluateTable({ payload }, { call }) {
       let rsp = yield call(ModifyPhotoEvaluateTable, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存影像学评估表单失败，${rsp.msg}`)
       } else {
@@ -145,8 +168,9 @@ const Model = {
       }
     },
 
-    *deletePhotoEvaluateTable({ payload }, { call, put }) {
+    *deletePhotoEvaluateTable({ payload }, { call }) {
       let rsp = yield call(DeletePhotoEvaluateTable, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`删除影像学评估失败，${rsp.msg}`)
       } else {
@@ -156,16 +180,18 @@ const Model = {
 
     *fetchDiagnoseHistory({ payload }, { call, put }) {
       let rsp = yield call(FetchDiagnoseHistory, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           diagnose_history: rsp.data
         }
       })
     },
 
-    *modifyDiagnoseHistory({ payload }, { call, put }) {
+    *modifyDiagnoseHistory({ payload }, { call }) {
       let rsp = yield call(ModifyDiagnoseHistory, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存治疗史表单失败，${rsp.msg}`)
       } else {
@@ -173,8 +199,9 @@ const Model = {
       }
     },
 
-    *deleteDiagnoseHistory({ payload }, { call, put }) {
+    *deleteDiagnoseHistory({ payload }, { call }) {
       let rsp = yield call(DeleteDiagnoseHistory, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`删除治疗史失败，${rsp.msg}`)
       } else {
@@ -184,16 +211,18 @@ const Model = {
 
     *fetchPatientReportTable({ payload }, { call, put }) {
       let rsp = yield call(FetchPatientReportTable, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           patient_report_table: rsp.data
         }
       })
     },
 
-    *modifyPatientReportTable({ payload }, { call, put }) {
+    *modifyPatientReportTable({ payload }, { call }) {
       let rsp = yield call(ModifyPatientReportTable, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`保存体格报告表单失败，${rsp.msg}`)
       } else {
@@ -201,8 +230,9 @@ const Model = {
       }
     },
 
-    *deletePatientReportTable({ payload }, { call, put }) {
+    *deletePatientReportTable({ payload }, { call }) {
       let rsp = yield call(DeletePatientReportTable, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`删除体格报告失败，${rsp.msg}`)
       } else {
@@ -210,7 +240,6 @@ const Model = {
       }
     }
   }
-
 }
 
 export default Model

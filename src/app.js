@@ -1,8 +1,9 @@
 export const dva = {
   config: {
     onError(err) {
-      err.preventDefault();
-      console.error(err.message);
-    },
-  },
+      err.preventDefault()
+      // eslint-disable-next-line no-console
+      console.error(err.message)
+    }
+  }
 }

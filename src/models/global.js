@@ -1,8 +1,7 @@
 import { FetchUserInfo, FetchResearchCenterInfo } from '../services/global'
 
 const Model = {
-
-  namespace: "global",
+  namespace: 'global',
 
   state: {
     research_center_info: []
@@ -15,22 +14,24 @@ const Model = {
   },
 
   effects: {
-    *fetchUserInfo({ payload }, { call, put }) {
-      let rsp = yield call(FetchUserInfo)
+    *fetchUserInfo(_, { call }) {
+      const rsp = yield call(FetchUserInfo)
+
       window.localStorage.setItem('user_name', rsp.user_name)
     },
 
-    *fetchResearchCenterInfo({ payload }, { call, put }) {
-      let rsp = yield call(FetchResearchCenterInfo)
+    *fetchResearchCenterInfo(_, { call, put }) {
+      const rsp = yield call(FetchResearchCenterInfo)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           research_center_info: rsp
         }
       })
+      return 123
     }
   }
-
 }
 
 export default Model

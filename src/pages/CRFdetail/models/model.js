@@ -1,12 +1,13 @@
-import { message } from "antd"
+import { message } from 'antd'
 import {
-  FetchCrfInfo, FetchNavInfo, AddCycle,
+  FetchCrfInfo,
+  FetchNavInfo,
+  AddCycle,
   DeleteCycle
 } from '../../../services/crfBase'
 
 const Model = {
-
-  namespace: "crfBase",
+  namespace: 'crfBase',
 
   state: {
     crf_info: {},
@@ -22,8 +23,9 @@ const Model = {
   effects: {
     *fetchCrfInfo({ payload }, { call, put }) {
       let rsp = yield call(FetchCrfInfo, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           crf_info: rsp
         }
@@ -32,16 +34,18 @@ const Model = {
 
     *fetchNavInfo({ payload }, { call, put }) {
       let rsp = yield call(FetchNavInfo, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           nav_info: rsp[1].children
         }
       })
     },
 
-    *addCycle({ payload }, { call, put }) {
+    *addCycle({ payload }, { call }) {
       let rsp = yield call(AddCycle, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`增加访视记录失败，${rsp.msg}`)
       } else {
@@ -49,8 +53,9 @@ const Model = {
       }
     },
 
-    *deleteCycle({ payload }, { call, put }) {
+    *deleteCycle({ payload }, { call }) {
       let rsp = yield call(DeleteCycle, payload)
+
       if (rsp && rsp.code !== 200) {
         message.error(`删除访视记录失败，${rsp.msg}`)
       } else {
@@ -58,7 +63,6 @@ const Model = {
       }
     }
   }
-
 }
 
 export default Model

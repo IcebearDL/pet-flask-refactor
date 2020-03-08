@@ -1,8 +1,7 @@
 import { FetchProjectList } from '../../services/projectPage'
 
 const Model = {
-
-  namespace: "project",
+  namespace: 'project',
 
   state: {
     project_list: []
@@ -16,16 +15,16 @@ const Model = {
 
   effects: {
     *fetchProjectList({ payload }, { call, put }) {
-      let rsp = yield call(FetchProjectList, payload)
+      const rsp = yield call(FetchProjectList, payload)
+
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           project_list: rsp.data
         }
       })
     }
   }
-
 }
 
 export default Model
