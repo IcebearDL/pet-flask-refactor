@@ -18,7 +18,7 @@ const codeMessage = {
   500: '服务器发生错误，请检查服务器。',
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+  504: '网关超时。'
 }
 
 /**
@@ -27,45 +27,46 @@ const codeMessage = {
 const request = extend({
   // 错误处理
   errorHandler: error => {
-    const { response } = error;
+    const { response } = error
 
     if (response && response.status) {
-      const errorText = codeMessage[response.status] || response.statusText;
-      const { status, url } = response;
+      const errorText = codeMessage[response.status] || response.statusText
+      const { status, url } = response
+
       notification.error({
         message: `请求错误 ${status}: ${url}`,
-        description: errorText,
-      });
+        description: errorText
+      })
     }
   }
 })
 
-//这里的request的header不能加在extend里，实例化会在login拿到token之前，之后的request并不带token
-//：重写request，每次请求都带上header
+// 这里的request的header不能加在extend里，实例化会在login拿到token之前，之后的request并不带token
+// ：重写request，每次请求都带上header
 let COOKIE_CONFIRM = true
 
 const auth_request = (url, options) => {
-
-  //判断cookie是否失效
+  // 判断cookie是否失效
   if (url !== '/login' && CookieUtil.get('token') === null) {
-    if(!COOKIE_CONFIRM){
+    if (!COOKIE_CONFIRM) {
       return
     }
     COOKIE_CONFIRM = false
     message.warning('登陆状态失效，请重新登陆！')
     router.replace('/login')
     return
-  } 
+  }
 
-  if(!COOKIE_CONFIRM) COOKIE_CONFIRM = true
+  if (!COOKIE_CONFIRM) COOKIE_CONFIRM = true
   const { headers } = options
   const auth_header = {
-    'Authorization': `Bearer ${CookieUtil.get('token')}`
+    Authorization: `Bearer ${CookieUtil.get('token')}`
   }
 
   const { NODE_ENV } = process.env
   // prefix 阿里云的测试服务器
   const prefix = NODE_ENV === 'development' ? '/api' : 'http://39.96.191.139'
+
   return request(prefix + url, {
     ...options,
     headers: headers ? { ...headers, ...auth_header } : auth_header

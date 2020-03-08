@@ -1,7 +1,7 @@
-.navigator_content{
-  background-color: #3B64B4;
+.navigator_content {
+  background-color: #3b64b4;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px
+  margin-bottom: 15px;
 }
 
 .navigator_bar {

@@ -1,22 +1,21 @@
-.crf_content{
+.crf_content {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 }
 
-.crf_aside{
+.crf_aside {
   flex-grow: 0;
-  font-weight: bold! important
+  font-weight: bold !important;
 }
 
-.crf_body{
+.crf_body {
   flex-grow: 1;
   padding-left: 30px;
   padding-bottom: 30px;
-
 }
 
-.crf_info{
+.crf_info {
   font-size: 18px;
   font-weight: bold;
   margin-left: 10px;
@@ -24,61 +23,61 @@
   line-height: 30px;
 }
 
-.menu_title{
-  font-weight: bold
+.menu_title {
+  font-weight: bold;
 }
 
-.menu_div{
+.menu_div {
   border: 1px solid #d8d8d8;
-  border-radius: 4px
+  border-radius: 4px;
 }
 
-.interview_div{
+.interview_div {
   padding: 15px;
   border: 1px solid #d8d8d8;
-  border-radius: 4px
+  border-radius: 4px;
 }
 
-.menu_content{
-  padding: 30px
+.menu_content {
+  padding: 30px;
 }
 
-.patient_report_table{
-  margin-top: 20px
+.patient_report_table {
+  margin-top: 20px;
 }
 
-.smock_item{
+.smock_item {
   display: inline-block;
-  margin-left: 15px
+  margin-left: 15px;
 }
 
-.drinking_item{
+.drinking_item {
   display: inline-block;
-  margin-left: 15px
+  margin-left: 15px;
 }
 
-.from_item{
+.from_item {
   display: inline-block;
-  margin-left: 10px
+  margin-left: 10px;
 }
 
-.diagnose_history_modal{
+.diagnose_history_modal {
   margin-top: 20px;
   width: 100% !important;
   max-width: 800px;
 }
 
-.modal_divider{
+.modal_divider {
   margin-top: 5px;
-  margin-bottom: 20px
+  margin-bottom: 20px;
 }
 
-.lab_inspection_divider{
+.lab_inspection_divider {
   margin-top: 15px;
-  margin-bottom: 15px
+  margin-bottom: 15px;
 }
 
-.ECOG_input{
+.ECOG_input {
   width: 250px;
-  margin-left: 20px
+  margin-left: 20px;
 }
