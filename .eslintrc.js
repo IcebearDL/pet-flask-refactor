@@ -33,7 +33,6 @@ module.exports = {
     'no-lone-blocks': 2, //禁止不必要的嵌套块
     'no-plusplus': 0, //禁止使用++，--
     'no-proto': 2, //禁止使用__proto__属性
-    'no-self-compare': 2, //不能比较自身
     'no-undef': 2, //不能有未定义的变量
     'no-unreachable': 2, //不能有无法执行的代码
     'no-unused-expressions': 2, //禁止无用的表达式

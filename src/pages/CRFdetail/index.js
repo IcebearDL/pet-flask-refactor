@@ -7,8 +7,8 @@ import FirstDiagnose from './components/FirstDiagnose'
 import CycleRecord from './components/CycleRecord'
 import InterviewTable from './components/InterviewTable'
 import SummaryTable from './components/SummaryTable'
-import { checkLogin } from '../../utils/util'
-import { getSampleId } from '../../utils/location'
+import { checkLogin } from '@/utils/util'
+import { getSampleId } from '@/utils/location'
 import styles from './style.css'
 
 const { SubMenu } = Menu

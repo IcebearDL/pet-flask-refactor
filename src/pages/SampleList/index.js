@@ -17,8 +17,8 @@ import {
 } from 'antd'
 import Link from 'umi/link'
 import styles from './style.css'
-import { checkLogin } from '../../utils/util'
-import { getProjectId } from '../../utils/location'
+import { checkLogin } from '@/utils/util'
+import { getProjectId } from '@/utils/location'
 
 import SampleModal from './SampleModal'
 
