@@ -2,17 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Menu } from 'antd'
-import {
-  FirstDiagnoseForm1,
-  FirstDiagnoseForm2,
-  FirstDiagnoseTable3,
-  FirstDiagnoseForm4,
-  FirstDiagnoseForm5,
-  FirstDiagnoseTable6,
-  FirstDiagnoseForm7,
-  FirstDiagnoseTable8
-} from './Forms'
-import { getSampleId } from '../../../utils/location'
+import CycleTime from './forms/CycleTime'
+import Patient from './forms/Patient'
+import PatientReport from './forms/PatientReport'
+import PatientHistory from './forms/PatientHistory'
+import FirstDiag from './forms/FirstDiag'
+import DiagnoseHistory from './forms/DiagnoseHistory'
+import LabInspection from './forms/LabInspection'
+import PhotoEvaluate from './forms/PhotoEvaluate'
+
+import { getSampleId } from '@/utils/location'
 import styles from '../style.css'
 
 class FirstDiagnose extends React.Component {
@@ -60,14 +59,14 @@ class FirstDiagnose extends React.Component {
     const { current } = this.state
 
     const menu_content = [
-      <FirstDiagnoseForm1 key={1} cycle_number={1} />,
-      <FirstDiagnoseForm2 key={1} />,
-      <FirstDiagnoseTable3 key={1} />,
-      <FirstDiagnoseForm4 key={1} />,
-      <FirstDiagnoseForm5 key={1} />,
-      <FirstDiagnoseTable6 key={1} />,
-      <FirstDiagnoseForm7 key={1} cycle_number={1} />,
-      <FirstDiagnoseTable8 key={1} cycle_number={1} />
+      <CycleTime key={1} cycle_number={1} />,
+      <Patient key={1} />,
+      <PatientReport key={1} />,
+      <PatientHistory key={1} />,
+      <FirstDiag key={1} />,
+      <DiagnoseHistory key={1} />,
+      <LabInspection key={1} cycle_number={1} />,
+      <PhotoEvaluate key={1} cycle_number={1} />
     ]
 
     return (

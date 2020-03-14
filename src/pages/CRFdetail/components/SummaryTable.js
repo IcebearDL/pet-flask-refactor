@@ -14,7 +14,7 @@ import {
   DatePicker
 } from 'antd'
 import moment from 'moment'
-import { getSampleId } from '../../../utils/location'
+import { getSampleId } from '@/utils/location'
 import styles from '../style.css'
 
 class SummaryTable extends React.Component {

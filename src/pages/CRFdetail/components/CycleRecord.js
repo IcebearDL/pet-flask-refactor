@@ -2,18 +2,16 @@ import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import { Menu } from 'antd'
+import CycleTime from './forms/CycleTime'
+import MainSymptom from './forms/MainSymptom'
+import PhotoEvaluate from './forms/PhotoEvaluate'
+import Evaluation from './forms/Evaluation'
+import LabInspection from './forms/LabInspection'
+import TreatmentRecord from './forms/TreatmentRecord'
+import AdverseEvent from './forms/AdverseEvent'
+
+import { getSampleId } from '@/utils/location'
 import styles from '../style.css'
-import {
-  FirstDiagnoseForm1,
-  FirstDiagnoseForm7,
-  FirstDiagnoseTable8,
-  CycleRecordTable2,
-  CycleRecordForm4,
-  CycleRecordTable6,
-  AdverseEventTable
-  // AdverseEventTable
-} from './Forms'
-import { getSampleId } from '../../../utils/location'
 
 class CycleRecord extends React.PureComponent {
   state = {
@@ -62,13 +60,13 @@ class CycleRecord extends React.PureComponent {
     const { cycle_number } = this.props
 
     const menu_content = [
-      <FirstDiagnoseForm1 key={cycle_number} cycle_number={cycle_number} />,
-      <CycleRecordTable2 key={cycle_number} cycle_number={cycle_number} />,
-      <FirstDiagnoseTable8 key={cycle_number} cycle_number={cycle_number} />,
-      <CycleRecordForm4 key={cycle_number} cycle_number={cycle_number} />,
-      <FirstDiagnoseForm7 key={cycle_number} cycle_number={cycle_number} />,
-      <CycleRecordTable6 key={cycle_number} cycle_number={cycle_number} />,
-      <AdverseEventTable key={cycle_number} cycle_number={cycle_number} />
+      <CycleTime key={cycle_number} cycle_number={cycle_number} />,
+      <MainSymptom key={cycle_number} cycle_number={cycle_number} />,
+      <PhotoEvaluate key={cycle_number} cycle_number={cycle_number} />,
+      <Evaluation key={cycle_number} cycle_number={cycle_number} />,
+      <LabInspection key={cycle_number} cycle_number={cycle_number} />,
+      <TreatmentRecord key={cycle_number} cycle_number={cycle_number} />,
+      <AdverseEvent key={cycle_number} cycle_number={cycle_number} />
     ]
 
     return (
