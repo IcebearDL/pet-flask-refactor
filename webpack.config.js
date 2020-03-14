@@ -3,6 +3,7 @@
  * ref: https://github.com/umijs/umi/issues/1109#issuecomment-423380125
  */
 
+// 配置alias解决相对路径嵌套
 module.exports = {
   resolve: {
     alias: {
