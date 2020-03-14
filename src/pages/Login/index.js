@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { Layout, Form, Icon, Input, Button } from 'antd'
 import router from 'umi/router'
 import CookieUtil from '@/utils/cookie'
-import styles from './style.css'
 import RayPlus from '@/assets/Rayplus_title.png'
+import styles from './style.css'
 
 const Content = Layout.Content
 

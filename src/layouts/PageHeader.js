@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import router from 'umi/router'
 import { Button, Modal, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-import CookieUtil from '../utils/cookie'
-
+import CookieUtil from '@/utils/cookie'
+import RayPlus from '@/assets/Rayplus_white.png'
 import styles from './index.css'
-import RayPlus from '../assets/Rayplus_white.png'
 
 function PageHeader(props) {
   let title
