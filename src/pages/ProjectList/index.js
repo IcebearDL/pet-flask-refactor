@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Layout, Input, Select, Table, Button, Tooltip } from 'antd'
 import Link from 'umi/link'
 import styles from './style.css'
-import { checkLogin } from '../../utils/util'
+import { checkLogin } from '@/utils/util'
 
 const { Content } = Layout
 const { Option } = Select
