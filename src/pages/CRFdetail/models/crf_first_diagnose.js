@@ -43,199 +43,193 @@ const Model = {
 
   effects: {
     *fetchPatient({ payload }, { call, put }) {
-      let rsp = yield call(FetchPatient, payload)
+      const data = yield call(FetchPatient, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          patient: rsp
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            patient: data
+          }
+        })
+      }
     },
 
     *modifyPatient({ payload }, { call }) {
-      let rsp = yield call(ModifyPatient, payload)
+      const data = yield call(ModifyPatient, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存人口统计学表单失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存人口统计学表单成功！')
       }
     },
 
     *fetchPatientHistory({ payload }, { call, put }) {
-      let rsp = yield call(FetchPatientHistory, payload)
+      const data = yield call(FetchPatientHistory, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          patient_history: rsp
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            patient_history: data
+          }
+        })
+      }
     },
 
     *modifyPatientHistory({ payload }, { call }) {
-      let rsp = yield call(ModifyPatientHistory, payload)
+      const data = yield call(ModifyPatientHistory, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存既往史表单失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存既往史表单成功！')
       }
     },
 
     *fetchLabInspection({ payload }, { call, put }) {
-      let rsp = yield call(FetchLabInspection, payload)
+      const data = yield call(FetchLabInspection, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          lab_inspection: rsp
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            lab_inspection: data
+          }
+        })
+      }
     },
 
     *modifyLabInspection({ payload }, { call }) {
-      let rsp = yield call(ModifyLabInspection, payload)
+      const data = yield call(ModifyLabInspection, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存实验室检查表单失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存实验室检查表单成功！')
       }
     },
 
     *fetchFirstDiagnose({ payload }, { call, put }) {
-      let rsp = yield call(FetchFirstDiagnose, payload)
+      const data = yield call(FetchFirstDiagnose, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          first_diagnose: rsp
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            first_diagnose: data
+          }
+        })
+      }
     },
 
     *modifyFirstDiagnose({ payload }, { call }) {
-      let rsp = yield call(ModifyFirstDiagnose, payload)
+      const data = yield call(ModifyFirstDiagnose, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存初诊过程表单失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存初诊过程表单成功！')
       }
     },
 
     *fetchCycleTime({ payload }, { call, put }) {
-      let rsp = yield call(FetchCycleTime, payload)
+      const data = yield call(FetchCycleTime, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          cycle_time: rsp.cycle_time
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            cycle_time: data.cycle_time
+          }
+        })
+      }
     },
 
     *modifyCycleTime({ payload }, { call }) {
-      let rsp = yield call(ModifyCycleTime, payload)
+      const data = yield call(ModifyCycleTime, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存访视时间失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存访视时间成功！')
       }
     },
 
     *fetchPhotoEvaluateTable({ payload }, { call, put }) {
-      let rsp = yield call(FetchPhotoEvaluateTable, payload)
+      const data = yield call(FetchPhotoEvaluateTable, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          photo_evaluate_table: rsp.data
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            photo_evaluate_table: data
+          }
+        })
+      }
     },
 
     *modifyPhotoEvaluateTable({ payload }, { call }) {
-      let rsp = yield call(ModifyPhotoEvaluateTable, payload)
+      const data = yield call(ModifyPhotoEvaluateTable, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存影像学评估表单失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存影像学评估表单成功！')
       }
     },
 
     *deletePhotoEvaluateTable({ payload }, { call }) {
-      let rsp = yield call(DeletePhotoEvaluateTable, payload)
+      const data = yield call(DeletePhotoEvaluateTable, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`删除影像学评估失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('删除影像学评估成功！')
       }
     },
 
     *fetchDiagnoseHistory({ payload }, { call, put }) {
-      let rsp = yield call(FetchDiagnoseHistory, payload)
+      const data = yield call(FetchDiagnoseHistory, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          diagnose_history: rsp.data
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            diagnose_history: data
+          }
+        })
+      }
     },
 
     *modifyDiagnoseHistory({ payload }, { call }) {
-      let rsp = yield call(ModifyDiagnoseHistory, payload)
+      const data = yield call(ModifyDiagnoseHistory, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存治疗史表单失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存治疗史表单成功！')
       }
     },
 
     *deleteDiagnoseHistory({ payload }, { call }) {
-      let rsp = yield call(DeleteDiagnoseHistory, payload)
+      const data = yield call(DeleteDiagnoseHistory, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`删除治疗史失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('删除治疗史成功！')
       }
     },
 
     *fetchPatientReportTable({ payload }, { call, put }) {
-      let rsp = yield call(FetchPatientReportTable, payload)
+      const data = yield call(FetchPatientReportTable, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          patient_report_table: rsp.data
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            patient_report_table: data
+          }
+        })
+      }
     },
 
     *modifyPatientReportTable({ payload }, { call }) {
-      let rsp = yield call(ModifyPatientReportTable, payload)
+      const data = yield call(ModifyPatientReportTable, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存体格报告表单失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存体格报告表单成功！')
       }
     },
 
     *deletePatientReportTable({ payload }, { call }) {
-      let rsp = yield call(DeletePatientReportTable, payload)
+      const data = yield call(DeletePatientReportTable, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`删除体格报告失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('删除体格报告成功！')
       }
     }
