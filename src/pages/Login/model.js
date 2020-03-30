@@ -19,7 +19,9 @@ const Model = {
 
         CookieUtil.set('token', data, expires, '/')
         router.push('/project')
+        return true
       }
+      return false
     }
   }
 }
