@@ -39,10 +39,7 @@ export async function FetchInterviewTable({ sample_id }) {
 export function ModifyInterview({ sample_id, body }) {
   return request(`/interview/${sample_id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -64,10 +61,7 @@ export async function FetchSummary({ sample_id }) {
 export async function ModifySummary({ sample_id, body }) {
   return request(`/summary/${sample_id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 

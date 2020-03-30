@@ -11,10 +11,7 @@ export function FetchMainSymptom({ sample_id, cycle_number }) {
 export function ModifyMainSymptom({ sample_id, cycle_number, body }) {
   return request(`/main_symptom/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -43,10 +40,7 @@ export function FetchTreatmentRecord({ sample_id, cycle_number }) {
 export function ModifyTreatmentRecord({ sample_id, cycle_number, body }) {
   return request(`/treatment_record/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -75,10 +69,7 @@ export function FetchEvaluation({ sample_id, cycle_number }) {
 export function ModifyEvaluation({ sample_id, cycle_number, body }) {
   return request(`/evaluation/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -93,10 +84,7 @@ export function FetchAdverseEvent({ sample_id, cycle_number }) {
 export function ModifyAdverseEvent({ sample_id, cycle_number, body }) {
   return request(`/adverse_event/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -125,10 +113,7 @@ export function FetchECOG({ sample_id, cycle_number }) {
 export function ModifyECOG({ sample_id, cycle_number, body }) {
   return request(`/ECOG/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -148,10 +133,7 @@ export function ModifyTreatmentStatusRecord({ sample_id, cycle_number, body }) {
     `/treatment_record_adjustment_status/${sample_id}/${cycle_number}`,
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
+      data: body
     }
   )
 }

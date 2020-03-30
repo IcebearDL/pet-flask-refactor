@@ -141,145 +141,145 @@ class SampleList extends React.Component {
     this.setState({ sample_modal_visible: false })
   }
 
+  columns = [
+    {
+      title: '研究中心',
+      dataIndex: 'research_center_ids',
+      align: 'center',
+      width: 120,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '编号',
+      dataIndex: 'patient_ids',
+      align: 'center',
+      width: 100,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '姓名',
+      dataIndex: 'patient_name',
+      align: 'center',
+      width: 80,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '身份证号',
+      dataIndex: 'id_num',
+      align: 'center',
+      width: 130,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '组别',
+      dataIndex: 'group_name',
+      align: 'center',
+      width: 100,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '性别',
+      dataIndex: 'sex',
+      align: 'center',
+      width: 50
+    },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      align: 'center',
+      width: 50
+    },
+    {
+      title: '随访进度',
+      dataIndex: 'interview_status',
+      align: 'center',
+      width: 100,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '上一次随访时间',
+      dataIndex: 'last_interview_time',
+      align: 'center',
+      width: 100,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '预计下一次随访时间',
+      dataIndex: 'next_interview_time',
+      align: 'center',
+      width: 100,
+      ellipsis: true,
+      render: text => (
+        <Tooltip title={text}>
+          <span>{text}</span>
+        </Tooltip>
+      )
+    },
+    {
+      title: '操作',
+      align: 'center',
+      width: 60,
+      render: (_, record) => (
+        <Dropdown
+          overlay={
+            <Menu onClick={e => this.handleMenuClick(e, record)}>
+              <Menu.Item key="edit">编辑</Menu.Item>
+              <Menu.Item key="submit">提交</Menu.Item>
+              <Menu.Item key="delete">删除</Menu.Item>
+            </Menu>
+          }
+        >
+          <Button type="primary" size="small">
+            <Link
+              to={`/project/${record.project_id}/sample/${record.sample_id}/crf`}
+            >
+              详情
+              <Icon type="down" />
+            </Link>
+          </Button>
+        </Dropdown>
+      )
+    }
+  ]
+
   render() {
     const { sample_info, sample_list } = this.props
     const tableLoading = this.props.loading.effects['sample/fetchExpsampleList']
-
-    const columns = [
-      {
-        title: '研究中心',
-        dataIndex: 'research_center_ids',
-        align: 'center',
-        width: 120,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '编号',
-        dataIndex: 'patient_ids',
-        align: 'center',
-        width: 100,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '姓名',
-        dataIndex: 'patient_name',
-        align: 'center',
-        width: 80,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '身份证号',
-        dataIndex: 'id_num',
-        align: 'center',
-        width: 130,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '组别',
-        dataIndex: 'group_name',
-        align: 'center',
-        width: 100,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '性别',
-        dataIndex: 'sex',
-        align: 'center',
-        width: 50
-      },
-      {
-        title: '年龄',
-        dataIndex: 'age',
-        align: 'center',
-        width: 50
-      },
-      {
-        title: '随访进度',
-        dataIndex: 'interview_status',
-        align: 'center',
-        width: 100,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '上一次随访时间',
-        dataIndex: 'last_interview_time',
-        align: 'center',
-        width: 100,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '预计下一次随访时间',
-        dataIndex: 'next_interview_time',
-        align: 'center',
-        width: 100,
-        ellipsis: true,
-        render: text => (
-          <Tooltip title={text}>
-            <span>{text}</span>
-          </Tooltip>
-        )
-      },
-      {
-        title: '操作',
-        align: 'center',
-        width: 60,
-        render: (_, record) => (
-          <Dropdown
-            overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
-                <Menu.Item key="edit">编辑</Menu.Item>
-                <Menu.Item key="submit">提交</Menu.Item>
-                <Menu.Item key="delete">删除</Menu.Item>
-              </Menu>
-            }
-          >
-            <Button type="primary" size="small">
-              <Link
-                to={`/project/${record.project_id}/sample/${record.sample_id}/crf`}
-              >
-                详情
-                <Icon type="down" />
-              </Link>
-            </Button>
-          </Dropdown>
-        )
-      }
-    ]
 
     return (
       <Content className="body_content">
@@ -313,7 +313,7 @@ class SampleList extends React.Component {
           bordered={true}
           pagination={false}
           scroll={{ x: true }}
-          columns={columns}
+          columns={this.columns}
           dataSource={sample_list}
         />
         <SampleModal

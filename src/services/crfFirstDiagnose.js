@@ -11,10 +11,7 @@ export function FetchPatient({ sample_id }) {
 export function ModifyPatient({ sample_id, body }) {
   return request(`/patient/${sample_id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -29,10 +26,7 @@ export function FetchPatientHistory({ sample_id }) {
 export function ModifyPatientHistory({ sample_id, body }) {
   return request(`/patient_history/${sample_id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -47,10 +41,7 @@ export function FetchLabInspection({ sample_id, cycle_number }) {
 export function ModifyLabInspection({ sample_id, cycle_number, body }) {
   return request(`/lab_inspection/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -65,10 +56,7 @@ export function FetchFirstDiagnose({ sample_id }) {
 export function ModifyFirstDiagnose({ sample_id, body }) {
   return request(`/first_diagnose/${sample_id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -83,10 +71,7 @@ export function FetchCycleTime({ sample_id, cycle_number }) {
 export function ModifyCycleTime({ sample_id, cycle_number, body }) {
   return request(`/cycle_time/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -101,10 +86,7 @@ export function FetchPhotoEvaluateTable({ sample_id, cycle_number }) {
 export function ModifyPhotoEvaluateTable({ sample_id, cycle_number, body }) {
   return request(`/photo_evaluate/${sample_id}/${cycle_number}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -133,10 +115,7 @@ export function FetchDiagnoseHistory({ sample_id }) {
 export function ModifyDiagnoseHistory({ sample_id, body }) {
   return request(`/diagnose_history/${sample_id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -158,10 +137,7 @@ export function FetchPatientReportTable({ sample_id }) {
 export function ModifyPatientReportTable({ sample_id, body }) {
   return request(`/patient_report/${sample_id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 

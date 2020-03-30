@@ -19,10 +19,7 @@ export async function FetchSampleInfo({ project_id }) {
 export async function SubmitSample(body) {
   return request('/submit_sample', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
 
@@ -37,9 +34,6 @@ export async function DeleteSample({ sample_id }) {
 export async function CreateSample(body) {
   return request('/sample', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }

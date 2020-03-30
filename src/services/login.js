@@ -4,9 +4,6 @@ import request from '../utils/request'
 export async function Login(body) {
   return request('/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    data: body
   })
 }
