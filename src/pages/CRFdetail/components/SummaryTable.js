@@ -28,7 +28,6 @@ class SummaryTable extends React.Component {
   static propTypes = {
     summary: PropTypes.object.isRequired,
     adverse_event_table_all: PropTypes.array.isRequired,
-    form: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     loading: PropTypes.object.isRequired
   }
@@ -105,7 +104,7 @@ class Summary extends React.Component {
   }
 
   static propTypes = {
-    summary: PropTypes.array.isRequired,
+    summary: PropTypes.object.isRequired,
     form: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     loading: PropTypes.object.isRequired
@@ -122,18 +121,6 @@ class Summary extends React.Component {
         // 重构time
         if (values.last_time_drug) {
           values.last_time_drug = values.last_time_drug.format('YYYY-MM-DD')
-        } else {
-          values.last_time_drug = ''
-        }
-
-        for (let type of [
-          'relay',
-          'treatment_times',
-          'other_reasons',
-          'PFS',
-          'OS'
-        ]) {
-          if (!values[type]) values[type] = ''
         }
 
         const { dispatch } = this.props
@@ -292,63 +279,63 @@ class AdverseTable extends React.Component {
     this.setState({ visible: false })
   }
 
+  columns = [
+    {
+      title: '不良事件名称',
+      dataIndex: 'adverse_event_name',
+      align: 'center'
+    },
+    {
+      title: '不良事件等级',
+      dataIndex: 'is_server_event',
+      align: 'center'
+    },
+    {
+      title: '开始时间',
+      dataIndex: 'start_time',
+      align: 'center'
+    },
+    {
+      title: '与药物关系',
+      dataIndex: 'medicine_relation',
+      align: 'center'
+    },
+    {
+      title: '采取措施',
+      dataIndex: 'measure',
+      align: 'center'
+    },
+    {
+      title: '转归',
+      dataIndex: 'recover',
+      align: 'center'
+    },
+    {
+      title: '访视',
+      dataIndex: 'cycle_number',
+      align: 'center'
+    },
+    {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="primary"
+            size="small"
+            onClick={() => this.handleEditModel(record)}
+          >
+            查看
+          </Button>
+        </>
+      )
+    }
+  ]
+
   render() {
     const { adverse_event_table_all, tableLoading } = this.props
     const { record, visible } = this.state
-
-    const columns = [
-      {
-        title: '不良事件名称',
-        dataIndex: 'adverse_event_name',
-        align: 'center'
-      },
-      {
-        title: '不良事件等级',
-        dataIndex: 'is_server_event',
-        align: 'center'
-      },
-      {
-        title: '开始时间',
-        dataIndex: 'start_time',
-        align: 'center'
-      },
-      {
-        title: '与药物关系',
-        dataIndex: 'medicine_relation',
-        align: 'center'
-      },
-      {
-        title: '采取措施',
-        dataIndex: 'measure',
-        align: 'center'
-      },
-      {
-        title: '转归',
-        dataIndex: 'recover',
-        align: 'center'
-      },
-      {
-        title: '访视',
-        dataIndex: 'cycle_number',
-        align: 'center'
-      },
-      {
-        title: '操作',
-        align: 'center',
-        render: (_, record) => (
-          <>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(record)}
-            >
-              查看
-            </Button>
-          </>
-        )
-      }
-    ]
 
     return (
       <>
@@ -360,7 +347,7 @@ class AdverseTable extends React.Component {
           bordered={true}
           pagination={false}
           scroll={{ x: true }}
-          columns={columns}
+          columns={this.columns}
           dataSource={adverse_event_table_all}
         />
         <Modal

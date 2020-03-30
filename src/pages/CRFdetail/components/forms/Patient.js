@@ -54,8 +54,6 @@ class Patient extends React.Component {
         for (const type of ['race', 'marriage', 'vocation']) {
           if (values[type] === '其他') {
             values[`${type}_other`] = this[`${type}_input`].current.input.value
-          } else {
-            values[`${type}_other`] = null
           }
         }
         if (values.date) values.date = values.date.format('YYYY-MM-DD')

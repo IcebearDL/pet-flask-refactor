@@ -34,10 +34,8 @@ class FirstDiag extends React.Component {
         // 重构clinical_symptoms
         const clinical_symptoms = {}
 
-        if (values.clinical_symptoms['其他']._other) {
-          clinical_symptoms['clinical_symptoms[其他]_other'] =
-            values.clinical_symptoms['其他']._other
-        }
+        clinical_symptoms['clinical_symptoms[其他]_other'] =
+          values.clinical_symptoms['其他']._other
         if (values.clinical_symptoms['其他']._else) {
           clinical_symptoms['clinical_symptoms[其他]'] = 'on'
         }
@@ -50,14 +48,10 @@ class FirstDiag extends React.Component {
         // 重构gene_mutation_type
         const gene_mutation_type = {}
 
-        if (values.gene_mutation_type.ALK._other) {
-          gene_mutation_type['gene_mutation_type[ALK]_other'] =
-            values.gene_mutation_type.ALK._other
-        }
-        if (values.gene_mutation_type.EGFR._other) {
-          gene_mutation_type['gene_mutation_type[EGFR]_other'] =
-            values.gene_mutation_type.EGFR._other
-        }
+        gene_mutation_type['gene_mutation_type[ALK]_other'] =
+          values.gene_mutation_type.ALK._other
+        gene_mutation_type['gene_mutation_type[EGFR]_other'] =
+          values.gene_mutation_type.EGFR._other
         if (values.gene_mutation_type.ALK._ALK) {
           gene_mutation_type['gene_mutation_type[ALK]'] = 'on'
         }
@@ -73,10 +67,8 @@ class FirstDiag extends React.Component {
         // 重构transfer_site
         const transfer_site = {}
 
-        if (values.transfer_site['其他']._other) {
-          transfer_site['transfer_site[其他]_other'] =
-            values.transfer_site['其他']._other
-        }
+        transfer_site['transfer_site[其他]_other'] =
+          values.transfer_site['其他']._other
         if (values.transfer_site['其他']._else) {
           transfer_site['transfer_site[其他]'] = 'on'
         }
@@ -86,15 +78,6 @@ class FirstDiag extends React.Component {
           }
         }
         values.transfer_site = transfer_site
-        // 补全other选项
-        for (const type of [
-          'biopsy_method_other',
-          'genetic_testing_specimen_other',
-          'tmb_other',
-          'tumor_pathological_type_other'
-        ]) {
-          if (values[type] === undefined) values[type] = null
-        }
 
         const { dispatch } = this.props
         const sample_id = getSampleId()

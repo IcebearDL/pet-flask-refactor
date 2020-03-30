@@ -65,23 +65,13 @@ class AdverseEvent extends React.Component {
         ]) {
           if (values[type]) {
             values[type] = values[type].format('YYYY-MM-DD')
-          } else {
-            values[type] = ''
           }
         }
-
-        for (const type of [
-          'adverse_event_name',
-          'SAE_diagnose',
-          'other_SAE_state'
-        ]) {
-          if (!values[type]) values[type] = ''
-        }
+        values.adverse_event_id = record.adverse_event_id
 
         const { dispatch, cycle_number } = this.props
         const sample_id = getSampleId()
 
-        values.adverse_event_id = record.adverse_event_id
         dispatch({
           type: 'crf_cycle_record/modifyAdverseEvent',
           payload: { sample_id, cycle_number, body: values }
@@ -138,6 +128,63 @@ class AdverseEvent extends React.Component {
     this.setState({ visible: false })
   }
 
+  columns = [
+    {
+      title: '不良事件名称',
+      dataIndex: 'adverse_event_name',
+      align: 'center'
+    },
+    {
+      title: '不良事件等级',
+      dataIndex: 'is_server_event',
+      align: 'center'
+    },
+    {
+      title: '开始时间',
+      dataIndex: 'start_time',
+      align: 'center'
+    },
+    {
+      title: '与药物关系',
+      dataIndex: 'medicine_relation',
+      align: 'center'
+    },
+    {
+      title: '采取措施',
+      dataIndex: 'measure',
+      align: 'center'
+    },
+    {
+      title: '转归',
+      dataIndex: 'recover',
+      align: 'center'
+    },
+    {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="primary"
+            size="small"
+            onClick={() => this.handleEditModel(record)}
+          >
+            编辑
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="danger"
+            size="small"
+            onClick={() => this.handleDelete(record.adverse_event_id)}
+          >
+            删除
+          </Button>
+        </>
+      )
+    }
+  ]
+
   render() {
     const { adverse_event_table } = this.props.crf_cycle_record
     const tableLoading = this.props.loading.effects[
@@ -149,68 +196,11 @@ class AdverseEvent extends React.Component {
     const { getFieldDecorator } = this.props.form
     const { record, visible, is_server_event, SAE_state } = this.state
 
-    const columns = [
-      {
-        title: '不良事件名称',
-        dataIndex: 'adverse_event_name',
-        align: 'center'
-      },
-      {
-        title: '不良事件等级',
-        dataIndex: 'is_server_event',
-        align: 'center'
-      },
-      {
-        title: '开始时间',
-        dataIndex: 'start_time',
-        align: 'center'
-      },
-      {
-        title: '与药物关系',
-        dataIndex: 'medicine_relation',
-        align: 'center'
-      },
-      {
-        title: '采取措施',
-        dataIndex: 'measure',
-        align: 'center'
-      },
-      {
-        title: '转归',
-        dataIndex: 'recover',
-        align: 'center'
-      },
-      {
-        title: '操作',
-        align: 'center',
-        render: (_, record) => (
-          <>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(record)}
-            >
-              编辑
-            </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="danger"
-              size="small"
-              onClick={() => this.handleDelete(record.adverse_event_id)}
-            >
-              删除
-            </Button>
-          </>
-        )
-      }
-    ]
-
     return (
       <>
         <Button
           type="primary"
-          onClick={() => this.handleEditModel({ adverse_event_id: '' })}
+          onClick={() => this.handleEditModel({ adverse_event_id: null })}
         >
           添加
         </Button>
@@ -222,7 +212,7 @@ class AdverseEvent extends React.Component {
           bordered
           pagination={false}
           scroll={{ x: true }}
-          columns={columns}
+          columns={this.columns}
           dataSource={adverse_event_table}
         />
         <Modal

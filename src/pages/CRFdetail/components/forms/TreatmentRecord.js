@@ -150,6 +150,53 @@ class TreatmentRecord extends React.Component {
     this.setState({ adjustment: value })
   }
 
+  columns = [
+    {
+      title: '治疗名称',
+      dataIndex: 'treatment_name',
+      align: 'center'
+    },
+    {
+      title: '药物名称',
+      dataIndex: 'medicine_name',
+      align: 'center'
+    },
+    {
+      title: '给药/治疗开始日期',
+      dataIndex: 'start_time',
+      align: 'center'
+    },
+    {
+      title: '给药/治疗结束日期',
+      dataIndex: 'end_time',
+      align: 'center'
+    },
+    {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="primary"
+            size="small"
+            onClick={() => this.handleEditModel(record)}
+          >
+            编辑
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="danger"
+            size="small"
+            onClick={() => this.handleDelete(record.treatment_record_id)}
+          >
+            删除
+          </Button>
+        </>
+      )
+    }
+  ]
+
   render() {
     const {
       treatment_record_table,
@@ -167,53 +214,6 @@ class TreatmentRecord extends React.Component {
     const { getFieldDecorator } = this.props.form
     const { record, visible, adjustment } = this.state
 
-    const columns = [
-      {
-        title: '治疗名称',
-        dataIndex: 'treatment_name',
-        align: 'center'
-      },
-      {
-        title: '药物名称',
-        dataIndex: 'medicine_name',
-        align: 'center'
-      },
-      {
-        title: '给药/治疗开始日期',
-        dataIndex: 'start_time',
-        align: 'center'
-      },
-      {
-        title: '给药/治疗结束日期',
-        dataIndex: 'end_time',
-        align: 'center'
-      },
-      {
-        title: '操作',
-        align: 'center',
-        render: (_, record) => (
-          <>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(record)}
-            >
-              编辑
-            </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="danger"
-              size="small"
-              onClick={() => this.handleDelete(record.treatment_record_id)}
-            >
-              删除
-            </Button>
-          </>
-        )
-      }
-    ]
-
     return (
       <>
         <Button
@@ -230,7 +230,7 @@ class TreatmentRecord extends React.Component {
           bordered
           pagination={false}
           scroll={{ x: true }}
-          columns={columns}
+          columns={this.columns}
           dataSource={treatment_record_table}
         />
         <Form

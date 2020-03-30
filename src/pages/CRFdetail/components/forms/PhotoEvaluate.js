@@ -66,15 +66,10 @@ class PhotoEvaluate extends React.Component {
         const { record } = this.state
         const sample_id = getSampleId()
 
-        // 重构时间和其他空项
+        // 重构时间
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
-        for (const type of ['method', 'method_other', 'time']) {
-          if (!values[type]) values[type] = ''
-        }
-        if (!values.tumor_long) values.tumor_long = null
-        if (!values.tumor_short) values.tumor_short = null
-
         values.evaluate_id = record.evaluate_id
+
         dispatch({
           type: 'crf_first_diagnose/modifyPhotoEvaluateTable',
           payload: { sample_id, cycle_number, body: values }
@@ -101,6 +96,61 @@ class PhotoEvaluate extends React.Component {
     this.setState({ [type]: value })
   }
 
+  columns = [
+    {
+      title: '部位',
+      dataIndex: 'part',
+      align: 'center'
+    },
+    {
+      title: '方法',
+      dataIndex: 'method',
+      align: 'center'
+    },
+    {
+      title: '肿瘤长径(cm)',
+      dataIndex: 'tumor_long',
+      align: 'center'
+    },
+    {
+      title: '肿瘤短径(cm)',
+      dataIndex: 'tumor_short',
+      align: 'center'
+    },
+    {
+      title: '时间',
+      dataIndex: 'time',
+      align: 'center'
+    },
+    {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button type="primary" size="small">
+            上传
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="primary"
+            size="small"
+            onClick={() => this.handleEditModel(record)}
+          >
+            编辑
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="danger"
+            size="small"
+            onClick={() => this.handleDelete(record.evaluate_id)}
+          >
+            删除
+          </Button>
+        </>
+      )
+    }
+  ]
+
   render() {
     const { photo_evaluate_table } = this.props.crf_first_diagnose
     const tableLoading = this.props.loading.effects[
@@ -112,66 +162,11 @@ class PhotoEvaluate extends React.Component {
     const { getFieldDecorator } = this.props.form
     const { record, visible, method } = this.state
 
-    const columns = [
-      {
-        title: '部位',
-        dataIndex: 'part',
-        align: 'center'
-      },
-      {
-        title: '方法',
-        dataIndex: 'method',
-        align: 'center'
-      },
-      {
-        title: '肿瘤长径(cm)',
-        dataIndex: 'tumor_long',
-        align: 'center'
-      },
-      {
-        title: '肿瘤短径(cm)',
-        dataIndex: 'tumor_short',
-        align: 'center'
-      },
-      {
-        title: '时间',
-        dataIndex: 'time',
-        align: 'center'
-      },
-      {
-        title: '操作',
-        align: 'center',
-        render: (_, record) => (
-          <>
-            <Button type="primary" size="small">
-              上传
-            </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(record)}
-            >
-              编辑
-            </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="danger"
-              size="small"
-              onClick={() => this.handleDelete(record.evaluate_id)}
-            >
-              删除
-            </Button>
-          </>
-        )
-      }
-    ]
-
     return (
       <>
         <Button
           type="primary"
-          onClick={() => this.handleEditModel({ evaluate_id: '' })}
+          onClick={() => this.handleEditModel({ evaluate_id: null })}
         >
           添加
         </Button>
@@ -183,7 +178,7 @@ class PhotoEvaluate extends React.Component {
           bordered
           pagination={false}
           scroll={{ x: true }}
-          columns={columns}
+          columns={this.columns}
           dataSource={photo_evaluate_table}
         />
         <Modal

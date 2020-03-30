@@ -59,19 +59,14 @@ class MainSymptom extends React.Component {
 
         if (values.start_time) {
           values.start_time = values.start_time.format('YYYY-MM-DD')
-        } else {
-          values.start_time = ''
         }
         if (values.end_time) {
           values.end_time = values.end_time.format('YYYY-MM-DD')
-        } else {
-          values.end_time = ''
         }
-        if (!values.symptom_description_other) {
-          values.symptom_description_other = ''
-        }
-
         values.main_symptom_id = record.main_symptom_id
+        // ant组件同一个form的values会包含所有加了form表单项的数据。手动去除另外一个表单的数据
+        delete values.ECOG
+
         dispatch({
           type: 'crf_cycle_record/modifyMainSymptom',
           payload: { sample_id, cycle_number, body: values }
@@ -188,7 +183,7 @@ class MainSymptom extends React.Component {
       <>
         <Button
           type="primary"
-          onClick={() => this.handleEditModel({ main_symptom_id: '' })}
+          onClick={() => this.handleEditModel({ main_symptom_id: null })}
         >
           添加
         </Button>

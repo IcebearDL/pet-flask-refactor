@@ -73,13 +73,9 @@ class DiagnoseHistory extends React.Component {
         // 重构时间
         if (values.last_front_time) {
           values.last_front_time = values.last_front_time.format('YYYY-MM-DD')
-        } else {
-          values.last_front_time = ''
         }
         if (values.start_time) {
           values.start_time = values.start_time.format('YYYY-MM-DD')
-        } else {
-          values.start_time = ''
         }
         // 重构diagnose_method
         const diagnose_method = {}
@@ -96,12 +92,8 @@ class DiagnoseHistory extends React.Component {
             if (values.diagnose_method[type]._check) {
               diagnose_method[`diagnose_method[${type}]`] = 'on'
             }
-            if (values.diagnose_method[type]._other) {
-              diagnose_method[`diagnose_method[${type}]_other`] =
-                values.diagnose_method[type]._other
-            } else {
-              diagnose_method[`diagnose_method[${type}]_other`] = ''
-            }
+            diagnose_method[`diagnose_method[${type}]_other`] =
+              values.diagnose_method[type]._other
           }
           values.diagnose_method = diagnose_method
         }
@@ -115,18 +107,10 @@ class DiagnoseHistory extends React.Component {
               genetic_mutation_type[`genetic_mutation_type[${type}]`] = 'on'
             }
           }
-          if (values.genetic_mutation_type.ALK._other) {
-            genetic_mutation_type['genetic_mutation_type[ALK]_other'] =
-              values.genetic_mutation_type.ALK._other
-          } else {
-            genetic_mutation_type['genetic_mutation_type[ALK]_other'] = ''
-          }
-          if (values.genetic_mutation_type.EGFR._other) {
-            genetic_mutation_type['genetic_mutation_type[EGFR]_other'] =
-              values.genetic_mutation_type.EGFR._other
-          } else {
-            genetic_mutation_type['genetic_mutation_type[EGFR]_other'] = ''
-          }
+          genetic_mutation_type['genetic_mutation_type[ALK]_other'] =
+            values.genetic_mutation_type.ALK._other
+          genetic_mutation_type['genetic_mutation_type[EGFR]_other'] =
+            values.genetic_mutation_type.EGFR._other
           if (values.genetic_mutation_type.ALK._ALK) {
             genetic_mutation_type['genetic_mutation_type[ALK]'] = 'on'
           }
@@ -148,45 +132,14 @@ class DiagnoseHistory extends React.Component {
           if (values.last_front_part['其他']._check) {
             last_front_part['last_front_part[其他]'] = 'on'
           }
-          if (values.last_front_part['其他']._other) {
-            last_front_part['last_front_part[其他]_other'] =
-              values.last_front_part['其他']._other
-          } else {
-            last_front_part['last_front_part[其他]_other'] = ''
-          }
+          last_front_part['last_front_part[其他]_other'] =
+            values.last_front_part['其他']._other
           values.last_front_part = last_front_part
         }
         // 删除undefined 和 null
         for (const type in values) {
           if (values[type] === undefined || values[type] === null) {
             delete values[type]
-          }
-        }
-        // 针对后端接口的妥协，加上亢余项
-        if (
-          values.diagnose_existence === 0 ||
-          values.diagnose_existence === 1
-        ) {
-          values.diagnose_method = {
-            'diagnose_method[chemotherapy]_other': '',
-            'diagnose_method[immunotherapy]_other': '',
-            'diagnose_method[operation]_other': '',
-            'diagnose_method[othertherapy]_other': '',
-            'diagnose_method[radiotherapy]_other': '',
-            'diagnose_method[targetedtherapy]_other': ''
-          }
-        }
-
-        if (values.diagnose_existence === 2) {
-          for (const type of [
-            'biopsy_method_other',
-            'biopsy_type_other',
-            'genetic_specimen_other',
-            'tmb_other'
-          ]) {
-            if (!values[type]) {
-              values[type] = ''
-            }
           }
         }
 
@@ -224,6 +177,42 @@ class DiagnoseHistory extends React.Component {
   handleStateChange = (type, { target: { value } }) => {
     this.setState({ [type]: value })
   }
+
+  columns = [
+    {
+      title: '几线治疗',
+      dataIndex: 'diagnose_number',
+      align: 'center'
+    },
+    {
+      title: '开始时间',
+      dataIndex: 'start_time',
+      align: 'center'
+    },
+    {
+      title: '操作',
+      align: 'center',
+      render: (_, record) => (
+        <>
+          <Button
+            type="primary"
+            size="small"
+            onClick={() => this.handleEditModel(record)}
+          >
+            编辑
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="danger"
+            size="small"
+            onClick={() => this.handleDelete(record.diagnose_number)}
+          >
+            删除
+          </Button>
+        </>
+      )
+    }
+  ]
 
   render() {
     const { diagnose_history } = this.props.crf_first_diagnose
@@ -265,42 +254,6 @@ class DiagnoseHistory extends React.Component {
       labelAfter = '五线治疗'
     }
 
-    const columns = [
-      {
-        title: '几线治疗',
-        dataIndex: 'diagnose_number',
-        align: 'center'
-      },
-      {
-        title: '开始时间',
-        dataIndex: 'start_time',
-        align: 'center'
-      },
-      {
-        title: '操作',
-        align: 'center',
-        render: (_, record) => (
-          <>
-            <Button
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(record)}
-            >
-              编辑
-            </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="danger"
-              size="small"
-              onClick={() => this.handleDelete(record.diagnose_number)}
-            >
-              删除
-            </Button>
-          </>
-        )
-      }
-    ]
-
     return (
       <>
         <Button
@@ -319,7 +272,7 @@ class DiagnoseHistory extends React.Component {
           bordered
           pagination={false}
           scroll={{ x: true }}
-          columns={columns}
+          columns={this.columns}
           dataSource={diagnose_history}
         />
         <Modal
