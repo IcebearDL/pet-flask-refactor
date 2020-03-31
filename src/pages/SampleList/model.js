@@ -23,57 +23,51 @@ const Model = {
 
   effects: {
     *fetchExpsampleList({ payload }, { call, put }) {
-      let rsp = yield call(FetchExpsampleList, payload)
+      const data = yield call(FetchExpsampleList, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          sample_list: rsp.data
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            sample_list: data
+          }
+        })
+      }
     },
 
     *fetchSampleInfo({ payload }, { call, put }) {
-      let rsp = yield call(FetchSampleInfo, payload)
+      const data = yield call(FetchSampleInfo, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          sample_info: rsp
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            sample_info: data
+          }
+        })
+      }
     },
 
     *submitSample({ payload }, { call }) {
-      let rsp = yield call(SubmitSample, payload)
+      const data = yield call(SubmitSample, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`提交样本到中心失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('提交样本到中心成功！')
       }
     },
 
     *deleteSample({ payload }, { call }) {
-      let rsp = yield call(DeleteSample, payload)
+      const data = yield call(DeleteSample, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`删除样本失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('删除样本成功！')
       }
     },
 
     *createSample({ payload }, { call }) {
-      let rsp = yield call(CreateSample, payload)
+      const data = yield call(CreateSample, payload)
 
-      if (rsp && rsp.code !== 200) {
-        if (payload.sample_id) {
-          message.error(`编辑样本失败，${rsp.msg}`)
-        } else {
-          message.error(`添加样本失败，${rsp.msg}`)
-        }
-      } else {
+      if (data) {
         if (payload.sample_id) {
           message.success('编辑样本成功！')
         } else {

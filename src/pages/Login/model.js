@@ -1,4 +1,3 @@
-import { message } from 'antd'
 import { Login } from '../../services/login'
 import CookieUtil from '../../utils/cookie'
 import router from 'umi/router'
@@ -12,16 +11,17 @@ const Model = {
 
   effects: {
     *login({ payload }, { call }) {
-      let rsp = yield call(Login, payload)
+      const data = yield call(Login, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`登录失败，${rsp.msg}`)
-      } else {
-        const expires = new Date(new Date().getTime() + 40 * 60 * 1000)
+      if (data) {
+        // token 过期时间40分钟
+        const expires = new Date(new Date().getTime() + 90 * 60 * 1000)
 
-        CookieUtil.set('token', rsp.data, expires, '/')
+        CookieUtil.set('token', data, expires, '/')
         router.push('/project')
+        return true
       }
+      return false
     }
   }
 }

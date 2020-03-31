@@ -25,75 +25,66 @@ const Model = {
 
   effects: {
     *fetchInterviewTable({ payload }, { call, put }) {
-      let rsp = yield call(FetchInterviewTable, payload)
+      const data = yield call(FetchInterviewTable, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          interview_table: rsp.data
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            interview_table: data
+          }
+        })
+      }
     },
 
     *modifyInterview({ payload }, { call }) {
-      let rsp = yield call(ModifyInterview, payload)
+      const data = yield call(ModifyInterview, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存生存期随访信息失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存生存期随访信息成功！')
       }
     },
 
     *deleteInterview({ payload }, { call }) {
-      let rsp = yield call(DeleteInterview, payload)
+      const data = yield call(DeleteInterview, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`删除生存期随访信息失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('删除生存期随访信息成功！')
       }
     },
 
     *fetchSummary({ payload }, { call, put }) {
-      let rsp = yield call(FetchSummary, payload)
+      const data = yield call(FetchSummary, payload)
 
-      if (rsp) {
+      if (data) {
         yield put({
           type: 'save',
           payload: {
-            summary: rsp
-          }
-        })
-      } else {
-        yield put({
-          type: 'save',
-          payload: {
-            summary: {}
+            summary: data
           }
         })
       }
     },
 
     *modifySummary({ payload }, { call }) {
-      let rsp = yield call(ModifySummary, payload)
+      const data = yield call(ModifySummary, payload)
 
-      if (rsp && rsp.code !== 200) {
-        message.error(`保存项目总结失败，${rsp.msg}`)
-      } else {
+      if (data) {
         message.success('保存项目总结成功！')
       }
     },
 
     *fetchAdverseEventAll({ payload }, { call, put }) {
-      let rsp = yield call(FetchAdverseEventAll, payload)
+      const data = yield call(FetchAdverseEventAll, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          adverse_event_table_all: rsp.data
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            adverse_event_table_all: data
+          }
+        })
+      }
     }
   }
 }

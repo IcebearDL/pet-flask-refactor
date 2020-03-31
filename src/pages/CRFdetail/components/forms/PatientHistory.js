@@ -130,14 +130,6 @@ class PatientHistory extends React.Component {
         }
         values.smoke = smoke
         values.drinking = drinking
-        for (const type of [
-          'drug_allergy_other',
-          'drug_use_other',
-          'surgery_other',
-          'tumor_ill_other'
-        ]) {
-          if (values[type] === undefined) values[type] = null
-        }
 
         const sample_id = getSampleId()
 

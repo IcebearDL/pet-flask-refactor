@@ -56,6 +56,7 @@ class PatientReport extends React.Component {
 
         if (values.time) values.time = values.time.format('YYYY-MM-DD')
         values.report_id = record.report_id
+
         dispatch({
           type: 'crf_first_diagnose/modifyPatientReportTable',
           payload: { sample_id, body: values }
@@ -78,6 +79,62 @@ class PatientReport extends React.Component {
     this.setState({ visible: false })
   }
 
+  columns = [
+    {
+      title: '日期',
+      dataIndex: 'time',
+      align: 'center'
+    },
+    {
+      title: '体温(℃)',
+      dataIndex: 'temperature',
+      align: 'center'
+    },
+    {
+      title: '呼吸(次/分)',
+      dataIndex: 'breath_frequency',
+      align: 'center'
+    },
+    {
+      title: '舒张压(mmHg)',
+      dataIndex: 'maxpressure',
+      align: 'center'
+    },
+    {
+      title: '收缩压(mmHg)',
+      dataIndex: 'minpressure',
+      align: 'center'
+    },
+    {
+      title: '心率(次/分)',
+      dataIndex: 'heart_rate',
+      align: 'center'
+    },
+    {
+      title: '操作',
+      align: 'center',
+      render: (_, _record) => (
+        <>
+          <Button
+            type="primary"
+            size="small"
+            onClick={() => this.handleEditModel(_record)}
+          >
+            编辑
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="danger"
+            size="small"
+            onClick={() => this.handleDelete(_record.report_id)}
+          >
+            删除
+          </Button>
+        </>
+      )
+    }
+  ]
+
   render() {
     const { patient_report_table } = this.props.crf_first_diagnose
     const tableLoading = this.props.loading.effects[
@@ -88,62 +145,6 @@ class PatientReport extends React.Component {
     ]
     const { getFieldDecorator } = this.props.form
     const { record, visible } = this.state
-
-    const columns = [
-      {
-        title: '日期',
-        dataIndex: 'time',
-        align: 'center'
-      },
-      {
-        title: '体温(℃)',
-        dataIndex: 'temperature',
-        align: 'center'
-      },
-      {
-        title: '呼吸(次/分)',
-        dataIndex: 'breath_frequency',
-        align: 'center'
-      },
-      {
-        title: '舒张压(mmHg)',
-        dataIndex: 'maxpressure',
-        align: 'center'
-      },
-      {
-        title: '收缩压(mmHg)',
-        dataIndex: 'minpressure',
-        align: 'center'
-      },
-      {
-        title: '心率(次/分)',
-        dataIndex: 'heart_rate',
-        align: 'center'
-      },
-      {
-        title: '操作',
-        align: 'center',
-        render: (_, _record) => (
-          <>
-            <Button
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(_record)}
-            >
-              编辑
-            </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="danger"
-              size="small"
-              onClick={() => this.handleDelete(record.report_id)}
-            >
-              删除
-            </Button>
-          </>
-        )
-      }
-    ]
 
     return (
       <>
@@ -161,7 +162,7 @@ class PatientReport extends React.Component {
           bordered
           pagination={false}
           scroll={{ x: true }}
-          columns={columns}
+          columns={this.columns}
           dataSource={patient_report_table}
         />
         <Modal

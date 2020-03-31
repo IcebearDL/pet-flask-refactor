@@ -62,11 +62,9 @@ class InterviewTable extends React.Component {
           'last_time_survival',
           'status_confirm_time'
         ]) {
-          values[type] = values[type] ? values[type].format('YYYY-MM-DD') : ''
-        }
-
-        for (const type of ['other_method', 'other_reason']) {
-          if (!values[type]) values[type] = ''
+          if (values[type]) {
+            values[type] = values[type].format('YYYY-MM-DD')
+          }
         }
 
         const { dispatch } = this.props
@@ -124,6 +122,62 @@ class InterviewTable extends React.Component {
     this.setState({ visible: false })
   }
 
+  columns = [
+    {
+      title: '随访日期',
+      dataIndex: 'interview_time',
+      align: 'center'
+    },
+    {
+      title: '生存状态',
+      dataIndex: 'survival_status',
+      align: 'center',
+      render: status => {
+        if (status === 0) {
+          return '死亡'
+        }
+        if (status === 1) {
+          return '存活'
+        }
+        return '失联'
+      }
+    },
+    {
+      title: '死亡日期',
+      dataIndex: 'die_time',
+      align: 'center'
+    },
+    {
+      title: '最后一次联系日期',
+      dataIndex: 'last_time_survival',
+      align: 'center'
+    },
+    {
+      title: '操作',
+      align: 'center',
+      render: (_, _record) => (
+        <>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="primary"
+            size="small"
+            onClick={() => this.handleEditModel(_record)}
+          >
+            编辑
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
+            type="danger"
+            size="small"
+            onClick={() => this.handleDelete(_record.interview_id)}
+          >
+            删除
+          </Button>
+        </>
+      )
+    }
+  ]
+
   render() {
     const { interview_table } = this.props
     const tableLoading = this.props.loading.effects[
@@ -134,62 +188,6 @@ class InterviewTable extends React.Component {
     ]
     const { getFieldDecorator } = this.props.form
     const { record, visible, OS_method, die_reason } = this.state
-
-    const columns = [
-      {
-        title: '随访日期',
-        dataIndex: 'interview_time',
-        align: 'center'
-      },
-      {
-        title: '生存状态',
-        dataIndex: 'survival_status',
-        align: 'center',
-        render: status => {
-          if (status === 0) {
-            return '死亡'
-          }
-          if (status === 1) {
-            return '存活'
-          }
-          return '失联'
-        }
-      },
-      {
-        title: '死亡日期',
-        dataIndex: 'die_time',
-        align: 'center'
-      },
-      {
-        title: '最后一次联系日期',
-        dataIndex: 'last_time_survival',
-        align: 'center'
-      },
-      {
-        title: '操作',
-        align: 'center',
-        render: (_, _record) => (
-          <>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(_record)}
-            >
-              编辑
-            </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              type="danger"
-              size="small"
-              onClick={() => this.handleDelete(record.interview_id)}
-            >
-              删除
-            </Button>
-          </>
-        )
-      }
-    ]
 
     return (
       <div className={styles.menu_div}>
@@ -215,7 +213,7 @@ class InterviewTable extends React.Component {
             bordered
             pagination={false}
             scroll={{ x: true }}
-            columns={columns}
+            columns={this.columns}
             dataSource={interview_table}
           />
           <Modal

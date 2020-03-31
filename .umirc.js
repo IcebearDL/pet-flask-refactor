@@ -5,6 +5,7 @@ export default {
   history: 'hash',
   publicPath: '/',
   theme: {
+    // 'primary-color': '#94CEDC',
     'primary-color': '#4279E4',
     // "primary-color": "#1DA57A",
     'heading-color': '#191919',
@@ -33,7 +34,6 @@ export default {
       component: '../pages/Login/index'
     },
     {
-      path: '/',
       component: '../layouts/PageHeader',
       routes: [
         {

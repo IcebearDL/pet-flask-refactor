@@ -15,14 +15,16 @@ const Model = {
 
   effects: {
     *fetchProjectList({ payload }, { call, put }) {
-      const rsp = yield call(FetchProjectList, payload)
+      const data = yield call(FetchProjectList, payload)
 
-      yield put({
-        type: 'save',
-        payload: {
-          project_list: rsp.data
-        }
-      })
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            project_list: data
+          }
+        })
+      }
     }
   }
 }
