@@ -6,8 +6,8 @@ export default {
   publicPath: '/',
   theme: {
     // 'primary-color': '#94CEDC',
-    'primary-color': '#4279E4',
-    // "primary-color": "#1DA57A",
+    // 'primary-color': '#4279E4',
+    'primary-color': '#009688',
     'heading-color': '#191919',
     'text-color': '#404040',
     'text-color-secondary': '#666666'
@@ -63,13 +63,7 @@ export default {
         dll: false,
 
         routes: {
-          exclude: [
-            /models\//,
-            /services\//,
-            /model\.(t|j)sx?$/,
-            /service\.(t|j)sx?$/,
-            /components\//
-          ]
+          exclude: [/models\//, /services\//, /model\.(t|j)sx?$/, /service\.(t|j)sx?$/, /components\//]
         }
       }
     ],
