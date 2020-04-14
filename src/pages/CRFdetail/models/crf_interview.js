@@ -2,6 +2,7 @@ import { message } from 'antd'
 import {
   FetchInterviewTable,
   ModifyInterview,
+  PostInterview,
   DeleteInterview,
   FetchSummary,
   ModifySummary,
@@ -42,6 +43,14 @@ const Model = {
 
       if (data) {
         message.success('保存生存期随访信息成功！')
+      }
+    },
+
+    *postInterview({ payload }, { call }) {
+      const data = yield call(PostInterview, payload)
+
+      if (data) {
+        message.success('提交生存期随访信息成功！')
       }
     },
 
