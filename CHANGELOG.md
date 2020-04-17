@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v1.0.0...v1.4.0) (2020-04-17)
+
+
+### Bug Fixes
+
+* **.prettierrc.js:** Modify the printWidth. ([9e91ab5](https://github.com/IcebearDL/pet-flask-refactor/commit/9e91ab5))
+* **eslintrc.js:** Fix same rule. ([2216db0](https://github.com/IcebearDL/pet-flask-refactor/commit/2216db0))
+* **login:** Fix login problem. ([2875948](https://github.com/IcebearDL/pet-flask-refactor/commit/2875948))
+* Improve code style and delete userless request code. ([49dcd39](https://github.com/IcebearDL/pet-flask-refactor/commit/49dcd39))
+* **PageHeader:** Modify the document.title. ([a64697e](https://github.com/IcebearDL/pet-flask-refactor/commit/a64697e))
+* **projectList:** Fix remove filters. ([1142ed8](https://github.com/IcebearDL/pet-flask-refactor/commit/1142ed8))
+* **request.js:** Fix request. ([386cd12](https://github.com/IcebearDL/pet-flask-refactor/commit/386cd12))
+* **samplePage:** Add DownloadSample. ([a652464](https://github.com/IcebearDL/pet-flask-refactor/commit/a652464))
+* Change theme. ([9c24f66](https://github.com/IcebearDL/pet-flask-refactor/commit/9c24f66))
+* Delete userless submit code. ([7fa3ad6](https://github.com/IcebearDL/pet-flask-refactor/commit/7fa3ad6))
+* Fix the code format and eslint warning. ([8ed6188](https://github.com/IcebearDL/pet-flask-refactor/commit/8ed6188))
+* Fix the code format. ([50a3ca4](https://github.com/IcebearDL/pet-flask-refactor/commit/50a3ca4))
+* Fix the relative import path. ([c9ef17c](https://github.com/IcebearDL/pet-flask-refactor/commit/c9ef17c))
+* Improve servies. ([e5a6092](https://github.com/IcebearDL/pet-flask-refactor/commit/e5a6092))
+* Improve umi model. ([548c289](https://github.com/IcebearDL/pet-flask-refactor/commit/548c289))
+* Move fetchResearchCenterInfo to project componentDidMount. ([c16a371](https://github.com/IcebearDL/pet-flask-refactor/commit/c16a371))
+* **umirc.js:** Modify target port to 8080. ([1e07683](https://github.com/IcebearDL/pet-flask-refactor/commit/1e07683))
+
+
+### Features
+
+* Add bg.jpg ([705c79b](https://github.com/IcebearDL/pet-flask-refactor/commit/705c79b))
+* Add component. ([203edd7](https://github.com/IcebearDL/pet-flask-refactor/commit/203edd7))
+* Add eslint and prettier config. ([39c8f3f](https://github.com/IcebearDL/pet-flask-refactor/commit/39c8f3f))
+* Add prop-types to make sure there has correct props for component, and fix code format problem ([afd6472](https://github.com/IcebearDL/pet-flask-refactor/commit/afd6472))
+* Add sign api. ([381c706](https://github.com/IcebearDL/pet-flask-refactor/commit/381c706))
+* Add sign model. ([0b15894](https://github.com/IcebearDL/pet-flask-refactor/commit/0b15894))
+* Modify static png and add favicon.png ([b6b3e0f](https://github.com/IcebearDL/pet-flask-refactor/commit/b6b3e0f))
+* **.umirc.js:** Add targets and babel-plugin-transform-react-remove-prop-types, fix code format pro ([446b39f](https://github.com/IcebearDL/pet-flask-refactor/commit/446b39f))
+* **CRFdetail:** Remove uselesss code and fix style. ([6442473](https://github.com/IcebearDL/pet-flask-refactor/commit/6442473))
+* **document.ejs:** Add document.ejs for favicon and title. ([d9d786b](https://github.com/IcebearDL/pet-flask-refactor/commit/d9d786b))
+* **global.js:** Add sign effects. ([4233d3e](https://github.com/IcebearDL/pet-flask-refactor/commit/4233d3e))
+* **login:** Add bg and admin entra. ([bc112ad](https://github.com/IcebearDL/pet-flask-refactor/commit/bc112ad))
+* **PageHeader.js:** Add user Signature. ([3a2ac5d](https://github.com/IcebearDL/pet-flask-refactor/commit/3a2ac5d))
+* **PhotoEvaluate.js:** Add upload file. ([e9dc2ff](https://github.com/IcebearDL/pet-flask-refactor/commit/e9dc2ff))
+* **SampleList:** Add filters. ([809175e](https://github.com/IcebearDL/pet-flask-refactor/commit/809175e))
+* **Sign:** Add sign for rwe. ([27cf503](https://github.com/IcebearDL/pet-flask-refactor/commit/27cf503))
+* **umirc.js:** Modify the theme and add webpack copy for favicon.png. ([e4085a7](https://github.com/IcebearDL/pet-flask-refactor/commit/e4085a7))
+* **util.js:** Add judgeIsSubmit. ([2e15c88](https://github.com/IcebearDL/pet-flask-refactor/commit/2e15c88))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/IcebearDL/pet-flask-refactor/compare/v1.0.0...v1.3.0) (2020-03-30)
 
