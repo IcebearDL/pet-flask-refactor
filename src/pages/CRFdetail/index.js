@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import router from 'umi/router'
-import { Button, Divider, Icon, Row, Col, Menu, Spin, Modal } from 'antd'
+import { Button, Divider, Icon, Row, Col, Menu, Spin, Modal, message } from 'antd'
 import FirstDiagnose from './components/FirstDiagnose'
 import CycleRecord from './components/CycleRecord'
 import InterviewTable from './components/InterviewTable'
@@ -41,6 +41,10 @@ class CRFDetail extends React.Component {
       type: 'crfBase/fetchNavInfo',
       payload: { sample_id }
     })
+    dispatch({
+      type: 'crfBase/fetchCycleStatus',
+      payload: { sample_id }
+    })
   }
 
   handleMenuClick = ({ keyPath }) => {
@@ -70,6 +74,11 @@ class CRFDetail extends React.Component {
 
     if (keyPath[0] === 'delete') {
       const { nav_info } = this.props
+
+      if (nav_info && nav_info.length === 0) {
+        message.warning('暂无访视！')
+        return
+      }
       const { cycle_number } = nav_info[nav_info.length - 1]
 
       Modal.confirm({
@@ -96,17 +105,11 @@ class CRFDetail extends React.Component {
   }
 
   render() {
-    const {
-      description,
-      patient_name,
-      project_ids,
-      research_center_ids,
-      group_name,
-      patient_ids
-    } = this.props.crf_info
+    const { description, patient_name, project_ids, research_center_ids, group_name, patient_ids } = this.props.crf_info
     const { nav_info } = this.props
     const { selectedKeys } = this.state
     const menuLoading = this.props.loading.effects['crfBase/fetchNavInfo']
+    const infoLoading = this.props.loading.effects['crfBase/fetchCrfInfo']
 
     let crf_body
 
@@ -115,11 +118,7 @@ class CRFDetail extends React.Component {
     } else if (selectedKeys[1] === 'cycle_record') {
       crf_body = (
         <CycleRecord
-          cycle_number={
-            selectedKeys[0] === '-1'
-              ? nav_info.length + 1
-              : parseInt(selectedKeys[0], 10)
-          }
+          cycle_number={selectedKeys[0] === '-1' ? nav_info.length + 1 : parseInt(selectedKeys[0], 10)}
           key={selectedKeys[0] === '-1' ? '-1' : parseInt(selectedKeys[0], 10)}
         />
       )
@@ -140,15 +139,17 @@ class CRFDetail extends React.Component {
           </Col>
           <Col>
             <div className={styles.crf_info}>
-              <div>
-                {description}&nbsp;&nbsp;&nbsp; 编号：{project_ids}
-                &nbsp;&nbsp;&nbsp; 负责单位：{research_center_ids}
-              </div>
-              <div>
-                受试者姓名：{patient_name}&nbsp;&nbsp;&nbsp; 受试者编号：
-                {patient_ids}&nbsp;&nbsp;&nbsp; 组别：{group_name}
-                &nbsp;&nbsp;&nbsp; 研究中心：{research_center_ids}
-              </div>
+              <Spin spinning={infoLoading}>
+                <div>
+                  {description}&nbsp;&nbsp;&nbsp; 编号：{project_ids}
+                  &nbsp;&nbsp;&nbsp; 负责单位：{research_center_ids}
+                </div>
+                <div>
+                  受试者姓名：{patient_name}&nbsp;&nbsp;&nbsp; 受试者编号：
+                  {patient_ids}&nbsp;&nbsp;&nbsp; 组别：{group_name}
+                  &nbsp;&nbsp;&nbsp; 研究中心：{research_center_ids}
+                </div>
+              </Spin>
             </div>
           </Col>
         </Row>

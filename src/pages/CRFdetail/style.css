@@ -46,6 +46,21 @@
   margin-top: 20px;
 }
 
+.file_modal {
+  min-width: 800px;
+  min-height: 350px;
+}
+
+.inline_upload {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.file_tip {
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
 .smock_item {
   display: inline-block;
   margin-left: 15px;
