@@ -16,7 +16,7 @@ export default {
   copy: ['/src/assets/favicon.png'],
   proxy: {
     '/api': {
-      target: 'http://39.96.191.139',
+      target: 'http://39.96.191.139:8080',
       changeOrigin: true,
       pathRewrite: {
         '^/api': ''
