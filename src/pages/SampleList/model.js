@@ -11,6 +11,7 @@ const Model = {
   namespace: 'sample',
 
   state: {
+    total: 0,
     sample_list: [],
     sample_info: {}
   },
@@ -29,7 +30,8 @@ const Model = {
         yield put({
           type: 'save',
           payload: {
-            sample_list: data
+            total: data.total,
+            sample_list: data.data
           }
         })
       }
@@ -75,6 +77,10 @@ const Model = {
         }
       }
     }
+
+    // *downloadSample({ payload }, { call }) {
+    //   const data = yield call(DownloadSample, payload)
+    // }
   }
 }
 

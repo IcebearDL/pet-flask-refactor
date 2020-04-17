@@ -25,3 +25,17 @@
 .modal_submit {
   margin-right: 20px;
 }
+
+.filterLine {
+  text-align: left;
+  line-height: 30px;
+}
+
+.filterLineLeft {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
+}
+
+.project_search {
+  margin: 10px 0;
+}
