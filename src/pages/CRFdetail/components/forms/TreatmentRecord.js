@@ -1,17 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import {
-  Modal,
-  Row,
-  Col,
-  Form,
-  DatePicker,
-  Button,
-  Radio,
-  Input,
-  Table
-} from 'antd'
+import { Modal, Row, Col, Form, DatePicker, Button, Radio, Input, Table } from 'antd'
 import moment from 'moment'
 import { getSampleId } from '@/utils/location'
 import styles from '../../style.css'
@@ -198,28 +188,16 @@ class TreatmentRecord extends React.Component {
   ]
 
   render() {
-    const {
-      treatment_record_table,
-      treatment_record_adjustment_status
-    } = this.props.crf_cycle_record
-    const tableLoading = this.props.loading.effects[
-      'crf_cycle_record/fetchTreatmentRecord'
-    ]
-    const submitLoading = this.props.loading.effects[
-      'crf_cycle_record/modifyTreatmentRecord'
-    ]
-    const submitLoadingAdjustment = this.props.loading.effects[
-      'crf_cycle_record/modifyTreatmentStatusRecord'
-    ]
+    const { treatment_record_table, treatment_record_adjustment_status } = this.props.crf_cycle_record
+    const tableLoading = this.props.loading.effects['crf_cycle_record/fetchTreatmentRecord']
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyTreatmentRecord']
+    const submitLoadingAdjustment = this.props.loading.effects['crf_cycle_record/modifyTreatmentStatusRecord']
     const { getFieldDecorator } = this.props.form
     const { record, visible, adjustment } = this.state
 
     return (
       <>
-        <Button
-          type="primary"
-          onClick={() => this.handleEditModel({ treatment_record_id: '' })}
-        >
+        <Button type="primary" onClick={() => this.handleEditModel({ treatment_record_id: '' })}>
           添加
         </Button>
         <Table
@@ -252,39 +230,22 @@ class TreatmentRecord extends React.Component {
               </Radio.Group>
             )}
           </Form.Item>
-          {adjustment === '1' ||
-          (adjustment === '' &&
-            treatment_record_adjustment_status.adjustment === '1') ? (
+          {adjustment === '1' || (adjustment === '' && treatment_record_adjustment_status.adjustment === '1') ? (
             <>
               <Form.Item label="调整为标准剂量的百分比">
                 {getFieldDecorator('adjust_percent', {
-                  initialValue:
-                    treatment_record_adjustment_status.adjust_percent
-                })(
-                  <Input
-                    style={{ width: '250px' }}
-                    placeholder="请输入百分比数值(%)"
-                  />
-                )}
+                  initialValue: treatment_record_adjustment_status.adjust_percent
+                })(<Input style={{ width: '250px' }} placeholder="请输入百分比数值(%)" />)}
               </Form.Item>
               <Form.Item label="调整原因">
                 {getFieldDecorator('adjust_reason', {
                   initialValue: treatment_record_adjustment_status.adjust_reason
-                })(
-                  <Input
-                    style={{ width: '250px' }}
-                    placeholder="请输入调整原因"
-                  />
-                )}
+                })(<Input style={{ width: '250px' }} placeholder="请输入调整原因" />)}
               </Form.Item>
             </>
           ) : null}
           <Col offset={7}>
-            <Button
-              htmlType="submit"
-              type="primary"
-              loading={submitLoadingAdjustment}
-            >
+            <Button htmlType="submit" type="primary" loading={submitLoadingAdjustment}>
               保存
             </Button>
           </Col>
@@ -316,24 +277,18 @@ class TreatmentRecord extends React.Component {
             </Form.Item>
             <Form.Item label="给药/治疗开始日期">
               {getFieldDecorator('start_time', {
-                initialValue: record.start_time
-                  ? moment(record.start_time, 'YYYY-MM-DD')
-                  : null
+                initialValue: record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null
               })(<DatePicker format="YYYY-MM-DD" />)}
             </Form.Item>
             <Form.Item label="给药/治疗结束日期">
               {getFieldDecorator('end_time', {
-                initialValue: record.end_time
-                  ? moment(record.end_time, 'YYYY-MM-DD')
-                  : null
+                initialValue: record.end_time ? moment(record.end_time, 'YYYY-MM-DD') : null
               })(<DatePicker format="YYYY-MM-DD" />)}
             </Form.Item>
             <Form.Item label="剂量及用法">
               {getFieldDecorator('description', {
                 initialValue: record.description
-              })(
-                <Input style={{ width: 250 }} placeholder="请输入剂量及用法" />
-              )}
+              })(<Input style={{ width: 250 }} placeholder="请输入剂量及用法" />)}
             </Form.Item>
             <Row type="flex" justify="center">
               <Button htmlType="submit" type="primary" loading={submitLoading}>
