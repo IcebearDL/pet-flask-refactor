@@ -9,6 +9,8 @@ import Evaluation from './forms/Evaluation'
 import LabInspection from './forms/LabInspection'
 import TreatmentRecord from './forms/TreatmentRecord'
 import AdverseEvent from './forms/AdverseEvent'
+import Sign from './forms/Sign'
+import PostCycle from './forms/PostCycle'
 
 import { getSampleId } from '@/utils/location'
 import styles from '../style.css'
@@ -66,17 +68,14 @@ class CycleRecord extends React.PureComponent {
       <Evaluation key={cycle_number} cycle_number={cycle_number} />,
       <LabInspection key={cycle_number} cycle_number={cycle_number} />,
       <TreatmentRecord key={cycle_number} cycle_number={cycle_number} />,
-      <AdverseEvent key={cycle_number} cycle_number={cycle_number} />
+      <AdverseEvent key={cycle_number} cycle_number={cycle_number} />,
+      <Sign key={cycle_number} cycle_number={cycle_number} />,
+      <PostCycle key={cycle_number} cycle_number={cycle_number} />
     ]
 
     return (
       <div className={styles.menu_div}>
-        <Menu
-          className={styles.menu_title}
-          onClick={this.handleMenuClick}
-          selectedKeys={[current]}
-          mode="horizontal"
-        >
+        <Menu className={styles.menu_title} onClick={this.handleMenuClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="0">访视时间</Menu.Item>
           <Menu.Item key="1">主要症状体征</Menu.Item>
           <Menu.Item key="2">影像学评估</Menu.Item>
@@ -84,11 +83,10 @@ class CycleRecord extends React.PureComponent {
           <Menu.Item key="4">实验室检查</Menu.Item>
           <Menu.Item key="5">治疗记录单</Menu.Item>
           <Menu.Item key="6">不良事件</Menu.Item>
-          <Menu.Item key="7">研究者签字</Menu.Item>
+          <Menu.Item key="7">研究者签名</Menu.Item>
+          <Menu.Item key="8">访视提交</Menu.Item>
         </Menu>
-        <div className={styles.menu_content}>
-          {menu_content[parseInt(current, 10)]}
-        </div>
+        <div className={styles.menu_content}>{menu_content[parseInt(current, 10)]}</div>
       </div>
     )
   }

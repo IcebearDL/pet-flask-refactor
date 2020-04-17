@@ -1,22 +1,14 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import { Layout, Input, Select, Table, Button, Tooltip } from 'antd'
+import { Layout, Table, Button, Tooltip } from 'antd'
 import Link from 'umi/link'
 import styles from './style.css'
 import { checkLogin } from '@/utils/util'
 
 const { Content } = Layout
-const { Option } = Select
 
 class ProjectList extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      select_type: ''
-    }
-  }
-
   static propTypes = {
     project_list: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -28,23 +20,10 @@ class ProjectList extends React.Component {
     const { dispatch } = this.props
 
     dispatch({
-      type: 'global/fetchResearchCenterInfo'
-    })
-    dispatch({
       type: 'project/fetchProjectList',
-      payload: {
-        page: 1,
-        limit: 10
-      }
+      payload: {}
     })
   }
-
-  handleSelectChange = value => {
-    this.setState({ select_type: value })
-  }
-
-  // eslint-disable-next-line no-empty-function
-  handleSearch = () => {}
 
   columns = [
     {
@@ -154,33 +133,12 @@ class ProjectList extends React.Component {
   render() {
     const { project_list } = this.props
     const tableLoading = this.props.loading.effects['project/fetchProjectList']
-    const selectBefore = (
-      <Select
-        defaultValue="全部"
-        style={{ width: '80px' }}
-        onChange={this.handleSelectChange}
-      >
-        <Option value="全部">全部</Option>
-        <Option value="编号">编号</Option>
-        <Option value="组别">组别</Option>
-        <Option value="单位">单位</Option>
-        <Option value="描述">描述</Option>
-      </Select>
-    )
 
     return (
       <Content className="body_content">
-        <Input.Search
-          className={styles.project_search}
-          addonBefore={selectBefore}
-          placeholder="请输入搜索内容"
-          enterButton="搜索"
-          size="large"
-          onSearch={this.handleSearch}
-        />
         <Table
           loading={tableLoading}
-          className={styles.project_table}
+          className={`${styles.project_table} page_body`}
           rowKey="project_id"
           size="small"
           bordered

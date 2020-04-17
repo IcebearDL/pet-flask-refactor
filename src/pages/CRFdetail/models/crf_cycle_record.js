@@ -1,5 +1,7 @@
 import { message } from 'antd'
 import {
+  FetchCycleSignature,
+  PostCycleSignature,
   FetchMainSymptom,
   ModifyMainSymptom,
   DeleteMainSymptom,
@@ -21,6 +23,7 @@ const Model = {
   namespace: 'crf_cycle_record',
 
   state: {
+    crf_cycle_sign: {},
     main_symptom_table: [],
     treatment_record_table: [],
     evaluation: '',
@@ -36,6 +39,38 @@ const Model = {
   },
 
   effects: {
+    *fetchCycleSignature({ payload }, { call, put }) {
+      const data = yield call(FetchCycleSignature, payload)
+
+      if (data) {
+        yield put({
+          type: 'save',
+          payload: {
+            crf_cycle_sign: data
+          }
+        })
+      }
+    },
+
+    *postCycleSignature({ payload }, { call }) {
+      const data = yield call(PostCycleSignature, payload)
+
+      if (data) {
+        const { cycle_number } = payload
+
+        message.success(`访视${cycle_number}签名成功！`)
+      }
+    },
+
+    *clearSignature(_, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          crf_cycle_sign: {}
+        }
+      })
+    },
+
     *fetchMainSymptom({ payload }, { call, put }) {
       const data = yield call(FetchMainSymptom, payload)
 

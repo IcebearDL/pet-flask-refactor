@@ -27,8 +27,8 @@ thead {
 /* 覆盖ant主题，修改为绿色 */
 .page_body .ant-btn-primary,
 .ant-modal .ant-btn-primary {
-  background-color: #269f42 !important;
-  background-image: linear-gradient(-180deg, #2fcb53, #269f42 90%) !important;
+  background-color: #4278e47e !important;
+  background-image: linear-gradient(-180deg, rgb(87, 139, 241), #4279e4 90%) !important;
   border: 1px solid rgba(27, 31, 35, 0.2) !important;
 }
 
@@ -45,12 +45,19 @@ thead {
 .page_body .ant-radio-wrapper:hover .ant-radio,
 .page_body .ant-radio:hover .ant-radio-inner,
 .page_body .ant-radio-input:focus + .ant-radio-inner {
-  border-color: #269f42 !important;
+  border-color: #4279e4 !important;
 }
 
 .page_body .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #269f42 !important;
-  border-color: #269f42 !important;
+  background-color: #4279e4 !important;
+  border-color: #4279e4 !important;
+}
+
+.ant-table-thead > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table-tbody > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+  background: #4278e44b !important;
 }
 
 /* .page_body .ant-input:hover,.page_body .ant-input:focus{
@@ -63,7 +70,7 @@ thead {
 
 .page_body .ant-radio-inner::after,
 .ant-switch-checked {
-  background-color: #269f42 !important;
+  background-color: #4279e4 !important;
 }
 
 .ant-radio-wrapper {

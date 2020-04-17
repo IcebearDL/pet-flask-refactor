@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import { Layout, Form, Icon, Input, Button } from 'antd'
+import { Layout, Menu, Form, Icon, Input, Button, message } from 'antd'
 import router from 'umi/router'
 import CookieUtil from '@/utils/cookie'
 import RayPlus from '@/assets/Rayplus_title.png'
@@ -10,6 +10,10 @@ import styles from './style.css'
 const Content = Layout.Content
 
 class Login extends React.Component {
+  state = {
+    current: 'user'
+  }
+
   componentDidMount() {
     if (CookieUtil.get('token')) {
       router.push('/project')
@@ -28,42 +32,72 @@ class Login extends React.Component {
       if (!err) {
         const { dispatch } = this.props
 
-        dispatch({
-          type: 'login/login',
-          payload: { ...values }
-        }).then(ret => {
-          if (ret) {
-            dispatch({
-              type: 'global/fetchUserInfo'
-            })
-          }
-        })
+        // 判断选择的系统进行登陆
+        const { current } = this.state
+
+        if (current === 'user') {
+          dispatch({
+            type: 'login/login',
+            payload: { ...values }
+          }).then(ret => {
+            if (ret) {
+              Promise.all([
+                dispatch({
+                  type: 'global/fetchUserInfo'
+                }),
+                dispatch({
+                  type: 'global/fetchSignature'
+                })
+              ]).then(() => {
+                message.success('登陆成功！')
+                router.push('/project')
+              })
+            }
+          })
+        }
+        // else if (current === 'admin') {
+        // }
       }
+    })
+  }
+
+  handleChangeLogin = e => {
+    this.setState({
+      current: e.key
     })
   }
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const submitLoading = this.props.loading.effects['login/login']
+    const { current } = this.state
+    const { effects } = this.props.loading
+    const submitLoading = effects['login/login'] || effects['global/fetchUserInfo'] || effects['global/fetchSignature']
 
     return (
-      <>
+      <div className={styles.login_bg}>
         <img className={styles.login_img} src={RayPlus} alt="RayPlus" />
         <Content className={styles.bodyContent}>
           <div className={styles.form_title}>
             <span>临床试验管理系统</span>
           </div>
+          <Menu
+            className={styles.login_menu}
+            onClick={this.handleChangeLogin}
+            selectedKeys={[current]}
+            mode="horizontal"
+          >
+            <Menu.Item key="user">Rwe系统</Menu.Item>
+            <Menu.Item key="admin">权限管理系统</Menu.Item>
+          </Menu>
           <Form onSubmit={this.handleSubmit} className={styles.login_form}>
             <Form.Item>
               {getFieldDecorator('user_account', {
-                rules: [{ required: true, message: '请输入用户名!' }]
+                rules: [{ required: true, message: current === 'user' ? '请输入用户名' : '请输入管理员账户' }]
               })(
                 <Input
                   size="large"
-                  prefix={
-                    <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-                  }
-                  placeholder="用户名"
+                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  placeholder={current === 'user' ? '用户名' : '管理员账户'}
                 />
               )}
             </Form.Item>
@@ -73,9 +107,7 @@ class Login extends React.Component {
               })(
                 <Input
                   size="large"
-                  prefix={
-                    <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                  }
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="password"
                   placeholder="密码"
                 />
@@ -92,7 +124,7 @@ class Login extends React.Component {
             </Button>
           </Form>
         </Content>
-      </>
+      </div>
     )
   }
 }

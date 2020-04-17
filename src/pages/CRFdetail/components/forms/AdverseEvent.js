@@ -1,17 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import {
-  Modal,
-  Row,
-  Form,
-  DatePicker,
-  Button,
-  Radio,
-  Input,
-  Table,
-  Divider
-} from 'antd'
+import { Modal, Row, Form, DatePicker, Button, Radio, Input, Table, Divider } from 'antd'
 import moment from 'moment'
 import { getSampleId } from '@/utils/location'
 import styles from '../../style.css'
@@ -56,15 +46,16 @@ class AdverseEvent extends React.Component {
         const { record } = this.state
         // 重构time
 
-        for (const type of [
-          'SAE_start_time',
-          'die_time',
-          'recover_time',
-          'report_time',
-          'start_time'
-        ]) {
+        for (const type of ['SAE_start_time', 'die_time', 'recover_time', 'report_time', 'start_time']) {
           if (values[type]) {
             values[type] = values[type].format('YYYY-MM-DD')
+          }
+        }
+
+        // 去掉由indexOf产生的默认项
+        for (const type of ['medicine_relation', 'measure', 'recover']) {
+          if (values[type] === -1) {
+            delete values[type]
           }
         }
         values.adverse_event_id = record.adverse_event_id
@@ -114,12 +105,7 @@ class AdverseEvent extends React.Component {
     this.setState({
       record,
       visible: true,
-      is_server_event:
-        record.is_server_event === '严重不良事件'
-          ? 1
-          : record.is_server_event === '不良事件'
-          ? 0
-          : null,
+      is_server_event: record.is_server_event === '严重不良事件' ? 1 : record.is_server_event === '不良事件' ? 0 : null,
       SAE_state: record.SAE_state ? record.SAE_state : null
     })
   }
@@ -187,21 +173,14 @@ class AdverseEvent extends React.Component {
 
   render() {
     const { adverse_event_table } = this.props.crf_cycle_record
-    const tableLoading = this.props.loading.effects[
-      'crf_cycle_record/fetchAdverseEvent'
-    ]
-    const submitLoading = this.props.loading.effects[
-      'crf_cycle_record/modifyAdverseEvent'
-    ]
+    const tableLoading = this.props.loading.effects['crf_cycle_record/fetchAdverseEvent']
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyAdverseEvent']
     const { getFieldDecorator } = this.props.form
     const { record, visible, is_server_event, SAE_state } = this.state
 
     return (
       <>
-        <Button
-          type="primary"
-          onClick={() => this.handleEditModel({ adverse_event_id: null })}
-        >
+        <Button type="primary" onClick={() => this.handleEditModel({ adverse_event_id: null })}>
           添加
         </Button>
         <Table
@@ -234,25 +213,14 @@ class AdverseEvent extends React.Component {
             <Form.Item label="不良事件名称">
               {getFieldDecorator('adverse_event_name', {
                 initialValue: record.adverse_event_name
-              })(
-                <Input
-                  style={{ width: 250, marginRight: 30 }}
-                  placeholder="请输入不良事件名称"
-                />
-              )}
+              })(<Input style={{ width: 250, marginRight: 30 }} placeholder="请输入不良事件名称" />)}
             </Form.Item>
             <Form.Item label="是否为严重不良事件">
               {getFieldDecorator('is_server_event', {
                 initialValue:
-                  record.is_server_event === '不良事件'
-                    ? 0
-                    : record.is_server_event === '严重不良事件'
-                    ? 1
-                    : null
+                  record.is_server_event === '不良事件' ? 0 : record.is_server_event === '严重不良事件' ? 1 : null
               })(
-                <Radio.Group
-                  onChange={e => this.handleStateChange('is_server_event', e)}
-                >
+                <Radio.Group onChange={e => this.handleStateChange('is_server_event', e)}>
                   <Radio value={0}>否</Radio>
                   <Radio value={1}>是</Radio>
                 </Radio.Group>
@@ -273,20 +241,14 @@ class AdverseEvent extends React.Component {
             </Form.Item>
             <Form.Item label="开始日期">
               {getFieldDecorator('start_time', {
-                initialValue: record.start_time
-                  ? moment(record.start_time, 'YYYY-MM-DD')
-                  : null
+                initialValue: record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null
               })(<DatePicker format="YYYY-MM-DD" />)}
             </Form.Item>
             <Form.Item label="与药物关系">
               {getFieldDecorator('medicine_relation', {
-                initialValue: [
-                  '肯定有关',
-                  '很可能有关',
-                  '可能有关',
-                  '可能无关',
-                  '肯定无关'
-                ].indexOf(record.medicine_relation)
+                initialValue: ['肯定有关', '很可能有关', '可能有关', '可能无关', '肯定无关'].indexOf(
+                  record.medicine_relation
+                )
               })(
                 <Radio.Group>
                   <Radio value={0}>肯定有关</Radio>
@@ -299,13 +261,7 @@ class AdverseEvent extends React.Component {
             </Form.Item>
             <Form.Item label="采取措施">
               {getFieldDecorator('measure', {
-                initialValue: [
-                  '剂量不变',
-                  '减少剂量',
-                  '暂停用药',
-                  '停止用药',
-                  '实验用药已结束'
-                ].indexOf(record.measure)
+                initialValue: ['剂量不变', '减少剂量', '暂停用药', '停止用药', '实验用药已结束'].indexOf(record.measure)
               })(
                 <Radio.Group>
                   <Radio value={0}>剂量不变</Radio>
@@ -328,14 +284,7 @@ class AdverseEvent extends React.Component {
             </Form.Item>
             <Form.Item label="转归">
               {getFieldDecorator('recover', {
-                initialValue: [
-                  '症状消失',
-                  '缓解',
-                  '持续',
-                  '加重',
-                  '恢复伴后遗症',
-                  '死亡'
-                ].indexOf(record.recover)
+                initialValue: ['症状消失', '缓解', '持续', '加重', '恢复伴后遗症', '死亡'].indexOf(record.recover)
               })(
                 <Radio.Group>
                   <Radio value={0}>症状消失</Radio>
@@ -349,9 +298,7 @@ class AdverseEvent extends React.Component {
             </Form.Item>
             <Form.Item label="转归日期">
               {getFieldDecorator('recover_time', {
-                initialValue: record.recover_time
-                  ? moment(record.recover_time, 'YYYY-MM-DD')
-                  : null
+                initialValue: record.recover_time ? moment(record.recover_time, 'YYYY-MM-DD') : null
               })(<DatePicker format="YYYY-MM-DD" />)}
             </Form.Item>
             {is_server_event === 1 ? (
@@ -360,9 +307,7 @@ class AdverseEvent extends React.Component {
                 <Divider className={styles.lab_inspection_divider} />
                 <Form.Item label="报告日期">
                   {getFieldDecorator('report_time', {
-                    initialValue: record.report_time
-                      ? moment(record.report_time, 'YYYY-MM-DD')
-                      : null
+                    initialValue: record.report_time ? moment(record.report_time, 'YYYY-MM-DD') : null
                   })(<DatePicker format="YYYY-MM-DD" />)}
                 </Form.Item>
                 <Form.Item label="报告类型">
@@ -379,20 +324,13 @@ class AdverseEvent extends React.Component {
                 <Form.Item label="SAE医学术语(诊断)">
                   {getFieldDecorator('SAE_diagnose', {
                     initialValue: record.SAE_diagnose
-                  })(
-                    <Input
-                      style={{ width: 250, marginRight: 30 }}
-                      placeholder="请输入诊断"
-                    />
-                  )}
+                  })(<Input style={{ width: 250, marginRight: 30 }} placeholder="请输入诊断" />)}
                 </Form.Item>
                 <Form.Item label="SAE情况">
                   {getFieldDecorator('SAE_state', {
                     initialValue: record.SAE_state
                   })(
-                    <Radio.Group
-                      onChange={e => this.handleStateChange('SAE_state', e)}
-                    >
+                    <Radio.Group onChange={e => this.handleStateChange('SAE_state', e)}>
                       <Radio value={0}>死亡</Radio>
                       <Radio value={1}>导致住院</Radio>
                       <Radio value={2}>延长住院时间</Radio>
@@ -407,12 +345,7 @@ class AdverseEvent extends React.Component {
                           <div style={{ display: 'inline-block' }}>
                             {getFieldDecorator('other_SAE_state', {
                               initialValue: record.other_SAE_state
-                            })(
-                              <Input
-                                style={{ width: 200, marginLeft: 15 }}
-                                placeholder="请输入其他SAE情况"
-                              />
-                            )}
+                            })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="请输入其他SAE情况" />)}
                           </div>
                         ) : null}
                       </Radio>
@@ -421,16 +354,12 @@ class AdverseEvent extends React.Component {
                 </Form.Item>
                 <Form.Item label="死亡日期">
                   {getFieldDecorator('die_time', {
-                    initialValue: record.die_time
-                      ? moment(record.die_time, 'YYYY-MM-DD')
-                      : null
+                    initialValue: record.die_time ? moment(record.die_time, 'YYYY-MM-DD') : null
                   })(<DatePicker format="YYYY-MM-DD" />)}
                 </Form.Item>
                 <Form.Item label="SAE发生日期">
                   {getFieldDecorator('SAE_start_time', {
-                    initialValue: record.SAE_start_time
-                      ? moment(record.SAE_start_time, 'YYYY-MM-DD')
-                      : null
+                    initialValue: record.SAE_start_time ? moment(record.SAE_start_time, 'YYYY-MM-DD') : null
                   })(<DatePicker format="YYYY-MM-DD" />)}
                 </Form.Item>
                 <Form.Item label="对试验用药采取的措施">

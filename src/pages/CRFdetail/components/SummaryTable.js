@@ -1,18 +1,9 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import {
-  Form,
-  Divider,
-  Modal,
-  Col,
-  Input,
-  Table,
-  Menu,
-  Button,
-  Radio,
-  DatePicker
-} from 'antd'
+import { Form, Divider, Modal, Col, Input, Table, Menu, Button, Radio, DatePicker } from 'antd'
+
+import SummarySign from './forms/SummarySign'
 import moment from 'moment'
 import { getSampleId } from '@/utils/location'
 import styles from '../style.css'
@@ -53,33 +44,25 @@ class SummaryTable extends React.Component {
   }
 
   render() {
+    const sample_id = getSampleId()
     const { current } = this.state
     const { summary, adverse_event_table_all } = this.props
-    const tableLoading = this.props.loading.effects[
-      'crf_interview/fetchAdverseEventAll'
+    const tableLoading = this.props.loading.effects['crf_interview/fetchAdverseEventAll']
+
+    const menu_content = [
+      <WappedSummary key={sample_id} summary={summary} />,
+      <AdverseTable key={sample_id} adverse_event_table_all={adverse_event_table_all} tableLoading={tableLoading} />,
+      <SummarySign key={sample_id} cycle_number={1} />
     ]
 
     return (
       <div className={styles.menu_div}>
-        <Menu
-          className={styles.menu_title}
-          onClick={this.handleMenuClick}
-          selectedKeys={[current]}
-          mode="horizontal"
-        >
+        <Menu className={styles.menu_title} onClick={this.handleMenuClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="0">项目总结</Menu.Item>
           <Menu.Item key="1">不良事件总结</Menu.Item>
+          <Menu.Item key="2">研究者签名</Menu.Item>
         </Menu>
-        <div className={styles.menu_content}>
-          {current === '0' ? (
-            <WappedSummary summary={summary} />
-          ) : (
-            <AdverseTable
-              adverse_event_table_all={adverse_event_table_all}
-              tableLoading={tableLoading}
-            />
-          )}
-        </div>
+        <div className={styles.menu_content}>{menu_content[parseInt(current, 10)]}</div>
       </div>
     )
   }
@@ -141,9 +124,7 @@ class Summary extends React.Component {
 
   render() {
     const { summary } = this.props
-    const submitLoading = this.props.loading.effects[
-      'crf_interview/modifySummary'
-    ]
+    const submitLoading = this.props.loading.effects['crf_interview/modifySummary']
     const { getFieldDecorator } = this.props.form
     const { reason_stop_drug } = this.state
 
@@ -171,9 +152,7 @@ class Summary extends React.Component {
         </Form.Item>
         <Form.Item label="末次服用治疗药物日期">
           {getFieldDecorator('last_time_drug', {
-            initialValue: summary.last_time_drug
-              ? moment(summary.last_time_drug, 'YYYY-MM-DD')
-              : null
+            initialValue: summary.last_time_drug ? moment(summary.last_time_drug, 'YYYY-MM-DD') : null
           })(<DatePicker format={'YYYY-MM-DD'} />)}
         </Form.Item>
         <Form.Item label="共用药几个疗程">
@@ -185,12 +164,8 @@ class Summary extends React.Component {
           {getFieldDecorator('reason_stop_drug', {
             initialValue: summary.reason_stop_drug
           })(
-            <Radio.Group
-              onChange={e => this.handleStateChange('reason_stop_drug', e)}
-            >
-              <Radio value={0}>
-                病情进展（出现客观疗效评价的疾病进展或临床症状进展）
-              </Radio>
+            <Radio.Group onChange={e => this.handleStateChange('reason_stop_drug', e)}>
+              <Radio value={0}>病情进展（出现客观疗效评价的疾病进展或临床症状进展）</Radio>
               <Radio value={1}>不良事件（与试验药物可能存在相关性）</Radio>
               <Radio value={2}>不良事件（与试验药物不存在相关性）</Radio>
               <Radio value={3}>自愿退出（与不良事件无相关性）</Radio>
@@ -199,17 +174,11 @@ class Summary extends React.Component {
               <Radio value={6}>失联</Radio>
               <Radio value={7}>
                 其他
-                {reason_stop_drug === 7 ||
-                (reason_stop_drug === -1 && summary.reason_stop_drug === 7) ? (
+                {reason_stop_drug === 7 || (reason_stop_drug === -1 && summary.reason_stop_drug === 7) ? (
                   <div style={{ display: 'inline-block' }}>
                     {getFieldDecorator('other_reasons', {
                       initialValue: summary.other_reasons
-                    })(
-                      <Input
-                        style={{ width: 250, marginLeft: 15 }}
-                        placeholder="请输入其他原因"
-                      />
-                    )}
+                    })(<Input style={{ width: 250, marginLeft: 15 }} placeholder="请输入其他原因" />)}
                   </div>
                 ) : null}
               </Radio>
@@ -253,9 +222,7 @@ class Summary extends React.Component {
   }
 }
 
-const WappedSummary = connect(state => ({ loading: state.loading }))(
-  Form.create()(Summary)
-)
+const WappedSummary = connect(state => ({ loading: state.loading }))(Form.create()(Summary))
 
 class AdverseTable extends React.Component {
   constructor(props) {
@@ -366,21 +333,11 @@ class AdverseTable extends React.Component {
             onSubmit={this.handleSubmit}
           >
             <Form.Item label="不良事件名称">
-              <Input
-                value={record.adverse_event_name}
-                style={{ width: 250, marginRight: 30 }}
-                placeholder="无"
-              />
+              <Input value={record.adverse_event_name} style={{ width: 250, marginRight: 30 }} placeholder="无" />
             </Form.Item>
             <Form.Item label="是否为严重不良事件">
               <Radio.Group
-                value={
-                  record.is_server_event === '严重不良事件'
-                    ? 1
-                    : record.is_server_event === '不良事件'
-                    ? 0
-                    : null
-                }
+                value={record.is_server_event === '严重不良事件' ? 1 : record.is_server_event === '不良事件' ? 0 : null}
               >
                 <Radio value={0}>否</Radio>
                 <Radio value={1}>是</Radio>
@@ -398,24 +355,14 @@ class AdverseTable extends React.Component {
             <Form.Item label={'开始日期'}>
               <DatePicker
                 open={false}
-                value={
-                  record.start_time
-                    ? moment(record.start_time, 'YYYY-MM-DD')
-                    : null
-                }
+                value={record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null}
                 format={'YYYY-MM-DD'}
                 placeholder="无"
               />
             </Form.Item>
             <Form.Item label="与药物关系">
               <Radio.Group
-                value={[
-                  '肯定有关',
-                  '很可能有关',
-                  '可能有关',
-                  '可能无关',
-                  '肯定无关'
-                ].indexOf(record.medicine_relation)}
+                value={['肯定有关', '很可能有关', '可能有关', '可能无关', '肯定无关'].indexOf(record.medicine_relation)}
               >
                 <Radio value={0}>肯定有关</Radio>
                 <Radio value={1}>很可能有关</Radio>
@@ -426,13 +373,7 @@ class AdverseTable extends React.Component {
             </Form.Item>
             <Form.Item label="采取措施">
               <Radio.Group
-                value={[
-                  '剂量不变',
-                  '减少剂量',
-                  '暂停用药',
-                  '停止用药',
-                  '实验用药已结束'
-                ].indexOf(record.measure)}
+                value={['剂量不变', '减少剂量', '暂停用药', '停止用药', '实验用药已结束'].indexOf(record.measure)}
               >
                 <Radio value={0}>剂量不变</Radio>
                 <Radio value={1}>减少剂量</Radio>
@@ -448,16 +389,7 @@ class AdverseTable extends React.Component {
               </Radio.Group>
             </Form.Item>
             <Form.Item label="转归">
-              <Radio.Group
-                value={[
-                  '症状消失',
-                  '缓解',
-                  '持续',
-                  '加重',
-                  '恢复伴后遗症',
-                  '死亡'
-                ].indexOf(record.recover)}
-              >
+              <Radio.Group value={['症状消失', '缓解', '持续', '加重', '恢复伴后遗症', '死亡'].indexOf(record.recover)}>
                 <Radio value={0}>症状消失</Radio>
                 <Radio value={1}>缓解</Radio>
                 <Radio value={2}>持续</Radio>
@@ -469,11 +401,7 @@ class AdverseTable extends React.Component {
             <Form.Item label={'转归日期'}>
               <DatePicker
                 open={false}
-                value={
-                  record.recover_time
-                    ? moment(record.recover_time, 'YYYY-MM-DD')
-                    : null
-                }
+                value={record.recover_time ? moment(record.recover_time, 'YYYY-MM-DD') : null}
                 format={'YYYY-MM-DD'}
                 placeholder="无"
               />
@@ -485,11 +413,7 @@ class AdverseTable extends React.Component {
                 <Form.Item label={'报告日期'}>
                   <DatePicker
                     open={false}
-                    value={
-                      record.report_time
-                        ? moment(record.report_time, 'YYYY-MM-DD')
-                        : null
-                    }
+                    value={record.report_time ? moment(record.report_time, 'YYYY-MM-DD') : null}
                     format={'YYYY-MM-DD'}
                     placeholder="无"
                   />
@@ -502,11 +426,7 @@ class AdverseTable extends React.Component {
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item label="SAE医学术语(诊断)">
-                  <Input
-                    value={record.SAE_diagnose}
-                    style={{ width: 250, marginRight: 30 }}
-                    placeholder="无"
-                  />
+                  <Input value={record.SAE_diagnose} style={{ width: 250, marginRight: 30 }} placeholder="无" />
                 </Form.Item>
                 <Form.Item label="SAE情况">
                   <Radio.Group value={record.SAE_state}>
@@ -521,11 +441,7 @@ class AdverseTable extends React.Component {
                     <Radio value={8}>
                       其他情况
                       {record.SAE_state === 8 ? (
-                        <Input
-                          value={record.other_SAE_state}
-                          style={{ width: 200, marginLeft: 15 }}
-                          placeholder="无"
-                        />
+                        <Input value={record.other_SAE_state} style={{ width: 200, marginLeft: 15 }} placeholder="无" />
                       ) : null}
                     </Radio>
                   </Radio.Group>
@@ -533,11 +449,7 @@ class AdverseTable extends React.Component {
                 <Form.Item label={'死亡日期'}>
                   <DatePicker
                     open={false}
-                    value={
-                      record.die_time
-                        ? moment(record.die_time, 'YYYY-MM-DD')
-                        : null
-                    }
+                    value={record.die_time ? moment(record.die_time, 'YYYY-MM-DD') : null}
                     format={'YYYY-MM-DD'}
                     placeholder="无"
                   />
@@ -545,11 +457,7 @@ class AdverseTable extends React.Component {
                 <Form.Item label={'SAE发生日期'}>
                   <DatePicker
                     open={false}
-                    value={
-                      record.SAE_start_time
-                        ? moment(record.SAE_start_time, 'YYYY-MM-DD')
-                        : null
-                    }
+                    value={record.SAE_start_time ? moment(record.SAE_start_time, 'YYYY-MM-DD') : null}
                     format={'YYYY-MM-DD'}
                     placeholder="无"
                   />

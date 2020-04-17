@@ -37,3 +37,10 @@ export async function CreateSample(body) {
     data: body
   })
 }
+
+// 按excel导出
+export async function DownloadSample({ sample_id }) {
+  return request(`/sample/data_json/${sample_id}`, {
+    method: 'GET'
+  })
+}

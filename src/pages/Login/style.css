@@ -1,11 +1,21 @@
-.bodyContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  background-color: white;
+.login_bg {
+  background-image: url('../../assets/bg.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   height: 100vh;
+}
+
+.bodyContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px 30px;
+  background-color: white;
+  border-radius: 2px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
 }
 
 .login_form {
@@ -24,6 +34,11 @@
 }
 
 .form_title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.login_menu {
   margin-bottom: 30px;
-  font-size: 36px;
 }

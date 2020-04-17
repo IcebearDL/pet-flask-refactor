@@ -14,8 +14,8 @@ const Model = {
   },
 
   effects: {
-    *fetchProjectList({ payload }, { call, put }) {
-      const data = yield call(FetchProjectList, payload)
+    *fetchProjectList(_, { call, put }) {
+      const data = yield call(FetchProjectList)
 
       if (data) {
         yield put({

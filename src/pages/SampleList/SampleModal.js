@@ -2,16 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import {
-  Modal,
-  Form,
-  Input,
-  Select,
-  Button,
-  Radio,
-  DatePicker,
-  Divider
-} from 'antd'
+import { Modal, Form, Input, Select, Button, Radio, DatePicker, Divider, message } from 'antd'
 import styles from './style.css'
 
 const { Option } = Select
@@ -41,21 +32,25 @@ class SampleModal extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const { research_center_id } = JSON.parse(window.localStorage.getItem('userInfo'))
+
+        if (values.research_center_id !== research_center_id && research_center_id !== 1) {
+          message.warning('用户不属于该中心，无法创建')
+        }
+
         const { record, handleSaveSample } = this.props
 
-        for (let col of ['date', 'in_group_time', 'sign_time']) {
-          values[col] = values[col].format('YYYY-MM-DD')
+        for (let type of ['date', 'in_group_time', 'sign_time']) {
+          if (values[type]) {
+            values[type] = values[type].format('YYYY-MM-DD')
+          }
         }
         if (values.sex === '女') {
           values.sex = 1
-        } else {
+        } else if (values.sex === '男') {
           values.sex = 0
         }
-        if (record.sample_id) {
-          values.sample_id = record.sample_id
-        } else {
-          values.sample_id = null
-        }
+        values.sample_id = record.sample_id
         handleSaveSample(values)
       }
     })
@@ -65,6 +60,7 @@ class SampleModal extends React.Component {
     const { getFieldDecorator } = this.props.form
     const submitLoading = this.props.loading.effects['sample/createSample']
     const { record, visible, onCancel, research_center_info } = this.props
+    const { research_center_id } = JSON.parse(window.localStorage.getItem('userInfo'))
 
     return (
       <Modal
@@ -78,21 +74,15 @@ class SampleModal extends React.Component {
         centered
         footer={null}
       >
-        <Form
-          className="sample_form"
-          {...formItemLayout}
-          onSubmit={this.handleSubmit}
-        >
+        <Form className="sample_form" {...formItemLayout} onSubmit={this.handleSubmit}>
           <Form.Item label="研究中心">
             {getFieldDecorator('research_center_id', {
-              initialValue: record.research_center_id
+              initialValue: record.research_center_id || research_center_id,
+              rules: [{ required: true, message: '请选择研究中心' }]
             })(
               <Select>
                 {research_center_info.map(item => (
-                  <Option
-                    key={item.research_center_id}
-                    value={item.research_center_id}
-                  >
+                  <Option key={item.research_center_id} value={item.research_center_id}>
                     {item.research_center_ids}
                   </Option>
                 ))}
@@ -101,22 +91,26 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="患者姓名">
             {getFieldDecorator('patient_name', {
-              initialValue: record.patient_name
+              initialValue: record.patient_name,
+              rules: [{ required: true, message: '请输入患者姓名' }]
             })(<Input />)}
           </Form.Item>
           <Form.Item label="患者编号">
             {getFieldDecorator('patient_ids', {
-              initialValue: record.patient_ids
+              initialValue: record.patient_ids,
+              rules: [{ required: true, message: '请输入患者编号' }]
             })(<Input />)}
           </Form.Item>
           <Form.Item label="患者身份证号">
             {getFieldDecorator('id_num', {
-              initialValue: record.id_num
+              initialValue: record.id_num,
+              rules: [{ required: true, message: '请输入患者身份证号' }]
             })(<Input />)}
           </Form.Item>
           <Form.Item label="患者组别">
             {getFieldDecorator('group_id', {
-              initialValue: record.group_id
+              initialValue: record.group_id,
+              rules: [{ required: true, message: '请选择患者组别' }]
             })(
               <Select>
                 <Option value={1}>安罗替尼</Option>
@@ -129,45 +123,31 @@ class SampleModal extends React.Component {
           </Form.Item>
           <Form.Item label="性别">
             {getFieldDecorator('sex', {
-              initialValue: record.sex
-            })(
-              <Radio.Group
-                options={[
-                  { label: '男性', value: '男' },
-                  { label: '女性', value: '女' }
-                ]}
-              />
-            )}
+              initialValue: record.sex,
+              rules: [{ required: true, message: '请选择性别' }]
+            })(<Radio.Group options={[{ label: '男性', value: '男' }, { label: '女性', value: '女' }]} />)}
           </Form.Item>
           <Form.Item label="出生日期">
             {getFieldDecorator('date', {
-              initialValue: record.date
-                ? moment(record.date, 'YYYY-MM-DD')
-                : null
+              initialValue: record.date ? moment(record.date, 'YYYY-MM-DD') : null,
+              rules: [{ required: true, message: '请选择出生日期' }]
             })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
           </Form.Item>
           <Form.Item label="签署同意书日期">
             {getFieldDecorator('sign_time', {
-              initialValue: record.sign_time
-                ? moment(record.sign_time, 'YYYY-MM-DD')
-                : null
+              initialValue: record.sign_time ? moment(record.sign_time, 'YYYY-MM-DD') : null,
+              rules: [{ required: true, message: '请选择签署同意书日期' }]
             })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
           </Form.Item>
           <Form.Item label="入组日期">
             {getFieldDecorator('in_group_time', {
-              initialValue: record.in_group_time
-                ? moment(record.in_group_time, 'YYYY-MM-DD')
-                : null
+              initialValue: record.in_group_time ? moment(record.in_group_time, 'YYYY-MM-DD') : null,
+              rules: [{ required: true, message: '请选择入组日期' }]
             })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
           </Form.Item>
           <Divider className={styles.modal_divider} />
           <div className={styles.modal_bottom}>
-            <Button
-              className={styles.modal_submit}
-              htmlType="submit"
-              type="primary"
-              loading={submitLoading}
-            >
+            <Button className={styles.modal_submit} htmlType="submit" type="primary" loading={submitLoading}>
               保存
             </Button>
             <Button onClick={onCancel}>取消</Button>

@@ -120,15 +120,9 @@ class MainSymptom extends React.Component {
 
   render() {
     const { main_symptom_table, ECOG } = this.props.crf_cycle_record
-    const tableLoading = this.props.loading.effects[
-      'crf_cycle_record/fetchMainSymptom'
-    ]
-    const submitLoading = this.props.loading.effects[
-      'crf_cycle_record/modifyMainSymptom'
-    ]
-    const submitLoadingECOG = this.props.loading.effects[
-      'crf_cycle_record/modifyECOG'
-    ]
+    const tableLoading = this.props.loading.effects['crf_cycle_record/fetchMainSymptom']
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyMainSymptom']
+    const submitLoadingECOG = this.props.loading.effects['crf_cycle_record/modifyECOG']
     const { getFieldDecorator } = this.props.form
     const { record, visible, symptom_description, existence } = this.state
 
@@ -159,11 +153,7 @@ class MainSymptom extends React.Component {
         align: 'center',
         render: (_, record) => (
           <>
-            <Button
-              type="primary"
-              size="small"
-              onClick={() => this.handleEditModel(record)}
-            >
+            <Button type="primary" size="small" onClick={() => this.handleEditModel(record)}>
               编辑
             </Button>
             <Button
@@ -181,10 +171,7 @@ class MainSymptom extends React.Component {
 
     return (
       <>
-        <Button
-          type="primary"
-          onClick={() => this.handleEditModel({ main_symptom_id: null })}
-        >
+        <Button type="primary" onClick={() => this.handleEditModel({ main_symptom_id: null })}>
           添加
         </Button>
         <Table
@@ -198,20 +185,11 @@ class MainSymptom extends React.Component {
           columns={columns}
           dataSource={main_symptom_table}
         />
-        <Form
-          layout="inline"
-          style={{ marginTop: '20px' }}
-          onSubmit={this.handleSubmitECOG}
-        >
+        <Form layout="inline" style={{ marginTop: '20px' }} onSubmit={this.handleSubmitECOG}>
           <Form.Item label="ECOG评分">
             {getFieldDecorator('ECOG', {
               initialValue: ECOG
-            })(
-              <Input
-                className={styles.ECOG_input}
-                placeholder="请输入ECOG评分"
-              />
-            )}
+            })(<Input className={styles.ECOG_input} placeholder="请输入ECOG评分" />)}
             <div>
               <Button
                 style={{ marginLeft: '20px', marginTop: '20px' }}
@@ -243,11 +221,7 @@ class MainSymptom extends React.Component {
               {getFieldDecorator('symptom_description', {
                 initialValue: record.symptom_description
               })(
-                <Radio.Group
-                  onChange={e =>
-                    this.handleStateChange('symptom_description', e)
-                  }
-                >
+                <Radio.Group onChange={e => this.handleStateChange('symptom_description', e)}>
                   <Radio value="高血压">高血压</Radio>
                   <Radio value="腹泻">腹泻</Radio>
                   <Radio value="皮疹">皮疹</Radio>
@@ -259,12 +233,7 @@ class MainSymptom extends React.Component {
                       <div style={{ display: 'inline-block' }}>
                         {getFieldDecorator('symptom_description_other', {
                           initialValue: record.symptom_description_other
-                        })(
-                          <Input
-                            style={{ width: 200, marginLeft: 15 }}
-                            placeholder="其他症状体征和描述"
-                          />
-                        )}
+                        })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="其他症状体征和描述" />)}
                       </div>
                     ) : null}
                   </Radio>
@@ -273,18 +242,14 @@ class MainSymptom extends React.Component {
             </Form.Item>
             <Form.Item label="开始时间">
               {getFieldDecorator('start_time', {
-                initialValue: record.start_time
-                  ? moment(record.start_time, 'YYYY-MM-DD')
-                  : null
+                initialValue: record.start_time ? moment(record.start_time, 'YYYY-MM-DD') : null
               })(<DatePicker format="YYYY-MM-DD" />)}
             </Form.Item>
             <Form.Item label="存在状态">
               {getFieldDecorator('existence', {
                 initialValue: record.existence
               })(
-                <Radio.Group
-                  onChange={e => this.handleStateChange('existence', e)}
-                >
+                <Radio.Group onChange={e => this.handleStateChange('existence', e)}>
                   <Radio value="0">存在</Radio>
                   <Radio value="1">消失</Radio>
                 </Radio.Group>
@@ -293,9 +258,7 @@ class MainSymptom extends React.Component {
             {existence === '1' ? (
               <Form.Item label="结束时间">
                 {getFieldDecorator('end_time', {
-                  initialValue: record.end_time
-                    ? moment(record.end_time, 'YYYY-MM-DD')
-                    : null
+                  initialValue: record.end_time ? moment(record.end_time, 'YYYY-MM-DD') : null
                 })(<DatePicker format="YYYY-MM-DD" />)}
               </Form.Item>
             ) : null}
