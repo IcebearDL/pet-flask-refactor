@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { Modal, Form, Input, Select, Button, Radio, DatePicker, Divider, message } from 'antd'
+import { Modal, Form, Input, Select, Button, Radio, DatePicker, Divider } from 'antd'
 import styles from './style.css'
 
 const { Option } = Select
@@ -32,12 +32,6 @@ class SampleModal extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { research_center_id } = JSON.parse(window.localStorage.getItem('userInfo'))
-
-        if (values.research_center_id !== research_center_id && research_center_id !== 1) {
-          message.warning('用户不属于该中心，无法创建')
-        }
-
         const { record, handleSaveSample } = this.props
 
         for (let type of ['date', 'in_group_time', 'sign_time']) {
@@ -82,7 +76,11 @@ class SampleModal extends React.Component {
             })(
               <Select>
                 {research_center_info.map(item => (
-                  <Option key={item.research_center_id} value={item.research_center_id}>
+                  <Option
+                    key={item.research_center_id}
+                    disabled={item.research_center_id !== research_center_id}
+                    value={item.research_center_id}
+                  >
                     {item.research_center_ids}
                   </Option>
                 ))}
