@@ -14,9 +14,14 @@ class Login extends React.Component {
     current: 'user'
   }
 
+  formRef = React.createRef()
+
   componentDidMount() {
     if (CookieUtil.get('token')) {
       router.push('/project')
+    }
+    if (CookieUtil.get('auth_token')) {
+      router.push('/auth')
     }
   }
 
@@ -54,24 +59,53 @@ class Login extends React.Component {
               })
             }
           })
+        } else if (current === 'admin') {
+          // 权限登陆表单name转化
+          const _values = {}
+
+          _values.account = values.user_account
+          _values.password = values.user_password
+
+          dispatch({
+            type: 'login/authorityLogin',
+            payload: { ..._values }
+          }).then(ret => {
+            if (ret) {
+              dispatch({
+                type: 'global/fetchAuthInfo'
+              }).then(() => {
+                message.success('权限系统登陆成功！')
+                router.push('/auth')
+              })
+            }
+          })
         }
-        // else if (current === 'admin') {
-        // }
       }
     })
   }
 
   handleChangeLogin = e => {
-    this.setState({
-      current: e.key
+    const { setFieldsValue } = this.props.form
+
+    setFieldsValue({
+      user_account: '',
+      user_password: ''
     })
+    this.setState({ current: e.key })
   }
 
   render() {
     const { getFieldDecorator } = this.props.form
     const { current } = this.state
     const { effects } = this.props.loading
-    const submitLoading = effects['login/login'] || effects['global/fetchUserInfo'] || effects['global/fetchSignature']
+
+    let submitLoading
+
+    if (current === 'user') {
+      submitLoading = effects['login/login'] || effects['global/fetchUserInfo'] || effects['global/fetchSignature']
+    } else if (current === 'admin') {
+      submitLoading = effects['login/authorityLogin'] || effects['global/fetchAuthInfo']
+    }
 
     return (
       <div className={styles.login_bg}>
@@ -89,7 +123,7 @@ class Login extends React.Component {
             <Menu.Item key="user">Rwe系统</Menu.Item>
             <Menu.Item key="admin">权限管理系统</Menu.Item>
           </Menu>
-          <Form onSubmit={this.handleSubmit} className={styles.login_form}>
+          <Form onSubmit={this.handleSubmit} className={styles.login_form} ref={this.formRef}>
             <Form.Item>
               {getFieldDecorator('user_account', {
                 rules: [{ required: true, message: current === 'user' ? '请输入用户名' : '请输入管理员账户' }]

@@ -1,4 +1,4 @@
-import request from 'umi-request'
+import { extend } from 'umi-request'
 import { notification, message } from 'antd'
 import router from 'umi/router'
 
@@ -10,35 +10,69 @@ const codeMessage = {
   1000: '用户无效',
   1001: '无效参数',
   1002: '资源未找到',
-  1003: '用户授权失败',
-  1004: '文件查找失败',
-  1005: '上传文件失败',
-  1006: '样本非该用户所创建',
-  1007: '样本已提交,无法修改',
   10021: '该资源已删除',
+
+  1003: '用户授权失败',
   10031: 'token无效',
   10032: 'token过期',
   10033: '该用户名不存在',
-  10034: '用户名或密码错误'
+  10034: '用户名或密码错误',
+
+  1004: '权限不足',
+  1005: '文件查找失败',
+  2001: '样本非该用户所创建',
+  1007: '样本已提交,无法修改',
+  1008: '已经存在签名'
 }
+
+// 处理服务器异常
+const request = extend({
+  errorHandler: error => {
+    const { response } = error
+
+    if (response && response.status) {
+      const { status, url } = response
+
+      notification.error({
+        message: `请求错误 ${status}: ${url}`,
+        description: response.statusText
+      })
+    }
+  }
+})
 
 const config = {
   // 预生产预览环境  阿里云的测试服务器
   pre: 'http://39.96.191.139:8080',
+  pre_auth: 'http://39.96.191.139:81',
   // 生产环境地址
-  prod: 'http://rayplus.top'
+  prod: 'http://rayplus.top:8080',
+  prod_auth: 'http://rayplus.top:81'
 }
 
 const { NODE_ENV } = process.env
 const ENV = 'pre'
 
 export const post_prefix = config[ENV]
-const prefix = NODE_ENV === 'development' ? '/api' : config[ENV]
 
 let COOKIE_CONFIRM = true
-const auth_request = (url, { method = 'GET', params = {}, data = {} }) => {
+
+function auth_request(url, { method = 'GET', params = {}, data = {} }) {
+  let prefix, TOKEN
+
+  if (/v1/.test(url)) {
+    // 权限管理请求，则取 auth_token cookie，prefix是权限的81端口
+    TOKEN = 'auth_token'
+    prefix = NODE_ENV === 'development' ? '/api' : config[`${ENV}_auth`]
+  } else {
+    // rwe请求，则取 token cookie，prefix是rwe的8080端口
+    TOKEN = 'token'
+    prefix = NODE_ENV === 'development' ? '/api' : config[ENV]
+  }
+
   // 判断cookie是否失效
-  if (url !== '/login' && CookieUtil.get('token') === null) {
+  if (url !== '/login' && url !== '/v1/token' && CookieUtil.get(TOKEN) === null) {
+    // 防止同时多次请求
     if (!COOKIE_CONFIRM) {
       return
     }
@@ -58,24 +92,24 @@ const auth_request = (url, { method = 'GET', params = {}, data = {} }) => {
       // 这里的request的header不能加在extend创建实例里
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${CookieUtil.get('token')}`
+        Authorization: `Bearer ${CookieUtil.get(TOKEN)}`
       }
     }).then(res => {
       if (res && res.code === 200) {
         // 如果post请求没有data，就返回true，以便判断generator下一步执行
-        if (res.total) {
+        if (res.total !== undefined) {
           resolve({ data: res.data, total: res.total })
         } else {
           resolve(res.data || true)
         }
-      } else {
+      } else if (res) {
         notification.error({
           message: codeMessage[res.code || 406],
           description: res.msg || ''
         })
-        // 错误不能reject 会导致generator call函数出错
-        resolve()
       }
+      // 错误不能reject 会导致generator call函数出错
+      resolve()
     })
   })
 }
