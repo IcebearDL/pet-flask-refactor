@@ -13,6 +13,7 @@ const formItemLayout = {
   wrapperCol: { span: 20, offset: 1 }
 }
 
+// 既往史
 class PatientHistory extends React.Component {
   constructor(props) {
     super(props)

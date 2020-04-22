@@ -5,7 +5,8 @@ import { Form, Button, Result } from 'antd'
 import { getSampleId } from '@/utils/location'
 import { judgeIsSubmit } from '@/utils/util'
 
-class CycleTime extends React.Component {
+// 访视提交
+class PostCycle extends React.Component {
   static propTypes = {
     cycle_status: PropTypes.array.isRequired,
     cycle_number: PropTypes.number.isRequired,
@@ -65,4 +66,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Form.create()(CycleTime))
+export default connect(mapStateToProps)(Form.create()(PostCycle))

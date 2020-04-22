@@ -5,7 +5,8 @@ import {
   FetchPatientGroup,
   FetchSignature,
   PostSignature,
-  DeleteFile
+  DeleteFile,
+  FetchAuthInfo
 } from '../services/global'
 
 const Model = {
@@ -94,6 +95,14 @@ const Model = {
 
       if (data) {
         message.success('删除成功！')
+      }
+    },
+
+    *fetchAuthInfo({ payload }, { call }) {
+      const data = yield call(FetchAuthInfo, payload)
+
+      if (data) {
+        window.localStorage.setItem('auth_userInfo', JSON.stringify(data))
       }
     }
   }

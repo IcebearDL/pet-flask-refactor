@@ -10,13 +10,18 @@ body {
 
 .body_content {
   max-width: 1440px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 0 15px;
   background-color: white;
 }
 
 .sample_form .ant-form-item {
   margin-bottom: 15px !important;
+}
+
+.ant-table-thead > tr > th {
+  font-weight: bold !important;
+  background-color: rgba(59, 100, 180, 0.2) !important;
 }
 
 thead {

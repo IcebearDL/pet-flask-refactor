@@ -10,6 +10,7 @@ const formItemLayout = {
   wrapperCol: { span: 20, offset: 1 }
 }
 
+// 访视事件
 class CycleTime extends React.Component {
   static propTypes = {
     crf_first_diagnose: PropTypes.object.isRequired,
@@ -56,9 +57,7 @@ class CycleTime extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const { cycle_time } = this.props.crf_first_diagnose
-    const submitLoading = this.props.loading.effects[
-      'crf_first_diagnose/modifyCycleTime'
-    ]
+    const submitLoading = this.props.loading.effects['crf_first_diagnose/modifyCycleTime']
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>

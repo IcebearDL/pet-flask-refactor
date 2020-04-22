@@ -129,7 +129,7 @@ class CRFDetail extends React.Component {
     }
 
     return (
-      <div className="body_content">
+      <>
         <Row type="flex" align="middle">
           <Col>
             <Button type="primary" onClick={router.goBack}>
@@ -215,7 +215,7 @@ class CRFDetail extends React.Component {
             <div className="page_body">{crf_body}</div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 }

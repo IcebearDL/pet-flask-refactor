@@ -6,6 +6,7 @@ import moment from 'moment'
 import { getSampleId } from '@/utils/location'
 import styles from '../../style.css'
 
+// 主要症状体征
 class MainSymptom extends React.Component {
   constructor(props) {
     super(props)

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, Result, Spin } from 'antd'
 import { getSampleId } from '@/utils/location'
 
+// 研究者签名
 class Sign extends React.Component {
   static propTypes = {
     crfbase_sign: PropTypes.object.isRequired,

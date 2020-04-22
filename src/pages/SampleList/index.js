@@ -322,6 +322,20 @@ class SampleList extends React.Component {
       )
     },
     {
+      title: '状态',
+      dataIndex: 'is_submit',
+      align: 'center',
+      width: 60,
+      render: is_submit =>
+        is_submit === 1 ? (
+          <Tooltip title="已提交的访视不可编辑">
+            <span style={{ color: '#52c41a' }}>已提交</span>
+          </Tooltip>
+        ) : (
+          <span style={{ color: '#faad14' }}>未提交</span>
+        )
+    },
+    {
       title: '操作',
       align: 'center',
       width: 60,
@@ -330,9 +344,15 @@ class SampleList extends React.Component {
           <Dropdown
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
-                <Menu.Item key="edit">编辑</Menu.Item>
-                <Menu.Item key="submit">提交</Menu.Item>
-                <Menu.Item key="delete">删除</Menu.Item>
+                <Menu.Item key="edit" disabled={record.is_submit === 1}>
+                  编辑
+                </Menu.Item>
+                <Menu.Item key="submit" disabled={record.is_submit === 1}>
+                  提交
+                </Menu.Item>
+                <Menu.Item key="delete" disabled={record.is_submit === 1}>
+                  删除
+                </Menu.Item>
               </Menu>
             }
           >
@@ -424,7 +444,7 @@ class SampleList extends React.Component {
     }
 
     return (
-      <Content className="body_content">
+      <>
         <Row type="flex" align="middle">
           <Col>
             <Button type="primary" onClick={router.goBack}>
@@ -508,7 +528,7 @@ class SampleList extends React.Component {
           handleSaveSample={this.handleSaveSample}
           onCancel={this.handleHideModal}
         />
-      </Content>
+      </>
     )
   }
 }

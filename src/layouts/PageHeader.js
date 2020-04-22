@@ -8,7 +8,7 @@ import zhCN from 'antd/es/locale/zh_CN'
 import UploadFile from '@/components/UploadFile'
 import CookieUtil from '@/utils/cookie'
 import { post_prefix } from '@/utils/request'
-import RayPlus from '@/assets/Rayplus_white.png'
+import RayPlus from '@/assets/Rayplus_title.png'
 import styles from './index.css'
 
 const projectReg = /^\/project\/?$/
@@ -157,7 +157,9 @@ class PageHeader extends React.Component {
             </div>
           </div>
         </div>
-        <ConfigProvider locale={zhCN}>{children}</ConfigProvider>
+        <ConfigProvider locale={zhCN}>
+          <div className="body_content">{children}</div>
+        </ConfigProvider>
       </>
     )
   }

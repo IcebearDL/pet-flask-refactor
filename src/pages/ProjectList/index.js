@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import { Layout, Table, Button, Tooltip } from 'antd'
+import { Table, Button, Tooltip } from 'antd'
 import Link from 'umi/link'
 import styles from './style.css'
+import { post_prefix } from '@/utils/request'
 import { checkLogin } from '@/utils/util'
-
-const { Content } = Layout
 
 class ProjectList extends React.Component {
   static propTypes = {
@@ -20,8 +19,7 @@ class ProjectList extends React.Component {
     const { dispatch } = this.props
 
     dispatch({
-      type: 'project/fetchProjectList',
-      payload: {}
+      type: 'project/fetchProjectList'
     })
   }
 
@@ -82,7 +80,7 @@ class ProjectList extends React.Component {
       dataIndex: 'link',
       align: 'center',
       width: 80,
-      render: () => <a href="/research_scheme">点击下载</a>
+      render: () => <a href={`${post_prefix}/research_scheme`}>点击下载</a>
     },
     {
       title: '当前进度',
@@ -135,19 +133,17 @@ class ProjectList extends React.Component {
     const tableLoading = this.props.loading.effects['project/fetchProjectList']
 
     return (
-      <Content className="body_content">
-        <Table
-          loading={tableLoading}
-          className={`${styles.project_table} page_body`}
-          rowKey="project_id"
-          size="small"
-          bordered
-          pagination={false}
-          scroll={{ x: true }}
-          columns={this.columns}
-          dataSource={project_list}
-        />
-      </Content>
+      <Table
+        loading={tableLoading}
+        className={`${styles.project_table} page_body`}
+        rowKey="project_id"
+        size="small"
+        bordered
+        pagination={false}
+        scroll={{ x: true }}
+        columns={this.columns}
+        dataSource={project_list}
+      />
     )
   }
 }
