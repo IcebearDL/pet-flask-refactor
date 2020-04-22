@@ -6,6 +6,7 @@ import moment from 'moment'
 import { getSampleId } from '@/utils/location'
 import styles from '../../style.css'
 
+// 不良事件
 class AdverseEvent extends React.Component {
   constructor(props) {
     super(props)

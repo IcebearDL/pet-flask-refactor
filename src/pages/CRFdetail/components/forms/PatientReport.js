@@ -6,6 +6,7 @@ import moment from 'moment'
 import { getSampleId } from '@/utils/location'
 import styles from '../../style.css'
 
+// 体格检查
 class PatientReport extends React.Component {
   constructor(props) {
     super(props)
@@ -115,11 +116,7 @@ class PatientReport extends React.Component {
       align: 'center',
       render: (_, _record) => (
         <>
-          <Button
-            type="primary"
-            size="small"
-            onClick={() => this.handleEditModel(_record)}
-          >
+          <Button type="primary" size="small" onClick={() => this.handleEditModel(_record)}>
             编辑
           </Button>
           <Button
@@ -137,21 +134,14 @@ class PatientReport extends React.Component {
 
   render() {
     const { patient_report_table } = this.props.crf_first_diagnose
-    const tableLoading = this.props.loading.effects[
-      'crf_first_diagnose/fetchPatientReportTable'
-    ]
-    const submitLoading = this.props.loading.effects[
-      'crf_first_diagnose/modifyPatientReportTable'
-    ]
+    const tableLoading = this.props.loading.effects['crf_first_diagnose/fetchPatientReportTable']
+    const submitLoading = this.props.loading.effects['crf_first_diagnose/modifyPatientReportTable']
     const { getFieldDecorator } = this.props.form
     const { record, visible } = this.state
 
     return (
       <>
-        <Button
-          type="primary"
-          onClick={() => this.handleEditModel({ report_id: null })}
-        >
+        <Button type="primary" onClick={() => this.handleEditModel({ report_id: null })}>
           添加
         </Button>
         <Table
@@ -174,16 +164,10 @@ class PatientReport extends React.Component {
           centered
           footer={null}
         >
-          <Form
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
-            onSubmit={this.handleSubmit}
-          >
+          <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onSubmit={this.handleSubmit}>
             <Form.Item label="入组日期">
               {getFieldDecorator('time', {
-                initialValue: record.time
-                  ? moment(record.time, 'YYYY-MM-DD')
-                  : null
+                initialValue: record.time ? moment(record.time, 'YYYY-MM-DD') : null
               })(<DatePicker format="YYYY-MM-DD" />)}
             </Form.Item>
             <Form.Item label="体温(℃)">
@@ -197,9 +181,7 @@ class PatientReport extends React.Component {
               })(<Input style={{ width: '250px' }} type="number" />)}
             </Form.Item>
             <Form.Item label="血压(mmHg)" style={{ marginBottom: 0 }}>
-              <Form.Item
-                style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-              >
+              <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
                 {getFieldDecorator('minpressure', {
                   initialValue: record.minpressure
                 })(<Input type="number" />)}
@@ -213,9 +195,7 @@ class PatientReport extends React.Component {
               >
                 /
               </span>
-              <Form.Item
-                style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
-              >
+              <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
                 {getFieldDecorator('maxpressure', {
                   initialValue: record.maxpressure
                 })(<Input type="number" />)}

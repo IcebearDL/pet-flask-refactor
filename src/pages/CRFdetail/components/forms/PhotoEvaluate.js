@@ -10,6 +10,7 @@ import { post_prefix } from '@/utils/request'
 
 import styles from '../../style.css'
 
+// 影像学评估
 class PhotoEvaluate extends React.Component {
   constructor(props) {
     super(props)

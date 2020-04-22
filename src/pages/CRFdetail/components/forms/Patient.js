@@ -10,6 +10,7 @@ const formItemLayout = {
   wrapperCol: { span: 20, offset: 1 }
 }
 
+// 人口统计学
 class Patient extends React.Component {
   constructor(props) {
     super(props)
@@ -75,9 +76,7 @@ class Patient extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const { patient } = this.props.crf_first_diagnose
-    const submitLoading = this.props.loading.effects[
-      'crf_first_diagnose/modifyPatient'
-    ]
+    const submitLoading = this.props.loading.effects['crf_first_diagnose/modifyPatient']
     const { marriage, vocation, race } = this.state
 
     return (
@@ -94,9 +93,7 @@ class Patient extends React.Component {
         </Form.Item>
         <Form.Item label="出生日期">
           {getFieldDecorator('date', {
-            initialValue: patient.date
-              ? moment(patient.date, 'YYYY-MM-DD')
-              : null
+            initialValue: patient.date ? moment(patient.date, 'YYYY-MM-DD') : null
           })(<DatePicker format="YYYY-MM-DD" />)}
         </Form.Item>
         <Form.Item label="人种">
@@ -110,11 +107,7 @@ class Patient extends React.Component {
               <Radio value="其他">
                 其他
                 {race === '其他' || (race === '' && patient.race === '其他') ? (
-                  <Input
-                    ref={this.race_input}
-                    style={{ width: 200, marginLeft: 15 }}
-                    placeholder="其他人种"
-                  />
+                  <Input ref={this.race_input} style={{ width: 200, marginLeft: 15 }} placeholder="其他人种" />
                 ) : null}
               </Radio>
             </Radio.Group>
@@ -129,13 +122,8 @@ class Patient extends React.Component {
               <Radio value="未婚">未婚</Radio>
               <Radio value="其他">
                 其他
-                {marriage === '其他' ||
-                (marriage === '' && patient.marriage === '其他') ? (
-                  <Input
-                    ref={this.marriage_input}
-                    style={{ width: 200, marginLeft: 15 }}
-                    placeholder="其他婚姻情况"
-                  />
+                {marriage === '其他' || (marriage === '' && patient.marriage === '其他') ? (
+                  <Input ref={this.marriage_input} style={{ width: 200, marginLeft: 15 }} placeholder="其他婚姻情况" />
                 ) : null}
               </Radio>
             </Radio.Group>
@@ -167,13 +155,8 @@ class Patient extends React.Component {
               <Radio value="无业或失业">无业或失业</Radio>
               <Radio value="其他">
                 其他
-                {vocation === '其他' ||
-                (vocation === '' && patient.vocation === '其他') ? (
-                  <Input
-                    ref={this.vocation_input}
-                    style={{ width: 200, marginLeft: 15 }}
-                    placeholder="其他职业情况"
-                  />
+                {vocation === '其他' || (vocation === '' && patient.vocation === '其他') ? (
+                  <Input ref={this.vocation_input} style={{ width: 200, marginLeft: 15 }} placeholder="其他职业情况" />
                 ) : null}
               </Radio>
             </Radio.Group>

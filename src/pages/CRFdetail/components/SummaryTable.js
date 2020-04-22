@@ -235,7 +235,7 @@ class AdverseTable extends React.Component {
 
   static propTypes = {
     adverse_event_table_all: PropTypes.array.isRequired,
-    tableLoading: PropTypes.bool.isRequired
+    tableLoading: PropTypes.bool
   }
 
   handleEditModel = record => {

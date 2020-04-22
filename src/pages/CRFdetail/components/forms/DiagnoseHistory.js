@@ -8,6 +8,7 @@ import styles from '../../style.css'
 
 const { Option } = Select
 
+// 治疗史
 class DiagnoseHistory extends React.Component {
   constructor(props) {
     super(props)

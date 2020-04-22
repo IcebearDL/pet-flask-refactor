@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Button, Result, Spin } from 'antd'
 import { getSampleId } from '@/utils/location'
 
+// 项目总结签名
 class SummarySign extends React.Component {
   static propTypes = {
     summary_sign: PropTypes.object.isRequired,

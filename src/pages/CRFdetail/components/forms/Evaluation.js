@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Form, Button, Radio } from 'antd'
 import { getSampleId } from '@/utils/location'
 
+// 疗效评价
 class Evaluation extends React.Component {
   static propTypes = {
     crf_cycle_record: PropTypes.object.isRequired,
@@ -35,9 +36,7 @@ class Evaluation extends React.Component {
 
   render() {
     const { evaluation } = this.props.crf_cycle_record
-    const submitLoading = this.props.loading.effects[
-      'crf_cycle_record/modifyEvaluation'
-    ]
+    const submitLoading = this.props.loading.effects['crf_cycle_record/modifyEvaluation']
     const { getFieldDecorator } = this.props.form
 
     return (

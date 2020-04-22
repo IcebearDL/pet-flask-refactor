@@ -174,7 +174,12 @@ class InterviewTable extends React.Component {
       title: '访视状态',
       dataIndex: 'is_submit',
       align: 'center',
-      render: is_submit => (is_submit === 1 ? '已提交' : '未提交')
+      render: is_submit =>
+        is_submit === 1 ? (
+          <span style={{ color: '#52c41a' }}>已提交</span>
+        ) : (
+          <span style={{ color: '#faad14' }}>未提交</span>
+        )
     },
     {
       title: '操作',
@@ -182,24 +187,24 @@ class InterviewTable extends React.Component {
       render: (_, _record) => (
         <>
           <Button
-            disabled={_record.is_submit === 1 ? true : false}
-            type="primary"
+            disabled={_record.is_submit === 1}
+            type={_record.is_submit === 1 ? 'danger' : 'primary'}
             size="small"
             onClick={() => this.handleEditModel(_record)}
           >
             编辑
           </Button>
           <Button
-            disabled={_record.is_submit === 1 ? true : false}
+            disabled={_record.is_submit === 1}
             style={{ marginLeft: '10px' }}
-            type="primary"
+            type={_record.is_submit === 1 ? 'danger' : 'primary'}
             size="small"
             onClick={() => this.handlePostInterview(_record.interview_id)}
           >
             提交
           </Button>
           <Button
-            disabled={_record.is_submit === 1 ? true : false}
+            disabled={_record.is_submit === 1}
             style={{ marginLeft: '10px' }}
             type="danger"
             size="small"

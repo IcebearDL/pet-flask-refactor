@@ -11,6 +11,7 @@ const formItemLayout = {
   wrapperCol: { span: 20, offset: 1 }
 }
 
+// 实验室检查
 class LabInspection extends React.Component {
   constructor(props) {
     super(props)
