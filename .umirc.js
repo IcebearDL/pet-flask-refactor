@@ -15,6 +15,13 @@ export default {
   //webpack copy favicon 文件，由于document.ejs没有引入，所以不会自动打包输出
   copy: ['/src/assets/favicon.png'],
   proxy: {
+    '/api/v1': {
+      target: 'http://39.96.191.139:81',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': ''
+      }
+    },
     '/api': {
       target: 'http://39.96.191.139:8080',
       changeOrigin: true,
@@ -34,6 +41,7 @@ export default {
       component: '../pages/Login/index'
     },
     {
+      path: '/project',
       component: '../layouts/PageHeader',
       routes: [
         {
@@ -47,6 +55,16 @@ export default {
         {
           path: '/project/:id/sample/:id/crf',
           component: '../pages/CRFdetail/index'
+        }
+      ]
+    },
+    {
+      path: '/auth',
+      component: '../layouts/AuthHeader',
+      routes: [
+        {
+          path: '/auth',
+          component: '../pages/Auth/index'
         }
       ]
     }
