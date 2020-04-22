@@ -55,3 +55,10 @@ export async function DeleteFile(body) {
     }
   })
 }
+
+// 获取权限用户信息
+export async function FetchAuthInfo() {
+  return request('/v1/user', {
+    method: 'GET'
+  })
+}
