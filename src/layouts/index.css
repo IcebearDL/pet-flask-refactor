@@ -1,7 +1,6 @@
 .navigator_content {
-  background-color: #009688;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px #f0f1f2;
 }
 
 .navigator_bar {
@@ -15,19 +14,23 @@
   line-height: 48px;
 }
 
+.page_children {
+  margin-top: 15px;
+}
+
 .login_img {
   width: 120px;
 }
 
 .title {
-  color: white;
+  color: #009688;
   margin-left: 20px;
   font-size: 22px;
   vertical-align: middle;
 }
 
 .user_title {
-  color: white;
+  color: #009688;
   font-size: 16px;
   vertical-align: middle;
   margin-right: 10px;

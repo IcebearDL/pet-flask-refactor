@@ -1,0 +1,25 @@
+.auth_content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.auth_aside {
+  flex-grow: 0;
+  font-weight: bold !important;
+}
+
+.auth_body {
+  flex-grow: 1;
+  padding-left: 30px;
+  padding-bottom: 30px;
+}
+
+.auth_menu {
+  width: 200px;
+  min-height: 80vh;
+}
+
+.table_margin {
+  margin-top: 20px;
+}
