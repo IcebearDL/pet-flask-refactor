@@ -1,10 +1,10 @@
 import request from '../utils/request'
 
-// 获取项目列表
-export async function FetchExpsampleList(body) {
-  return request('/sample', {
+// 获取样本列表
+export async function FetchExpsampleList({ project_id, body }) {
+  return request(`/sample/${project_id}`, {
     method: 'GET',
-    params: { ...body }
+    params: body
   })
 }
 
@@ -20,6 +20,13 @@ export async function SubmitSample(body) {
   return request('/submit_sample', {
     method: 'POST',
     data: body
+  })
+}
+
+// 总中心解锁样本
+export async function UnlockSample({ sample_id }) {
+  return request(`/sapmle/unlock/${sample_id}`, {
+    method: 'POST'
   })
 }
 

@@ -18,7 +18,8 @@ import {
   Select,
   Spin,
   message,
-  Pagination
+  Pagination,
+  Collapse
 } from 'antd'
 import Link from 'umi/link'
 import styles from './style.css'
@@ -31,6 +32,7 @@ import SampleModal from './SampleModal'
 
 const Content = Layout.Content
 const Option = Select.Option
+const Panel = Collapse.Panel
 
 class SampleList extends React.Component {
   constructor(props) {
@@ -101,7 +103,7 @@ class SampleList extends React.Component {
     }
     dispatch({
       type: 'sample/fetchExpsampleList',
-      payload: { ...status }
+      payload: { body: status, project_id: getProjectId() }
     })
     this.setState({ status })
   }
@@ -116,14 +118,14 @@ class SampleList extends React.Component {
         sample_modal_visible: true
       })
     } else if (key === 'submit') {
-      // 如果不是总中心切不是本中心就不能提交
-      if (record.research_center_id !== this.research_center_id && this.research_center_id !== 1) {
+      // 如果用户不属于本中心就不能提交本中心的样本
+      if (record.research_center_id !== this.research_center_id) {
         message.warning('用户不属于该中心，无法提交')
       }
 
       // 提交操作
       Modal.confirm({
-        title: '请问是否确认提交到总中心？',
+        title: `是否确认提交编号${record.patient_ids}样本到总中心？`,
         okText: '确定',
         cancelText: '取消',
         onOk: () =>
@@ -133,13 +135,35 @@ class SampleList extends React.Component {
               payload: {
                 sample_id: record.sample_id
               }
-            }).then(resolve)
+            }).then(() => {
+              resolve()
+              this.refreshList()
+            })
+          })
+      })
+    } else if (key === 'unlock') {
+      // 解锁操作
+      Modal.confirm({
+        title: `是否确认解锁编号${record.patient_ids}的样本？`,
+        okText: '确定',
+        cancelText: '取消',
+        onOk: () =>
+          new Promise(resolve => {
+            dispatch({
+              type: 'sample/unlockSample',
+              payload: {
+                sample_id: record.sample_id
+              }
+            }).then(() => {
+              resolve()
+              this.refreshList()
+            })
           })
       })
     } else if (key === 'delete') {
       // 删除操作
       Modal.confirm({
-        title: '请问是否确认删除？',
+        title: `是否确认删除编号${record.patient_ids}样本？`,
         okText: '确定',
         cancelText: '取消',
         onOk: () =>
@@ -160,7 +184,7 @@ class SampleList extends React.Component {
 
   handleCreateSample = () => {
     this.setState({
-      sample_record: { sample_id: null },
+      sample_record: { sample_id: null, project_id: getProjectId() },
       sample_modal_visible: true
     })
   }
@@ -194,6 +218,25 @@ class SampleList extends React.Component {
       const { search_type } = this.state
 
       this.refreshList(search_type === 0 ? { name: value, IDcard: null } : { name: null, IDcard: value })
+    }
+  }
+
+  handleChangeStatus = id => {
+    switch (id) {
+      case null:
+        this.refreshList({ is_submit: null, lock_status: null, page: 1 })
+        break
+      case 0:
+        this.refreshList({ is_submit: 1, lock_status: 1, page: 1 })
+        break
+      case 1:
+        this.refreshList({ is_submit: 0, lock_status: 0, page: 1 })
+        break
+      case 2:
+        this.refreshList({ is_submit: 1, lock_status: 0, page: 1 })
+        break
+      default:
+        break
     }
   }
 
@@ -326,11 +369,17 @@ class SampleList extends React.Component {
       dataIndex: 'is_submit',
       align: 'center',
       width: 60,
-      render: is_submit =>
+      render: (is_submit, record) =>
         is_submit === 1 ? (
-          <Tooltip title="已提交的访视不可编辑">
-            <span style={{ color: '#52c41a' }}>已提交</span>
-          </Tooltip>
+          record.lock_status === 1 ? (
+            <Tooltip title="已提交的访视不可编辑">
+              <span style={{ color: '#52c41a' }}>已提交</span>
+            </Tooltip>
+          ) : (
+            <Tooltip title="该样本已被总中心解锁">
+              <span style={{ color: '#1890ff' }}>已解锁</span>
+            </Tooltip>
+          )
         ) : (
           <span style={{ color: '#faad14' }}>未提交</span>
         )
@@ -339,31 +388,43 @@ class SampleList extends React.Component {
       title: '操作',
       align: 'center',
       width: 60,
-      render: (_, record) => (
-        <>
-          <Dropdown
-            overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
-                <Menu.Item key="edit" disabled={record.is_submit === 1}>
-                  编辑
-                </Menu.Item>
-                <Menu.Item key="submit" disabled={record.is_submit === 1}>
-                  提交
-                </Menu.Item>
-                <Menu.Item key="delete" disabled={record.is_submit === 1}>
-                  删除
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <Button type="primary" size="small">
-              <Link to={`/project/${record.project_id}/sample/${record.sample_id}/crf`}>
-                详情
-                <Icon type="down" />
-              </Link>
-            </Button>
-          </Dropdown>
-        </>
+      render: (_, record) => {
+        const disabled = record.is_submit === 1 && record.lock_status === 1
+        const is_center = this.research_center_id === 1
+
+        return (
+          <>
+            <Dropdown
+              overlay={
+                <Menu onClick={e => this.handleMenuClick(e, record)}>
+                  <Menu.Item key="edit" disabled={disabled}>
+                    编辑
+                  </Menu.Item>
+                  <Menu.Item style={{ display: is_center ? 'none' : 'block' }} key="submit" disabled={disabled}>
+                    提交
+                  </Menu.Item>
+                  <Menu.Item
+                    style={{ display: !is_center ? 'none' : 'block' }}
+                    key="unlock"
+                    disabled={record.lock_status === 0}
+                  >
+                    解锁
+                  </Menu.Item>
+                  <Menu.Item key="delete" disabled={disabled}>
+                    删除
+                  </Menu.Item>
+                </Menu>
+              }
+            >
+              <Button type="primary" size="small">
+                <Link to={`/project/${record.project_id}/sample/${record.sample_id}/crf`}>
+                  详情
+                  <Icon type="down" />
+                </Link>
+              </Button>
+            </Dropdown>
+          </>
+        )
         // <Button
         //   style={{ marginLeft: '10px' }}
         //   type="primary"
@@ -372,7 +433,7 @@ class SampleList extends React.Component {
         // >
         //   导出
         // </Button>
-      )
+      }
     }
   ]
 
@@ -428,6 +489,20 @@ class SampleList extends React.Component {
             handleChange={id => this.refreshList({ sex: id, page: 1 })}
           />
         )
+      },
+      {
+        text: '样本状态：',
+        render: (
+          <CheckTags
+            itemList={[
+              { id: -1, name: '全部' },
+              { id: 0, name: '已提交' },
+              { id: 1, name: '未提交' },
+              { id: 2, name: '已解锁' }
+            ]}
+            handleChange={this.handleChangeStatus}
+          />
+        )
       }
     ]
 
@@ -465,14 +540,18 @@ class SampleList extends React.Component {
         <Divider />
         <Content>
           <Spin spinning={filterLoading}>
-            {filterList.map(item => (
-              <Row className={styles.filterLine} key={item.text}>
-                <Col span={2} className={styles.filterLineLeft}>
-                  {item.text}
-                </Col>
-                <Col span={22}>{item.render}</Col>
-              </Row>
-            ))}
+            <Collapse className="filter_collapse">
+              <Panel header={<span style={{ color: '#009688' }}>展开筛选项</span>} key="1">
+                {filterList.map(item => (
+                  <Row className={styles.filterLine} key={item.text}>
+                    <Col span={3} className={styles.filterLineLeft}>
+                      {item.text}
+                    </Col>
+                    <Col span={21}>{item.render}</Col>
+                  </Row>
+                ))}
+              </Panel>
+            </Collapse>
           </Spin>
         </Content>
         <Divider />
@@ -497,6 +576,14 @@ class SampleList extends React.Component {
               </Row>
             </Col>
             <Col>
+              <span
+                className={styles.bannerText}
+                style={{
+                  display: tableLoading ? 'none' : 'inline-block'
+                }}
+              >
+                共{total}个样本
+              </span>
               <Button type="primary" onClick={this.handleCreateSample}>
                 <Icon type="plus" />
                 添加样本
@@ -534,18 +621,11 @@ class SampleList extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const research_center_info = state.global.research_center_info.map(item => {
-    return {
-      id: item.research_center_id,
-      name: item.research_center_ids
-    }
-  })
-
   return {
     total: state.sample.total,
     sample_list: state.sample.sample_list,
     sample_info: state.sample.sample_info,
-    research_center_info,
+    research_center_info: state.global.research_center_info,
     group_ids_info: state.global.group_ids_info,
     loading: state.loading
   }

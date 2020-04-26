@@ -3,6 +3,8 @@ import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Modal, Form, Input, Select, Button, Radio, DatePicker, Divider } from 'antd'
+
+import { disabledDateAfterToday } from '@/utils/util'
 import styles from './style.css'
 
 const { Option } = Select
@@ -45,6 +47,7 @@ class SampleModal extends React.Component {
           values.sex = 0
         }
         values.sample_id = record.sample_id
+        values.project_id = record.project_id
         handleSaveSample(values)
       }
     })
@@ -76,12 +79,8 @@ class SampleModal extends React.Component {
             })(
               <Select>
                 {research_center_info.map(item => (
-                  <Option
-                    key={item.research_center_id}
-                    disabled={item.research_center_id !== research_center_id}
-                    value={item.research_center_id}
-                  >
-                    {item.research_center_ids}
+                  <Option key={item.id} disabled={item.id !== research_center_id} value={item.id}>
+                    {item.name}
                   </Option>
                 ))}
               </Select>
@@ -91,26 +90,29 @@ class SampleModal extends React.Component {
             {getFieldDecorator('patient_name', {
               initialValue: record.patient_name,
               rules: [{ required: true, message: '请输入患者姓名' }]
-            })(<Input />)}
+            })(<Input placeholder="请输入患者姓名" />)}
           </Form.Item>
           <Form.Item label="患者编号">
             {getFieldDecorator('patient_ids', {
               initialValue: record.patient_ids,
               rules: [{ required: true, message: '请输入患者编号' }]
-            })(<Input />)}
+            })(<Input placeholder="请输入患者编号" />)}
           </Form.Item>
           <Form.Item label="患者身份证号">
             {getFieldDecorator('id_num', {
               initialValue: record.id_num,
-              rules: [{ required: true, message: '请输入患者身份证号' }]
-            })(<Input />)}
+              rules: [
+                { required: true, message: '请输入患者身份证号' },
+                { pattern: /(^\d{15}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不合法' }
+              ]
+            })(<Input placeholder="请输入身份证号" />)}
           </Form.Item>
           <Form.Item label="患者组别">
             {getFieldDecorator('group_id', {
               initialValue: record.group_id,
               rules: [{ required: true, message: '请选择患者组别' }]
             })(
-              <Select>
+              <Select placeholder="请选择患者组别">
                 <Option value={1}>安罗替尼</Option>
                 <Option value={2}>安罗替尼 + TKI</Option>
                 <Option value={3}>安罗替尼 + 化疗</Option>
@@ -129,19 +131,19 @@ class SampleModal extends React.Component {
             {getFieldDecorator('date', {
               initialValue: record.date ? moment(record.date, 'YYYY-MM-DD') : null,
               rules: [{ required: true, message: '请选择出生日期' }]
-            })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
+            })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
           </Form.Item>
           <Form.Item label="签署同意书日期">
             {getFieldDecorator('sign_time', {
               initialValue: record.sign_time ? moment(record.sign_time, 'YYYY-MM-DD') : null,
               rules: [{ required: true, message: '请选择签署同意书日期' }]
-            })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
+            })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
           </Form.Item>
           <Form.Item label="入组日期">
             {getFieldDecorator('in_group_time', {
               initialValue: record.in_group_time ? moment(record.in_group_time, 'YYYY-MM-DD') : null,
               rules: [{ required: true, message: '请选择入组日期' }]
-            })(<DatePicker format={'YYYY-MM-DD'} placeholder="请选择日期" />)}
+            })(<DatePicker format={'YYYY-MM-DD'} disabledDate={disabledDateAfterToday} placeholder="请选择日期" />)}
           </Form.Item>
           <Divider className={styles.modal_divider} />
           <div className={styles.modal_bottom}>

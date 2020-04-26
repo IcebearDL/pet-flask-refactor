@@ -3,6 +3,7 @@ import {
   FetchExpsampleList,
   FetchSampleInfo,
   SubmitSample,
+  UnlockSample,
   DeleteSample,
   CreateSample
 } from '../../services/samplePage'
@@ -55,6 +56,14 @@ const Model = {
 
       if (data) {
         message.success('提交样本到中心成功！')
+      }
+    },
+
+    *unlockSample({ payload }, { call }) {
+      const data = yield call(UnlockSample, payload)
+
+      if (data) {
+        message.success('样本解锁成功！')
       }
     },
 

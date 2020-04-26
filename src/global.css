@@ -87,6 +87,7 @@ thead {
   white-space: normal !important;
 }
 
+/* 修改滚动条样式 */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -99,4 +100,32 @@ thead {
 
 ::-webkit-scrollbar-track {
   background-color: #fff;
+}
+
+/* 修改折叠面板样式 */
+.ant-collapse > .ant-collapse-item {
+  border-bottom: 0 !important;
+}
+
+.ant-collapse {
+  background-color: #fff !important;
+  border: 0 !important;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding: 8px 40px !important;
+  color: #009688;
+}
+
+.ant-collapse-content {
+  border-top: 0 !important;
+}
+
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+/* 修改divider样式 */
+.ant-divider-horizontal {
+  margin: 16px 0 !important;
 }
