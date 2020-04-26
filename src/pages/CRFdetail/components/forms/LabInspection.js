@@ -201,8 +201,8 @@ class LabInspection extends React.Component {
             initialValue: lab_inspection.PRO_val
           })(
             <Radio.Group style={{ marginRight: 20 }}>
-              <Radio value={1}>+</Radio>
-              <Radio value={2}>-</Radio>
+              <Radio value="1">+</Radio>
+              <Radio value="2">-</Radio>
             </Radio.Group>
           )}
           临床意义判定：
