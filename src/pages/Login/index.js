@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Layout, Menu, Form, Icon, Input, Button, message } from 'antd'
 import router from 'umi/router'
 import CookieUtil from '@/utils/cookie'
-import RayPlus from '@/assets/Rayplus_title.png'
+import RayPlus from '@/assets/rayplus.png'
 import styles from './style.css'
 
 const Content = Layout.Content
@@ -108,57 +108,49 @@ class Login extends React.Component {
     }
 
     return (
-      <div className={styles.login_bg}>
-        <img className={styles.login_img} src={RayPlus} alt="RayPlus" />
-        <Content className={styles.bodyContent}>
-          <div className={styles.form_title}>
-            <span>临床试验管理系统</span>
-          </div>
-          <Menu
-            className={styles.login_menu}
-            onClick={this.handleChangeLogin}
-            selectedKeys={[current]}
-            mode="horizontal"
+      <Content className={styles.bodyContent}>
+        <div className={styles.form_title}>
+          <img className={styles.login_img} src={RayPlus} alt="RayPlus" />
+        </div>
+        <Menu className={styles.login_menu} onClick={this.handleChangeLogin} selectedKeys={[current]} mode="horizontal">
+          <Menu.Item key="user">Rwe系统</Menu.Item>
+          <Menu.Item key="admin">权限管理系统</Menu.Item>
+        </Menu>
+        <Form onSubmit={this.handleSubmit} className={styles.login_form} ref={this.formRef}>
+          <Form.Item>
+            {getFieldDecorator('user_account', {
+              rules: [{ required: true, message: current === 'user' ? '请输入用户名' : '请输入管理员账户' }]
+            })(
+              <Input
+                size="large"
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder={current === 'user' ? '用户名' : '管理员账户'}
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('user_password', {
+              rules: [{ required: true, message: '请输入密码!' }]
+            })(
+              <Input
+                size="large"
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                type="password"
+                placeholder="密码"
+              />
+            )}
+          </Form.Item>
+          <Button
+            size="large"
+            type="primary"
+            htmlType="submit"
+            loading={submitLoading}
+            className={styles.login_form_button}
           >
-            <Menu.Item key="user">Rwe系统</Menu.Item>
-            <Menu.Item key="admin">权限管理系统</Menu.Item>
-          </Menu>
-          <Form onSubmit={this.handleSubmit} className={styles.login_form} ref={this.formRef}>
-            <Form.Item>
-              {getFieldDecorator('user_account', {
-                rules: [{ required: true, message: current === 'user' ? '请输入用户名' : '请输入管理员账户' }]
-              })(
-                <Input
-                  size="large"
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder={current === 'user' ? '用户名' : '管理员账户'}
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('user_password', {
-                rules: [{ required: true, message: '请输入密码!' }]
-              })(
-                <Input
-                  size="large"
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type="password"
-                  placeholder="密码"
-                />
-              )}
-            </Form.Item>
-            <Button
-              size="large"
-              type="primary"
-              htmlType="submit"
-              loading={submitLoading}
-              className={styles.login_form_button}
-            >
-              登录
-            </Button>
-          </Form>
-        </Content>
-      </div>
+            登录
+          </Button>
+        </Form>
+      </Content>
     )
   }
 }
