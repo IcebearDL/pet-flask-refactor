@@ -36,27 +36,26 @@ const Model = {
       const data = yield call(FetchResearchCenterInfo)
 
       if (data) {
+        const research_center_info = data.map(item => ({
+          id: item.research_center_id,
+          name: item.research_center_ids
+        }))
+
         // 向userInfo注入当前用户所属的总中心名称
         const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
         const { research_center_id } = userInfo
 
-        let research_center_name = ''
-
-        for (const item of data) {
-          if (item.research_center_id === research_center_id) {
-            research_center_name = item.research_center_ids
+        for (const item of research_center_info) {
+          if (item.id === research_center_id) {
+            userInfo.research_center_name = item.name
+            window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
             break
           }
         }
 
-        userInfo.research_center_name = research_center_name
-        window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
-
         yield put({
           type: 'save',
-          payload: {
-            research_center_info: data
-          }
+          payload: { research_center_info }
         })
       }
     },
