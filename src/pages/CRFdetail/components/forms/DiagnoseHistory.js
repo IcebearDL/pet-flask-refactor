@@ -466,8 +466,8 @@ class DiagnoseHistory extends React.Component {
                         initialValue: record.is_biopsy_again
                       })(
                         <Radio.Group>
-                          <Radio value>是</Radio>
-                          <Radio value={false}>否</Radio>
+                          <Radio value={0}>是</Radio>
+                          <Radio value={1}>否</Radio>
                         </Radio.Group>
                       )}
                     </Form.Item>
