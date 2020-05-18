@@ -34,7 +34,9 @@ const Model = {
       }
       return false
     }
-  }
+  },
+
+  subscriptions: {}
 }
 
 export default Model
