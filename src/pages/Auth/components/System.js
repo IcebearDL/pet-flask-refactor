@@ -3,13 +3,16 @@ import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import { Button, Modal, Form, Input, Row, Table } from 'antd'
 
+import ExpandTable from './Project'
 import styles from '../style.css'
 
 class System extends React.Component {
   state = {
     selectedKeys: ['system'],
     record: {},
-    visible: false
+    visible: false,
+    expandArray: [],
+    select_system_id: null
   }
 
   componentDidMount() {
@@ -31,11 +34,11 @@ class System extends React.Component {
     this.setState({ selectedKeys: keyPath })
   }
 
-  handleEditModel = record => {
+  handleEditSystemModel = record => {
     this.setState({ record, visible: true })
   }
 
-  handleDelete = system_id => {
+  handleSystemDelete = system_id => {
     Modal.confirm({
       title: '请问是否确认删除系统？',
       okText: '确定',
@@ -57,19 +60,19 @@ class System extends React.Component {
     })
   }
 
-  handleSubmit = e => {
+  handleSystemSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch } = this.props
         const { system_id } = this.state.record
 
-        values.id = system_id
+        values.system_id = system_id
         dispatch({
           type: 'system/postSystem',
           payload: values
         }).then(() => {
-          this.setState({ visible: false })
+          this.handleSystemCancel()
           dispatch({
             type: 'system/fetchSystems'
           })
@@ -78,8 +81,26 @@ class System extends React.Component {
     })
   }
 
-  handleCancel = () => {
+  handleSystemCancel = () => {
     this.setState({ visible: false })
+  }
+
+  // 控制每次只展开一行
+  handleExpand = (expanded, { system_id }) => {
+    if (!expanded) {
+      this.setState({ expandArray: [] })
+    } else {
+      const { dispatch } = this.props
+
+      dispatch({
+        type: 'auth_project/fetchProjects',
+        payload: { system_id }
+      })
+      this.setState({
+        expandArray: [system_id],
+        select_system_id: system_id
+      })
+    }
   }
 
   columns = [
@@ -87,34 +108,34 @@ class System extends React.Component {
       title: '系统编号',
       dataIndex: 'system_id',
       align: 'center',
-      width: 100
+      width: 200
     },
     {
       title: '系统名称',
       dataIndex: 'system_name',
       align: 'center',
-      width: 150
+      width: 250
     },
     {
       title: '系统描述',
       dataIndex: 'system_description',
       align: 'center',
-      width: 200
+      width: 400
     },
     {
       title: '操作',
       align: 'center',
-      width: 100,
+      width: 200,
       render: (_, record) => (
         <>
-          <Button type="primary" size="small" onClick={() => this.handleEditModel(record)}>
+          <Button type="primary" size="small" onClick={() => this.handleEditSystemModel(record)}>
             编辑
           </Button>
           <Button
             style={{ marginLeft: '10px' }}
             type="danger"
             size="small"
-            onClick={() => this.handleDelete(record.system_id)}
+            onClick={() => this.handleSystemDelete(record.system_id)}
           >
             删除
           </Button>
@@ -124,7 +145,7 @@ class System extends React.Component {
   ]
 
   render() {
-    const { record, visible } = this.state
+    const { record, visible, expandArray, select_system_id } = this.state
     const { system_list, form } = this.props
     const { getFieldDecorator } = form
     const tableLoading = this.props.loading.effects['system/fetchSystems']
@@ -132,7 +153,7 @@ class System extends React.Component {
 
     return (
       <>
-        <Button type="primary" onClick={() => this.handleEditModel({ system_id: null })}>
+        <Button type="primary" onClick={() => this.handleEditSystemModel({ system_id: null })}>
           添加系统
         </Button>
         <div className={styles.table_margin}>
@@ -144,14 +165,16 @@ class System extends React.Component {
             pagination={false}
             columns={this.columns}
             dataSource={system_list}
+            expandedRowRender={() => <ExpandTable system_id={select_system_id} />}
+            onExpand={this.handleExpand}
+            expandedRowKeys={expandArray}
           />
         </div>
         <Modal
-          title="编辑角色"
+          title={record.system_id === null ? '新增系统' : '编辑系统'}
           visible={visible}
           destroyOnClose
-          maskClosable={false}
-          onCancel={this.handleCancel}
+          onCancel={this.handleSystemCancel}
           centered
           footer={null}
         >
@@ -159,24 +182,23 @@ class System extends React.Component {
             className="page_body"
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 17, offset: 1 }}
-            onSubmit={this.handleSubmit}
+            onSubmit={this.handleSystemSubmit}
           >
             <Form.Item label="系统名称">
               {getFieldDecorator('system_name', {
-                initialValue: record.system_name
+                initialValue: record.system_name,
+                rules: [{ required: true, message: '请填写系统名称' }]
               })(<Input />)}
             </Form.Item>
             <Form.Item label="系统描述">
               {getFieldDecorator('system_description', {
-                initialValue: record.system_description
+                initialValue: record.system_description,
+                rules: [{ required: true, message: '请填写系统描述' }]
               })(<Input />)}
             </Form.Item>
             <Row type="flex" justify="center">
               <Button htmlType="submit" type="primary" loading={submitLoading}>
                 保存
-              </Button>
-              <Button style={{ marginLeft: 20 }} onClick={this.handleCancel}>
-                取消
               </Button>
             </Row>
           </Form>

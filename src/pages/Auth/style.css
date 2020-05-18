@@ -23,3 +23,22 @@
 .table_margin {
   margin-top: 20px;
 }
+
+.dynamic_delete_button {
+  margin-left: 15px;
+  cursor: pointer;
+  position: relative;
+  top: 4px;
+  font-size: 20px;
+  color: #999;
+  transition: all 0.3s;
+}
+
+.dynamic_delete_button:hover {
+  color: #777;
+}
+
+.dynamic_delete_button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

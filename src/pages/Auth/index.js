@@ -54,10 +54,10 @@ class System extends React.Component {
                 系统管理
               </span>
             </Menu.Item>
-            <Menu.Item key="user">
+            <Menu.Item key="permission">
               <span>
-                <Icon type="team" />
-                用户列表
+                <Icon type="audit" />
+                权限管理
               </span>
             </Menu.Item>
             <Menu.Item key="role">
@@ -66,10 +66,10 @@ class System extends React.Component {
                 角色管理
               </span>
             </Menu.Item>
-            <Menu.Item key="permission">
+            <Menu.Item key="user">
               <span>
-                <Icon type="audit" />
-                权限管理
+                <Icon type="team" />
+                用户列表
               </span>
             </Menu.Item>
           </Menu>

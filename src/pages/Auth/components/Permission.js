@@ -50,7 +50,7 @@ class AuthPermission extends React.Component {
     })
   }
 
-  handleDelete = system_id => {
+  handleDelete = permission_id => {
     Modal.confirm({
       title: '请问是否确认删除权限？',
       okText: '确定',
@@ -58,14 +58,16 @@ class AuthPermission extends React.Component {
       onOk: () =>
         new Promise(resolve => {
           const { dispatch } = this.props
+          const { system_id } = this.state
 
           dispatch({
-            type: 'permission/deleteSystem',
-            payload: { system_id }
+            type: 'permission/deletePermission',
+            payload: { permission_id }
           }).then(() => {
             resolve()
             dispatch({
-              type: 'permission/fetchPermissionList'
+              type: 'permission/fetchPermissionList',
+              payload: { system_id }
             })
           })
         })
@@ -77,16 +79,17 @@ class AuthPermission extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch } = this.props
-        // const { permission_id } = this.state.record
+        const { record, system_id } = this.state
 
-        // values.id = permission_id
+        values.permission_id = record.permission_id
         dispatch({
           type: 'permission/postPermission',
           payload: values
         }).then(() => {
           this.setState({ visible: false })
           dispatch({
-            type: 'permission/fetchPermissionList'
+            type: 'permission/fetchPermissionList',
+            payload: { system_id }
           })
         })
       }
@@ -153,7 +156,7 @@ class AuthPermission extends React.Component {
 
     return (
       <>
-        <Row type="flex">
+        <Row type="flex" justify="space-between">
           <Col>
             所属系统：
             <Select
@@ -169,7 +172,7 @@ class AuthPermission extends React.Component {
               ))}
             </Select>
           </Col>
-          <Col offset={1}>
+          <Col>
             <Button type="primary" onClick={() => this.handleEditModel({ permission_id: null })}>
               添加权限
             </Button>
@@ -203,10 +206,10 @@ class AuthPermission extends React.Component {
             onSubmit={this.handleSubmit}
           >
             <Form.Item label="所属系统">
-              {getFieldDecorator('id', {
+              {getFieldDecorator('system_id', {
                 initialValue: system_id
               })(
-                <Select>
+                <Select disabled={record.permission_id ? true : false}>
                   {system_list.map(system => (
                     <Option key={system.system_id} value={system.system_id}>
                       {system.system_name}
