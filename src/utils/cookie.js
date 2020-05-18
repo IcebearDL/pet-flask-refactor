@@ -10,9 +10,7 @@ const CookieUtil = {
       if (cookieEnd === -1) {
         cookieEnd = document.cookie.length
       }
-      cookieValue = decodeURIComponent(
-        document.cookie.substring(cookieStart + cookieName.length, cookieEnd)
-      )
+      cookieValue = decodeURIComponent(document.cookie.substring(cookieStart + cookieName.length, cookieEnd))
     }
 
     return cookieValue

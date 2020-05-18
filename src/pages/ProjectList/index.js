@@ -43,7 +43,7 @@ class ProjectList extends React.Component {
       width: 150,
       render: text => (
         <Tooltip title={text}>
-          <span>{text.length > 26 ? `${text.slice(0, 26)}...` : text}</span>
+          <span>{text.length > 30 ? `${text.slice(0, 30)}...` : text}</span>
         </Tooltip>
       )
     },

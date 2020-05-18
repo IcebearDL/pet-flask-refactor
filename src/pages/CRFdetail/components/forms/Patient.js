@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import { Col, Form, DatePicker, Button, Radio, Input } from 'antd'
+import { Col, Form, DatePicker, Button, Radio, Input, message } from 'antd'
 import moment from 'moment'
 import { getSampleId } from '@/utils/location'
 
@@ -51,6 +51,11 @@ class Patient extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch } = this.props
+
+        if (values.id_num && !/(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(values.id_num)) {
+          message.error('身份证号不合法，请重新输入！')
+          return
+        }
 
         for (const type of ['race', 'marriage', 'vocation']) {
           if (values[type] === '其他') {

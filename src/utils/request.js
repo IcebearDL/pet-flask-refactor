@@ -21,7 +21,7 @@ const codeMessage = {
   1004: '权限不足',
   1005: '文件查找失败',
   2001: '样本非该用户所创建',
-  1007: '样本已提交,无法修改',
+  1007: '样本已提交，暂时无法修改',
   1008: '已经存在签名'
 }
 
@@ -100,7 +100,7 @@ function auth_request(url, { method = 'GET', params = {}, data = {} }) {
         if (res.total !== undefined) {
           resolve({ data: res.data, total: res.total })
         } else {
-          resolve(res.data || true)
+          resolve(res.data !== undefined ? res.data : true)
         }
       } else if (res) {
         notification.error({

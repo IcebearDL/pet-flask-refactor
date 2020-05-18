@@ -4,12 +4,12 @@ export const getSampleId = () => {
   if (hash) {
     const path_list = hash.split('/')
 
-    return path_list[path_list.indexOf('sample') + 1]
+    return parseInt(path_list[path_list.indexOf('sample') + 1], 10)
   }
 
   const path_list = pathname.split('/')
 
-  return path_list[path_list.indexOf('sample') + 1]
+  return parseInt(path_list[path_list.indexOf('sample') + 1], 10)
 }
 
 export const getProjectId = () => {
@@ -18,10 +18,10 @@ export const getProjectId = () => {
   if (hash) {
     const path_list = hash.split('/')
 
-    return path_list[path_list.indexOf('project') + 1]
+    return parseInt(path_list[path_list.indexOf('project') + 1], 10)
   }
 
   const path_list = pathname.split('/')
 
-  return path_list[path_list.indexOf('project') + 1]
+  return parseInt(path_list[path_list.indexOf('project') + 1], 10)
 }
