@@ -103,7 +103,7 @@ class SampleModal extends React.Component {
               initialValue: record.id_num,
               rules: [
                 { required: true, message: '请输入患者身份证号' },
-                { pattern: /(^\d{15}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不合法' }
+                { pattern: /(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不合法，请重新输入' }
               ]
             })(<Input placeholder="请输入身份证号" />)}
           </Form.Item>

@@ -5,7 +5,8 @@ import {
   SubmitSample,
   UnlockSample,
   DeleteSample,
-  CreateSample
+  CreateSample,
+  DownloadSample
 } from '../../services/samplePage'
 
 const Model = {
@@ -85,11 +86,11 @@ const Model = {
           message.success('添加样本成功！')
         }
       }
-    }
+    },
 
-    // *downloadSample({ payload }, { call }) {
-    //   const data = yield call(DownloadSample, payload)
-    // }
+    *downloadSample({ payload }, { call }) {
+      yield call(DownloadSample, payload)
+    }
   }
 }
 
