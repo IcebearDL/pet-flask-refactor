@@ -161,7 +161,7 @@ class AuthPermission extends React.Component {
             所属系统：
             <Select
               defaultValue={system_list[0].system_id}
-              style={{ width: 120 }}
+              style={{ width: 150 }}
               loading={tableLoading}
               onChange={this.handleSelectChange}
             >

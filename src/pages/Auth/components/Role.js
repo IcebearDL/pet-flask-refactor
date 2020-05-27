@@ -72,6 +72,7 @@ class AuthRole extends React.Component {
       onOk: () =>
         new Promise(resolve => {
           const { dispatch } = this.props
+          const { system_id } = this.state
 
           dispatch({
             type: 'role/deleteRole',
@@ -79,7 +80,8 @@ class AuthRole extends React.Component {
           }).then(() => {
             resolve()
             dispatch({
-              type: 'role/fetchRoleList'
+              type: 'role/fetchRoleList',
+              payload: { system_id }
             })
           })
         })

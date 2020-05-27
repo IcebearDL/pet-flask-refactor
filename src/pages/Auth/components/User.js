@@ -164,8 +164,13 @@ class AuthUser extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { dispatch } = this.props
-        const { system_id, project_id } = this.state
+        const { record, system_id, project_id } = this.state
 
+        if (values.is_super === undefined) {
+          values.is_super = 0
+        }
+        values.user_id = record.user_id
+        values.system_id = system_id
         values.system_id = system_id
         values.project_id = project_id
         delete values.confirm
@@ -272,6 +277,7 @@ class AuthUser extends React.Component {
               )
             }
           }
+          return ''
         })
       }
     },
@@ -352,6 +358,7 @@ class AuthUser extends React.Component {
               )
             }
           }
+          return ''
         })
       }
     },
@@ -397,13 +404,6 @@ class AuthUser extends React.Component {
       dataIndex: 'name',
       align: 'center',
       width: 150
-    },
-    {
-      title: '超级管理员',
-      dataIndex: 'is_super',
-      align: 'center',
-      width: 100,
-      render: is_super => (is_super === 1 ? '是' : '否')
     },
     {
       title: '项目角色',
@@ -461,6 +461,7 @@ class AuthUser extends React.Component {
       loading.effects['user/fetchSystemUsers'] ||
       loading.effects['user/fetchProjectUsers']
     const submitLoading = loading.effects['user/postUser']
+    const { is_super = 0 } = JSON.parse(window.localStorage.getItem('auth_userInfo'))
 
     let columns, dataSource
 
@@ -503,7 +504,7 @@ class AuthUser extends React.Component {
             </Select>
           </Col>
           <Col>
-            <Button type="primary" onClick={() => this.handleEditModel({ role_id: null })}>
+            <Button type="primary" onClick={() => this.handleEditModel({ user_id: null })}>
               添加用户
             </Button>
           </Col>
@@ -547,17 +548,19 @@ class AuthUser extends React.Component {
                 rules: [{ required: true, message: '请填写用户昵称！' }]
               })(<Input placeholder="请输入用户昵称" />)}
             </Form.Item>
-            <Form.Item label="超级管理员">
-              {getFieldDecorator('is_super', {
-                initialValue: record.is_super,
-                rules: [{ required: true, message: '请选择是否是超级管理员！' }]
-              })(
-                <Radio.Group>
-                  <Radio value={0}>否</Radio>
-                  <Radio value={1}>是</Radio>
-                </Radio.Group>
-              )}
-            </Form.Item>
+            {is_super === 1 ? (
+              <Form.Item label="超级管理员">
+                {getFieldDecorator('is_super', {
+                  initialValue: record.is_super,
+                  rules: [{ required: true, message: '请选择是否是超级管理员！' }]
+                })(
+                  <Radio.Group>
+                    <Radio value={0}>否</Radio>
+                    <Radio value={1}>是</Radio>
+                  </Radio.Group>
+                )}
+              </Form.Item>
+            ) : null}
             <Form.Item label="用户密码">
               {getFieldDecorator('password', {
                 rules: [{ required: true, message: '请填写用户密码！' }, { validator: this.validateToNextPassword }]

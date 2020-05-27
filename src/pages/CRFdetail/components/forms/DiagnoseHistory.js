@@ -503,8 +503,8 @@ class DiagnoseHistory extends React.Component {
                         initialValue: record.biopsy_type
                       })(
                         <Radio.Group onChange={e => this.handleStateChange('biopsy_type', e)}>
-                          <Radio value="无">无</Radio>
-                          <Radio value="与第1次活检病理类型一致">与第1次活检病理类型一致</Radio>
+                          <Radio value="0">无</Radio>
+                          <Radio value="1">与第1次活检病理类型一致</Radio>
                           <Radio value="与第1次活检病理类型不一致">
                             与第1次活检病理类型不一致
                             {biopsy_type === '与第1次活检病理类型不一致' ||
