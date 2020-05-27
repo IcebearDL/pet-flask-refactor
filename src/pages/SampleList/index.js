@@ -42,6 +42,8 @@ class SampleList extends React.Component {
         page: 1,
         limit: 20
       },
+      // 多选批量导出
+      selectedRowKeys: [],
       search_type: 0,
       sample_record: {},
       sample_modal_visible: false
@@ -119,9 +121,6 @@ class SampleList extends React.Component {
           sample_modal_visible: true
         })
         break
-      case 'export':
-        this.handleExported(record.sample_id)
-        break
       case 'submit':
         // 如果用户不属于本中心就不能提交本中心的样本
         if (record.research_center_id !== this.research_center_id) {
@@ -131,6 +130,7 @@ class SampleList extends React.Component {
         // 提交操作
         Modal.confirm({
           title: `是否确认提交编号${record.patient_ids}样本到总中心？`,
+          content: '提交之后，将不能再对该样本进行编辑。',
           okText: '确定',
           cancelText: '取消',
           onOk: () =>
@@ -248,16 +248,19 @@ class SampleList extends React.Component {
   handleChangeStatus = id => {
     switch (id) {
       case null:
-        this.refreshList({ is_submit: null, lock_status: null, page: 1 })
+        this.refreshList({ submit_status: null, page: 1 })
         break
       case 0:
-        this.refreshList({ is_submit: 1, lock_status: 1, page: 1 })
+        this.refreshList({ submit_status: 0, page: 1 })
         break
       case 1:
-        this.refreshList({ is_submit: 0, lock_status: 0, page: 1 })
+        this.refreshList({ submit_status: 1, page: 1 })
         break
       case 2:
-        this.refreshList({ is_submit: 1, lock_status: 0, page: 1 })
+        this.refreshList({ submit_status: 2, page: 1 })
+        break
+      case 3:
+        this.refreshList({ submit_status: 3, page: 1 })
         break
       default:
         break
@@ -270,12 +273,15 @@ class SampleList extends React.Component {
     this.refreshList({ name: null, IDcard: null, patient_ids: null, page: 1 })
   }
 
-  handleExported = sample_id => {
+  handleExported = () => {
     const { dispatch } = this.props
+    const { selectedRowKeys } = this.state
 
     dispatch({
       type: 'sample/downloadSample',
-      payload: { sample_id_list: [sample_id] }
+      payload: {
+        sample_id_list: selectedRowKeys
+      }
     })
   }
 
@@ -390,10 +396,10 @@ class SampleList extends React.Component {
     },
     {
       title: '状态',
-      dataIndex: 'is_submit',
+      dataIndex: 'submit_status',
       align: 'center',
       width: 80,
-      render: (is_submit, record) => {
+      render: (submit_status, record) => {
         // 记录生存期随访提交条数
         let interviews = 0
 
@@ -414,7 +420,7 @@ class SampleList extends React.Component {
               </div>
             ))}
             <div>
-              生存期随访：
+              生存期访视：
               {interviews === 0 ? (
                 <span style={{ color: '#faad14' }}>未提交</span>
               ) : (
@@ -424,13 +430,13 @@ class SampleList extends React.Component {
           </>
         )
 
-        if (is_submit === 1) {
+        if (submit_status === 2) {
           return (
             <Popover content={content} title="访视提交详情">
               <span style={{ color: '#52c41a' }}>已提交</span>
             </Popover>
           )
-        } else if (is_submit === 2) {
+        } else if (submit_status === 3) {
           return (
             <Popover content={content} title="访视提交详情">
               <span style={{ color: '#1890ff' }}>已解锁</span>
@@ -439,22 +445,19 @@ class SampleList extends React.Component {
         }
 
         // 如果基线资料没提交，为未提交状态
-        if (
-          is_submit === 0 &&
-          record.status.cycle_status.length === 1 &&
-          record.status.cycle_status[0].is_submit === 0
-        ) {
+        if (submit_status === 0) {
           return (
             <Popover content={content} title="访视提交详情">
               <span style={{ color: '#faad14' }}>未提交</span>
             </Popover>
           )
+        } else if (submit_status === 1) {
+          return (
+            <Popover content={content} title="访视提交详情">
+              <span style={{ color: '#faad14' }}>部分提交</span>
+            </Popover>
+          )
         }
-        return (
-          <Popover content={content} title="访视提交详情">
-            <span style={{ color: '#faad14' }}>部分提交</span>
-          </Popover>
-        )
       }
     },
     {
@@ -462,24 +465,26 @@ class SampleList extends React.Component {
       align: 'center',
       width: 80,
       render: (_, record) => {
-        const disabled = record.is_submit === 1 && record.lock_status === 1
+        const disabled = record.submit_status === 2
         const is_center = this.research_center_id === 1
 
+        // 部分提交 或 已提交 不可以编辑
+        // 总中心可以自己提交，不可以提交分中心， 分中心可以自己提交
+        // 总中心只可以解锁已锁定的项目
         return (
           <Dropdown
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
-                <Menu.Item key="edit" disabled={is_center ? true : disabled}>
+                <Menu.Item key="edit" disabled={record.submit_status === 1 || disabled}>
                   编辑
                 </Menu.Item>
-                <Menu.Item key="export">导出</Menu.Item>
-                <Menu.Item style={{ display: is_center ? 'none' : 'block' }} key="submit" disabled={disabled}>
+                <Menu.Item key="submit" disabled={is_center ? record.research_center_id !== 1 : disabled}>
                   提交
                 </Menu.Item>
                 <Menu.Item
-                  style={{ display: !is_center ? 'none' : 'block' }}
+                  style={{ display: is_center ? 'block' : 'none' }}
+                  disabled={record.submit_status !== 1 && record.submit_status !== 2}
                   key="unlock"
-                  disabled={record.lock_status === 0}
                 >
                   解锁
                 </Menu.Item>
@@ -509,9 +514,15 @@ class SampleList extends React.Component {
     </Select>
   )
 
+  // 选择多选进行导出
+  onSelectChange = selectedRowKeys => {
+    this.setState({ selectedRowKeys })
+  }
+
   render() {
     const { total, sample_info, sample_list, research_center_info, group_ids_info, loading } = this.props
     const { page, limit } = this.state.status
+    const { selectedRowKeys } = this.state
     const tableLoading = loading.effects['sample/fetchExpsampleList']
     const infoLoading = loading.effects['sample/fetchSampleInfo']
     const filterLoading =
@@ -561,9 +572,10 @@ class SampleList extends React.Component {
           <CheckTags
             itemList={[
               { id: -1, name: '全部' },
-              { id: 0, name: '已提交' },
-              { id: 1, name: '未提交' },
-              { id: 2, name: '已解锁' }
+              { id: 0, name: '未提交' },
+              { id: 1, name: '部分提交' },
+              { id: 2, name: '已提交' },
+              { id: 3, name: '已解锁' }
             ]}
             handleChange={this.handleChangeStatus}
           />
@@ -605,7 +617,7 @@ class SampleList extends React.Component {
         <Content>
           <Spin spinning={filterLoading}>
             <Collapse className="filter_collapse">
-              <Panel header={<span style={{ color: '#009688' }}>展开筛选项</span>} key="1">
+              <Panel header={<span style={{ color: '#39bbdb' }}>展开筛选项</span>} key="1">
                 {filterList.map(item => (
                   <Row className={styles.filterLine} key={item.text}>
                     <Col span={3} className={styles.filterLineLeft}>
@@ -620,9 +632,9 @@ class SampleList extends React.Component {
         </Content>
         <div className="page_body">
           <Row type="flex" align="middle" justify="space-between">
-            <Col span={10} className={styles.project_search}>
+            <Col span={16} className={styles.project_search}>
               <Row type="flex" align="middle">
-                <Col span={16}>
+                <Col span={12}>
                   <Input.Search
                     ref={this.searchInput}
                     addonBefore={this.selectBefore}
@@ -636,6 +648,12 @@ class SampleList extends React.Component {
                   <Tooltip title="清空输入项">
                     <Button onClick={this.resetList} shape="circle" loading={tableLoading} icon="sync"></Button>
                   </Tooltip>
+                </Col>
+                <Col offset={1}>
+                  <Button type="primary" disabled={selectedRowKeys.length === 0} onClick={this.handleExported}>
+                    <Icon type="download" />
+                    导出样本
+                  </Button>
                 </Col>
               </Row>
             </Col>
@@ -657,6 +675,10 @@ class SampleList extends React.Component {
         </div>
         <Table
           loading={tableLoading}
+          rowSelection={{
+            selectedRowKeys,
+            onChange: this.onSelectChange
+          }}
           className={`${styles.sample_table} page_body`}
           rowKey={'sample_id'}
           size="small"

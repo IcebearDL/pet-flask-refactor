@@ -88,8 +88,21 @@ const Model = {
       }
     },
 
-    *downloadSample({ payload }, { call }) {
-      yield call(DownloadSample, payload)
+    *downloadSample({ payload }) {
+      yield DownloadSample(payload).then(data => {
+        // type 为需要导出的文件类型，此处为xls表格类型
+        const blob = new Blob([data], { type: 'application/x-xlsx;charset=utf-8' })
+        // 创建下载链接
+        const downloadHref = window.URL.createObjectURL(blob)
+
+        // 创建a标签并为其添加属性
+        let downloadLink = document.createElement('a')
+
+        downloadLink.href = downloadHref
+        downloadLink.download = '样本数据.xlsx'
+        // 触发点击事件执行下载
+        downloadLink.click()
+      })
     }
   }
 }
