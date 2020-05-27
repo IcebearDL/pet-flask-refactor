@@ -21,16 +21,16 @@ body {
 
 .ant-table-thead > tr > th {
   font-weight: bold !important;
-  background-color: rgba(59, 100, 180, 0.2) !important;
+  background-color: #39bbdb30 !important;
 }
 
 thead {
   font-weight: bold !important;
-  background-color: rgba(59, 100, 180, 0.2) !important;
+  background-color: #39bbdb30 !important;
 }
 
 /* 覆盖ant主题，修改为绿色 */
-.page_body .ant-btn-primary,
+/* .page_body .ant-btn-primary,
 .ant-modal .ant-btn-primary {
   background-color: #4278e47e !important;
   background-image: linear-gradient(-180deg, rgb(87, 139, 241), #4279e4 90%) !important;
@@ -71,12 +71,12 @@ thead {
 
 .page_body .ant-input:focus {
   box-shadow: 0 0 0 2px rgba(38, 159, 66, 0.2) !important;
-} */
+} 
 
 .page_body .ant-radio-inner::after,
 .ant-switch-checked {
   background-color: #4279e4 !important;
-}
+} */
 
 .ant-radio-wrapper {
   margin-bottom: 10px !important;
@@ -114,7 +114,7 @@ thead {
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
   padding: 8px 40px !important;
-  color: #009688;
+  color: #39bbdb;
 }
 
 .ant-collapse-content {
