@@ -3,8 +3,10 @@ import {
   FetchExpsampleList,
   FetchSampleInfo,
   SubmitSample,
+  UnlockSample,
   DeleteSample,
-  CreateSample
+  CreateSample,
+  DownloadSample
 } from '../../services/samplePage'
 
 const Model = {
@@ -58,6 +60,14 @@ const Model = {
       }
     },
 
+    *unlockSample({ payload }, { call }) {
+      const data = yield call(UnlockSample, payload)
+
+      if (data) {
+        message.success('样本解锁成功！')
+      }
+    },
+
     *deleteSample({ payload }, { call }) {
       const data = yield call(DeleteSample, payload)
 
@@ -76,11 +86,24 @@ const Model = {
           message.success('添加样本成功！')
         }
       }
-    }
+    },
 
-    // *downloadSample({ payload }, { call }) {
-    //   const data = yield call(DownloadSample, payload)
-    // }
+    *downloadSample({ payload }) {
+      yield DownloadSample(payload).then(data => {
+        // type 为需要导出的文件类型，此处为xls表格类型
+        const blob = new Blob([data], { type: 'application/x-xlsx;charset=utf-8' })
+        // 创建下载链接
+        const downloadHref = window.URL.createObjectURL(blob)
+
+        // 创建a标签并为其添加属性
+        let downloadLink = document.createElement('a')
+
+        downloadLink.href = downloadHref
+        downloadLink.download = '样本数据.xlsx'
+        // 触发点击事件执行下载
+        downloadLink.click()
+      })
+    }
   }
 }
 

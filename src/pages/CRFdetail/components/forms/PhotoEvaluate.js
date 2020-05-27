@@ -187,7 +187,11 @@ class PhotoEvaluate extends React.Component {
       title: '文件',
       dataIndex: 'file',
       align: 'center',
-      render: (_, record) => <a onClick={() => this.openFileModel(record.evaluate_id)}>查看文件</a>
+      render: (_, record) => (
+        <span className={styles.download_text} onClick={() => this.openFileModel(record.evaluate_id)}>
+          查看文件
+        </span>
+      )
     },
     {
       title: '操作',
@@ -315,7 +319,7 @@ class PhotoEvaluate extends React.Component {
                     action={action}
                     handleStatusChange={this.handleStatusChange}
                   >
-                    <a>暂无文件，点击上传</a>
+                    <span className={styles.download_text}>暂无文件，点击上传</span>
                   </UploadFile>
                 )
               }}
@@ -371,7 +375,7 @@ class PhotoEvaluate extends React.Component {
                       <div style={{ display: 'inline-block' }}>
                         {getFieldDecorator('method_other', {
                           initialValue: record.method_other
-                        })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="请输入其他方法" />)}
+                        })(<Input style={{ width: 200, marginLeft: 15 }} placeholder="请输入数量" />)}
                       </div>
                     ) : null}
                   </Radio>

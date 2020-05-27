@@ -1,5 +1,5 @@
 .sample_table {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .sample_info {
@@ -38,4 +38,9 @@
 
 .project_search {
   margin: 10px 0;
+}
+
+.bannerText {
+  font-size: 18px;
+  margin-right: 30px;
 }

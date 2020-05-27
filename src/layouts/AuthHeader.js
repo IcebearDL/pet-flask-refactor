@@ -6,7 +6,7 @@ import { Button, Modal, ConfigProvider, Popover } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 
 import CookieUtil from '@/utils/cookie'
-import RayPlus from '@/assets/Rayplus_title.png'
+import RayPlus from '@/assets/rayplus.png'
 import styles from './index.css'
 
 class PageHeader extends React.Component {

@@ -10,7 +10,7 @@ body {
 
 .body_content {
   max-width: 1440px;
-  margin: 20px auto;
+  margin: 10px auto;
   padding: 0 15px;
   background-color: white;
 }
@@ -21,16 +21,16 @@ body {
 
 .ant-table-thead > tr > th {
   font-weight: bold !important;
-  background-color: rgba(59, 100, 180, 0.2) !important;
+  background-color: #39bbdb30 !important;
 }
 
 thead {
   font-weight: bold !important;
-  background-color: rgba(59, 100, 180, 0.2) !important;
+  background-color: #39bbdb30 !important;
 }
 
 /* 覆盖ant主题，修改为绿色 */
-.page_body .ant-btn-primary,
+/* .page_body .ant-btn-primary,
 .ant-modal .ant-btn-primary {
   background-color: #4278e47e !important;
   background-image: linear-gradient(-180deg, rgb(87, 139, 241), #4279e4 90%) !important;
@@ -71,12 +71,12 @@ thead {
 
 .page_body .ant-input:focus {
   box-shadow: 0 0 0 2px rgba(38, 159, 66, 0.2) !important;
-} */
+} 
 
 .page_body .ant-radio-inner::after,
 .ant-switch-checked {
   background-color: #4279e4 !important;
-}
+} */
 
 .ant-radio-wrapper {
   margin-bottom: 10px !important;
@@ -87,6 +87,7 @@ thead {
   white-space: normal !important;
 }
 
+/* 修改滚动条样式 */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -99,4 +100,32 @@ thead {
 
 ::-webkit-scrollbar-track {
   background-color: #fff;
+}
+
+/* 修改折叠面板样式 */
+.ant-collapse > .ant-collapse-item {
+  border-bottom: 0 !important;
+}
+
+.ant-collapse {
+  background-color: #fff !important;
+  border: 0 !important;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding: 8px 40px !important;
+  color: #39bbdb;
+}
+
+.ant-collapse-content {
+  border-top: 0 !important;
+}
+
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 0 !important;
+}
+
+/* 修改divider样式 */
+.ant-divider-horizontal {
+  margin: 16px 0 !important;
 }

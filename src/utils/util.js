@@ -1,4 +1,5 @@
 import router from 'umi/router'
+import moment from 'moment'
 import CookieUtil from './cookie'
 
 export function checkLogin() {
@@ -40,4 +41,8 @@ export function judgeIsSubmit(cycle_status = [], cycle_number) {
     }
   }
   return false
+}
+
+export function disabledDateAfterToday(current) {
+  return current && current > moment().endOf('day')
 }

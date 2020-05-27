@@ -184,7 +184,7 @@ class CRFDetail extends React.Component {
                     </Menu.Item>
                   ))}
                   <Menu.Item key="add">
-                    <span style={{ color: '#269f42' }}>
+                    <span style={{ color: '#39bbdb' }}>
                       新增&nbsp;&nbsp;
                       <Icon type="file-add" />
                     </span>

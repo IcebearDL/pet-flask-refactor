@@ -124,6 +124,55 @@ class PatientHistory extends React.Component {
     })
   }
 
+  clearConflictCheckbox = type => {
+    const { setFieldsValue } = this.props.form
+
+    switch (type) {
+      case 0:
+        setFieldsValue({
+          'base_ill[不详]': false,
+          'base_ill[高血压]': false,
+          'base_ill[冠心病]': false,
+          'base_ill[糖尿病]': false,
+          'base_ill[慢性阻塞性肺疾病]': false,
+          'base_ill[支气管哮喘]': false,
+          'base_ill[肺结核]': false,
+          'base_ill[间质性肺疾病]': false,
+          'base_ill[高脂血症]': false,
+          'base_ill[病毒性肝炎]': false,
+          'base_ill[风湿免疫性疾病]': false,
+          'base_ill[肾脏病]': false,
+          'base_ill[其他]': false,
+          base_ill_other: null
+        })
+        break
+      case 1:
+        setFieldsValue({
+          'base_ill[无]': false,
+          'base_ill[高血压]': false,
+          'base_ill[冠心病]': false,
+          'base_ill[糖尿病]': false,
+          'base_ill[慢性阻塞性肺疾病]': false,
+          'base_ill[支气管哮喘]': false,
+          'base_ill[肺结核]': false,
+          'base_ill[间质性肺疾病]': false,
+          'base_ill[高脂血症]': false,
+          'base_ill[病毒性肝炎]': false,
+          'base_ill[风湿免疫性疾病]': false,
+          'base_ill[肾脏病]': false,
+          'base_ill[其他]': false,
+          base_ill_other: null
+        })
+        break
+      default:
+        setFieldsValue({
+          'base_ill[无]': false,
+          'base_ill[不详]': false
+        })
+        break
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const { patient_history } = this.props.crf_first_diagnose
@@ -157,85 +206,85 @@ class PatientHistory extends React.Component {
             {getFieldDecorator('base_ill[无]', {
               initialValue: patient_history['base_ill[无]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>无</Checkbox>)}
+            })(<Checkbox onClick={() => this.clearConflictCheckbox(0)}>无</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[不详]', {
               initialValue: patient_history['base_ill[不详]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>不详</Checkbox>)}
+            })(<Checkbox onClick={() => this.clearConflictCheckbox(1)}>不详</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[高血压]', {
               initialValue: patient_history['base_ill[高血压]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>高血压</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>高血压</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[冠心病]', {
               initialValue: patient_history['base_ill[冠心病]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>冠心病</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>冠心病</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[糖尿病]', {
               initialValue: patient_history['base_ill[糖尿病]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>糖尿病</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>糖尿病</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[慢性阻塞性肺疾病]', {
               initialValue: patient_history['base_ill[慢性阻塞性肺疾病]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>慢性阻塞性肺疾病</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>慢性阻塞性肺疾病</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[支气管哮喘]', {
               initialValue: patient_history['base_ill[支气管哮喘]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>支气管哮喘</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>支气管哮喘</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[肺结核]', {
               initialValue: patient_history['base_ill[肺结核]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>肺结核</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>肺结核</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[间质性肺疾病]', {
               initialValue: patient_history['base_ill[间质性肺疾病]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>间质性肺疾病</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>间质性肺疾病</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[高脂血症]', {
               initialValue: patient_history['base_ill[高脂血症]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>高脂血症</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>高脂血症</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[病毒性肝炎]', {
               initialValue: patient_history['base_ill[病毒性肝炎]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>病毒性肝炎</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>病毒性肝炎</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[风湿免疫性疾病]', {
               initialValue: patient_history['base_ill[风湿免疫性疾病]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>风湿免疫性疾病</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>风湿免疫性疾病</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[肾脏病]', {
               initialValue: patient_history['base_ill[肾脏病]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>肾脏病</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>肾脏病</Checkbox>)}
           </Form.Item>
           <Form.Item className={styles.from_item}>
             {getFieldDecorator('base_ill[其他]', {
               initialValue: patient_history['base_ill[其他]'] === 'on',
               valuePropName: 'checked'
-            })(<Checkbox>其他</Checkbox>)}
+            })(<Checkbox onClick={this.clearConflictCheckbox}>其他</Checkbox>)}
             <div style={{ display: 'inline-block' }}>
               {getFieldDecorator('base_ill_other', {
                 initialValue: patient_history.base_ill_other

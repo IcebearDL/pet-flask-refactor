@@ -1,10 +1,12 @@
-import request from '../utils/request'
+import umi_request from 'umi-request'
+import CookieUtil from '../utils/cookie'
+import request, { post_prefix } from '../utils/request'
 
-// 获取项目列表
-export async function FetchExpsampleList(body) {
-  return request('/sample', {
+// 获取样本列表
+export async function FetchExpsampleList({ project_id, body }) {
+  return request(`/sample/${project_id}`, {
     method: 'GET',
-    params: { ...body }
+    params: body
   })
 }
 
@@ -20,6 +22,13 @@ export async function SubmitSample(body) {
   return request('/submit_sample', {
     method: 'POST',
     data: body
+  })
+}
+
+// 总中心解锁样本
+export async function UnlockSample({ sample_id }) {
+  return request(`/sample/unlock/${sample_id}`, {
+    method: 'POST'
   })
 }
 
@@ -39,8 +48,16 @@ export async function CreateSample(body) {
 }
 
 // 按excel导出
-export async function DownloadSample({ sample_id }) {
-  return request(`/sample/data_json/${sample_id}`, {
-    method: 'GET'
+export async function DownloadSample(body) {
+  // 处理下载文件
+  return umi_request.post('/sample/data_excel', {
+    prefix: post_prefix,
+    // 加上responseType 不然会乱码
+    responseType: 'arrayBuffer',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${CookieUtil.get('token')}`
+    },
+    data: body
   })
 }

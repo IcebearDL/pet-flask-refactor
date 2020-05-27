@@ -2,12 +2,16 @@ import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import { Button, Result, Spin } from 'antd'
+
 import { getSampleId } from '@/utils/location'
+import { post_prefix } from '@/utils/request'
+import styles from '../../style.css'
 
 // 项目总结签名
 class SummarySign extends React.Component {
   static propTypes = {
     summary_sign: PropTypes.object.isRequired,
+    research_center_info: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     loading: PropTypes.object.isRequired
   }
@@ -16,6 +20,9 @@ class SummarySign extends React.Component {
     const { dispatch } = this.props
     const sample_id = getSampleId()
 
+    dispatch({
+      type: 'global/fetchResearchCenterInfo'
+    })
     dispatch({
       type: 'crfBase/fetchSummarySignature',
       payload: { sample_id }
@@ -45,7 +52,7 @@ class SummarySign extends React.Component {
   }
 
   render() {
-    const { summary_sign } = this.props
+    const { summary_sign, research_center_info } = this.props
 
     const user_signature = window.localStorage.getItem('user_signature')
     const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
@@ -55,13 +62,29 @@ class SummarySign extends React.Component {
 
     const spinning = this.props.loading.effects['crfBase/fetchSummarySignature']
 
+    let other_research_center_name = ''
+
+    for (const item of research_center_info) {
+      if (item.id === summary_sign.research_center_id) {
+        other_research_center_name = item.name
+        break
+      }
+    }
+
     return (
       <Spin spinning={spinning}>
         {summary_sign.file_path ? (
           <Result
             status="success"
             title="项目总结已签名！"
-            subTitle={`签名账户名：${summary_sign.user_name}，所属中心：。`}
+            subTitle={`签名账户名：${summary_sign.user_name}，所属中心：${other_research_center_name}。`}
+            extra={
+              <img
+                className={styles.sign_img}
+                src={`${post_prefix}/static/tempFiles${summary_sign.file_path.substring(1)}`}
+                alt="用户签名"
+              ></img>
+            }
           />
         ) : (
           <Result
@@ -87,6 +110,7 @@ class SummarySign extends React.Component {
 function mapStateToProps(state) {
   return {
     summary_sign: state.crfBase.summary_sign,
+    research_center_info: state.global.research_center_info,
     loading: state.loading
   }
 }

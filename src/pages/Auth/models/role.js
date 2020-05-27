@@ -32,7 +32,7 @@ const Model = {
       const data = yield call(PostRole, payload)
 
       if (data) {
-        message.success(payload.role_id ? '关联用户成功！' : '')
+        message.success(payload.role_id ? '修改角色成功！' : '创建角色成功！')
       }
     },
 

@@ -3,6 +3,8 @@ import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import { Col, Form, DatePicker, Button } from 'antd'
 import moment from 'moment'
+
+import { disabledDateAfterToday } from '@/utils/util'
 import { getSampleId } from '@/utils/location'
 
 const formItemLayout = {
@@ -65,7 +67,7 @@ class CycleTime extends React.Component {
           {getFieldDecorator('cycle_time', {
             rules: [{ required: true, message: '请选择访视时间!' }],
             initialValue: cycle_time ? moment(cycle_time, 'YYYY-MM-DD') : null
-          })(<DatePicker format="YYYY-MM-DD" />)}
+          })(<DatePicker disabledDate={disabledDateAfterToday} format="YYYY-MM-DD" />)}
         </Form.Item>
         <Col offset={4}>
           <Button htmlType="submit" type="primary" loading={submitLoading}>

@@ -173,15 +173,15 @@ class PatientReport extends React.Component {
             <Form.Item label="体温(℃)">
               {getFieldDecorator('temperature', {
                 initialValue: record.temperature
-              })(<Input style={{ width: '250px' }} type="number" />)}
+              })(<Input placeholder="请输入体温" style={{ width: '250px' }} type="number" />)}
             </Form.Item>
             <Form.Item label="呼吸(次/分)">
               {getFieldDecorator('breath_frequency', {
                 initialValue: record.breath_frequency
-              })(<Input style={{ width: '250px' }} type="number" />)}
+              })(<Input placeholder="请输入呼吸" style={{ width: '250px' }} type="number" />)}
             </Form.Item>
             <Form.Item label="血压(mmHg)" style={{ marginBottom: 0 }}>
-              <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
+              <Form.Item placeholder="请输入血压" style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}>
                 {getFieldDecorator('minpressure', {
                   initialValue: record.minpressure
                 })(<Input type="number" />)}
@@ -204,7 +204,7 @@ class PatientReport extends React.Component {
             <Form.Item label="心率(次/分)">
               {getFieldDecorator('heart_rate', {
                 initialValue: record.heart_rate
-              })(<Input style={{ width: '250px' }} type="number" />)}
+              })(<Input placeholder="请输入心率" style={{ width: '250px' }} type="number" />)}
             </Form.Item>
             <Row type="flex" justify="center">
               <Button htmlType="submit" type="primary" loading={submitLoading}>

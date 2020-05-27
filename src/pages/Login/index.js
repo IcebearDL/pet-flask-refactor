@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import { Layout, Menu, Form, Icon, Input, Button, message } from 'antd'
+import { Layout, Form, Icon, Input, Button, message } from 'antd'
 import router from 'umi/router'
 import CookieUtil from '@/utils/cookie'
-import RayPlus from '@/assets/Rayplus_title.png'
+import RayPlus from '@/assets/rayplus.png'
 import styles from './style.css'
 
 const Content = Layout.Content
@@ -84,14 +84,14 @@ class Login extends React.Component {
     })
   }
 
-  handleChangeLogin = e => {
+  handleChangeLogin = key => {
     const { setFieldsValue } = this.props.form
 
     setFieldsValue({
       user_account: '',
       user_password: ''
     })
-    this.setState({ current: e.key })
+    this.setState({ current: key })
   }
 
   render() {
@@ -109,20 +109,23 @@ class Login extends React.Component {
 
     return (
       <div className={styles.login_bg}>
-        <img className={styles.login_img} src={RayPlus} alt="RayPlus" />
+        <div className={styles.switchButton}>
+          {current === 'user' ? (
+            <Button type="link" onClick={() => this.handleChangeLogin('admin')}>
+              管理员登陆
+              <Icon type="caret-right" />
+            </Button>
+          ) : (
+            <Button type="link" onClick={() => this.handleChangeLogin('user')}>
+              普通用户登陆
+              <Icon type="caret-right" />
+            </Button>
+          )}
+        </div>
         <Content className={styles.bodyContent}>
           <div className={styles.form_title}>
-            <span>临床试验管理系统</span>
+            <img className={styles.login_img} src={RayPlus} alt="RayPlus" />
           </div>
-          <Menu
-            className={styles.login_menu}
-            onClick={this.handleChangeLogin}
-            selectedKeys={[current]}
-            mode="horizontal"
-          >
-            <Menu.Item key="user">Rwe系统</Menu.Item>
-            <Menu.Item key="admin">权限管理系统</Menu.Item>
-          </Menu>
           <Form onSubmit={this.handleSubmit} className={styles.login_form} ref={this.formRef}>
             <Form.Item>
               {getFieldDecorator('user_account', {

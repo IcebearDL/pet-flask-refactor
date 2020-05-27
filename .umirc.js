@@ -5,9 +5,10 @@ export default {
   history: 'hash',
   publicPath: '/',
   theme: {
-    // 'primary-color': '#94CEDC',
-    // 'primary-color': '#4279E4',
-    'primary-color': '#009688',
+    'primary-color': '#39bbdb',
+    // 'primary-color': '#94CEDC', 甲方原来颜色
+    // 'primary-color': '#4279E4', 蓝色
+    // 'primary-color': '#009688', 绿色
     'heading-color': '#191919',
     'text-color': '#404040',
     'text-color-secondary': '#666666'

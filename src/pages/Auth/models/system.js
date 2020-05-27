@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { FetchSystems, PostSystem, DeleteSystem } from '../../../services/system'
+import { FetchSystems, PostSystem, DeleteSystem } from '../../../services/authSystem'
 
 const Model = {
   namespace: 'system',
@@ -32,7 +32,7 @@ const Model = {
       const data = yield call(PostSystem, payload)
 
       if (data) {
-        message.success(payload.id ? '修改系统信息成功！' : '添加系统成功！')
+        message.success(payload.system_id ? '修改系统信息成功！' : '添加系统成功！')
       }
     },
 

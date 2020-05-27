@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
-import { Button, Form, Select, Row, Modal, Input, Table, Col } from 'antd'
+import { Button, Form, Select, Row, Modal, Input, Table, Col, Tooltip } from 'antd'
 
 import styles from '../style.css'
 
@@ -9,9 +9,9 @@ const { Option } = Select
 
 class AuthRole extends React.Component {
   state = {
-    selectedItems: [],
     record: {},
-    visible: false
+    visible: false,
+    system_id: null
   }
 
   componentDidMount() {
@@ -30,6 +30,7 @@ class AuthRole extends React.Component {
         system_id: system_list[0].system_id
       }
     })
+    this.setState({ system_id: system_list[0].system_id })
   }
 
   static propTypes = {
@@ -45,7 +46,7 @@ class AuthRole extends React.Component {
     this.setState({ record, visible: true })
   }
 
-  handleSelectChange = value => {
+  handleSystemSelectChange = value => {
     const { dispatch } = this.props
 
     dispatch({
@@ -60,6 +61,7 @@ class AuthRole extends React.Component {
         system_id: value
       }
     })
+    this.setState({ system_id: value })
   }
 
   handleDelete = role_id => {
@@ -70,6 +72,7 @@ class AuthRole extends React.Component {
       onOk: () =>
         new Promise(resolve => {
           const { dispatch } = this.props
+          const { system_id } = this.state
 
           dispatch({
             type: 'role/deleteRole',
@@ -77,7 +80,8 @@ class AuthRole extends React.Component {
           }).then(() => {
             resolve()
             dispatch({
-              type: 'role/fetchRoleList'
+              type: 'role/fetchRoleList',
+              payload: { system_id }
             })
           })
         })
@@ -90,23 +94,22 @@ class AuthRole extends React.Component {
       if (!err) {
         const { dispatch } = this.props
         const { role_id } = this.state.record
+        const { system_id } = this.state
 
         values.role_id = role_id
+        values.system_id = system_id
         dispatch({
           type: 'role/postRole',
           payload: values
         }).then(() => {
           this.setState({ visible: false })
           dispatch({
-            type: 'role/fetchRoleList'
+            type: 'role/fetchRoleList',
+            payload: { system_id }
           })
         })
       }
     })
-  }
-
-  handleAuthChange = selectedItems => {
-    this.setState({ selectedItems })
   }
 
   handleCancel = () => {
@@ -136,7 +139,14 @@ class AuthRole extends React.Component {
       title: '角色权限',
       dataIndex: 'role_auths',
       align: 'center',
-      width: 150
+      width: 150,
+      render: role_auths =>
+        role_auths.map((item, index) => (
+          <Tooltip key={index} title={item.permission_description}>
+            <span>{item.permission_name}</span>
+            <span>{role_auths.length - 1 !== index ? '，' : ''}</span>
+          </Tooltip>
+        ))
     },
     {
       title: '操作',
@@ -163,22 +173,20 @@ class AuthRole extends React.Component {
   render() {
     const { role_list, system_list, permission_list, form } = this.props
     const { getFieldDecorator } = form
-    const { selectedItems, record, visible } = this.state
+    const { record, visible } = this.state
     const tableLoading = this.props.loading.effects['role/fetchPermissionList']
     const submitLoading = this.props.loading.effects['role/postRole']
 
-    const filteredOptions = permission_list.filter(o => !selectedItems.includes(o.permission_id))
-
     return (
       <>
-        <Row type="flex">
+        <Row type="flex" justify="space-between">
           <Col>
             所属系统：
             <Select
               defaultValue={system_list[0].system_id}
-              style={{ width: 120 }}
+              style={{ width: 150 }}
               loading={tableLoading}
-              onChange={this.handleSelectChange}
+              onChange={this.handleSystemSelectChange}
             >
               {system_list.map((system, index) => (
                 <Option key={index} value={system.system_id}>
@@ -206,7 +214,7 @@ class AuthRole extends React.Component {
           />
         </div>
         <Modal
-          title="编辑角色"
+          title={record.role_id !== null ? '编辑角色' : '添加角色'}
           visible={visible}
           destroyOnClose
           maskClosable={false}
@@ -231,27 +239,21 @@ class AuthRole extends React.Component {
               })(<Input placeholder="请输入角色描述" />)}
             </Form.Item>
             <Form.Item label="角色权限">
-              <Select
-                mode="multiple"
-                placeholder="请选择角色权限"
-                value={selectedItems}
-                defaultValue={record.role_auths}
-                onChange={this.handleAuthChange}
-                style={{ width: '100%' }}
-              >
-                {filteredOptions.map(item => (
-                  <Select.Option key={item.permission_id} value={item.permission_name}>
-                    {item.permission_name}
-                  </Select.Option>
-                ))}
-              </Select>
+              {getFieldDecorator('role_auths', {
+                initialValue: record.role_auths && record.role_auths.map(item => item.permission_id)
+              })(
+                <Select mode="multiple" style={{ width: '100%' }} placeholder="请选择角色权限">
+                  {permission_list.map(item => (
+                    <Select.Option key={item.permission_id} value={item.permission_id}>
+                      {item.permission_name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
             </Form.Item>
             <Row type="flex" justify="center">
               <Button htmlType="submit" type="primary" loading={submitLoading}>
                 保存
-              </Button>
-              <Button style={{ marginLeft: 20 }} onClick={this.handleCancel}>
-                取消
               </Button>
             </Row>
           </Form>

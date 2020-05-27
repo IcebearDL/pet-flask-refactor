@@ -79,7 +79,7 @@
 .diagnose_history_modal {
   margin-top: 20px;
   width: 100% !important;
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 .modal_divider {
@@ -95,4 +95,14 @@
 .ECOG_input {
   width: 250px;
   margin-left: 20px;
+}
+
+.sign_img {
+  width: 400px;
+  border-radius: 4px;
+}
+
+.download_text {
+  color: #39bbdb;
+  cursor: pointer;
 }

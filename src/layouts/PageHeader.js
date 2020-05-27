@@ -8,7 +8,7 @@ import zhCN from 'antd/es/locale/zh_CN'
 import UploadFile from '@/components/UploadFile'
 import CookieUtil from '@/utils/cookie'
 import { post_prefix } from '@/utils/request'
-import RayPlus from '@/assets/Rayplus_title.png'
+import RayPlus from '@/assets/rayplus.png'
 import styles from './index.css'
 
 const projectReg = /^\/project\/?$/

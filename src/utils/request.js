@@ -20,9 +20,12 @@ const codeMessage = {
 
   1004: '权限不足',
   1005: '文件查找失败',
+  1006: '用户已存在，创建失败',
   2001: '样本非该用户所创建',
-  1007: '样本已提交,无法修改',
-  1008: '已经存在签名'
+  1007: '样本已提交，暂时无法修改',
+  1008: '已经存在签名',
+  1009: '项目名重复，编辑失败',
+  1010: '删除失败，需要将用户'
 }
 
 // 处理服务器异常
@@ -89,6 +92,7 @@ function auth_request(url, { method = 'GET', params = {}, data = {} }) {
       method,
       params: removeNull(params),
       data: removeNull(data),
+      credentials: 'omit',
       // 这里的request的header不能加在extend创建实例里
       headers: {
         'Content-Type': 'application/json',
@@ -100,12 +104,11 @@ function auth_request(url, { method = 'GET', params = {}, data = {} }) {
         if (res.total !== undefined) {
           resolve({ data: res.data, total: res.total })
         } else {
-          resolve(res.data || true)
+          resolve(res.data !== undefined ? res.data : true)
         }
       } else if (res) {
         notification.error({
-          message: codeMessage[res.code || 406],
-          description: res.msg || ''
+          message: codeMessage[res.code]
         })
       }
       // 错误不能reject 会导致generator call函数出错

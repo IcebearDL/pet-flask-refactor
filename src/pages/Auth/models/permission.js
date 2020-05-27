@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { FetchPermissionList, PostPermission, DeletePermission } from '../../../services/system'
+import { FetchPermissionList, PostPermission, DeletePermission } from '../../../services/authSystem'
 
 const Model = {
   namespace: 'permission',

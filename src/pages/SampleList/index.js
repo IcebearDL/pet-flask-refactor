@@ -13,12 +13,13 @@ import {
   Tooltip,
   Row,
   Col,
-  Divider,
   Input,
+  Popover,
   Select,
   Spin,
   message,
-  Pagination
+  Pagination,
+  Collapse
 } from 'antd'
 import Link from 'umi/link'
 import styles from './style.css'
@@ -31,6 +32,7 @@ import SampleModal from './SampleModal'
 
 const Content = Layout.Content
 const Option = Select.Option
+const Panel = Collapse.Panel
 
 class SampleList extends React.Component {
   constructor(props) {
@@ -40,6 +42,8 @@ class SampleList extends React.Component {
         page: 1,
         limit: 20
       },
+      // 多选批量导出
+      selectedRowKeys: [],
       search_type: 0,
       sample_record: {},
       sample_modal_visible: false
@@ -85,7 +89,7 @@ class SampleList extends React.Component {
     }
 
     // tumor_pathological_type不传id传name
-    if (status.tumor_pathological_type) {
+    if (status.tumor_pathological_type !== undefined) {
       const tumor_pathological = [
         '腺癌',
         '鳞癌',
@@ -101,7 +105,7 @@ class SampleList extends React.Component {
     }
     dispatch({
       type: 'sample/fetchExpsampleList',
-      payload: { ...status }
+      payload: { body: status, project_id: getProjectId() }
     })
     this.setState({ status })
   }
@@ -109,58 +113,88 @@ class SampleList extends React.Component {
   handleMenuClick = ({ key }, record) => {
     const { dispatch } = this.props
 
-    if (key === 'edit') {
-      // 编辑操作
-      this.setState({
-        sample_record: record,
-        sample_modal_visible: true
-      })
-    } else if (key === 'submit') {
-      // 如果不是总中心切不是本中心就不能提交
-      if (record.research_center_id !== this.research_center_id && this.research_center_id !== 1) {
-        message.warning('用户不属于该中心，无法提交')
-      }
+    switch (key) {
+      case 'edit':
+        // 编辑操作
+        this.setState({
+          sample_record: record,
+          sample_modal_visible: true
+        })
+        break
+      case 'submit':
+        // 如果用户不属于本中心就不能提交本中心的样本
+        if (record.research_center_id !== this.research_center_id) {
+          message.warning('用户不属于该中心，无法提交')
+        }
 
-      // 提交操作
-      Modal.confirm({
-        title: '请问是否确认提交到总中心？',
-        okText: '确定',
-        cancelText: '取消',
-        onOk: () =>
-          new Promise(resolve => {
-            dispatch({
-              type: 'sample/submitSample',
-              payload: {
-                sample_id: record.sample_id
-              }
-            }).then(resolve)
-          })
-      })
-    } else if (key === 'delete') {
-      // 删除操作
-      Modal.confirm({
-        title: '请问是否确认删除？',
-        okText: '确定',
-        cancelText: '取消',
-        onOk: () =>
-          new Promise(resolve => {
-            dispatch({
-              type: 'sample/deleteSample',
-              payload: {
-                sample_id: record.sample_id
-              }
-            }).then(() => {
-              resolve()
-              this.refreshList()
+        // 提交操作
+        Modal.confirm({
+          title: `是否确认提交编号${record.patient_ids}样本到总中心？`,
+          content: '提交之后，将不能再对该样本进行编辑。',
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () =>
+            new Promise(resolve => {
+              dispatch({
+                type: 'sample/submitSample',
+                payload: {
+                  sample_id: record.sample_id
+                }
+              }).then(() => {
+                resolve()
+                this.refreshList()
+              })
             })
-          })
-      })
+        })
+        break
+      case 'unlock':
+        // 解锁操作
+        Modal.confirm({
+          title: `是否确认解锁编号${record.patient_ids}的样本？`,
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () =>
+            new Promise(resolve => {
+              dispatch({
+                type: 'sample/unlockSample',
+                payload: {
+                  sample_id: record.sample_id
+                }
+              }).then(() => {
+                resolve()
+                this.refreshList()
+              })
+            })
+        })
+        break
+      case 'delete':
+        // 删除操作
+        Modal.confirm({
+          title: `是否确认删除编号${record.patient_ids}样本？`,
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () =>
+            new Promise(resolve => {
+              dispatch({
+                type: 'sample/deleteSample',
+                payload: {
+                  sample_id: record.sample_id
+                }
+              }).then(() => {
+                resolve()
+                this.refreshList()
+              })
+            })
+        })
+        break
+      default:
+        break
     }
   }
 
   handleCreateSample = () => {
     this.setState({
-      sample_record: { sample_id: null },
+      sample_record: { sample_id: null, project_id: getProjectId() },
       sample_modal_visible: true
     })
   }
@@ -191,24 +225,63 @@ class SampleList extends React.Component {
 
   handleSearch = value => {
     if (value && value.trim()) {
+      let obj = {}
       const { search_type } = this.state
 
-      this.refreshList(search_type === 0 ? { name: value, IDcard: null } : { name: null, IDcard: value })
+      switch (search_type) {
+        case 0:
+          obj = { name: value, IDcard: null, patient_ids: null }
+          break
+        case 1:
+          obj = { name: null, IDcard: value, patient_ids: null }
+          break
+        case 2:
+          obj = { name: null, IDcard: null, patient_ids: value }
+          break
+        default:
+          break
+      }
+      this.refreshList(obj)
+    }
+  }
+
+  handleChangeStatus = id => {
+    switch (id) {
+      case null:
+        this.refreshList({ submit_status: null, page: 1 })
+        break
+      case 0:
+        this.refreshList({ submit_status: 0, page: 1 })
+        break
+      case 1:
+        this.refreshList({ submit_status: 1, page: 1 })
+        break
+      case 2:
+        this.refreshList({ submit_status: 2, page: 1 })
+        break
+      case 3:
+        this.refreshList({ submit_status: 3, page: 1 })
+        break
+      default:
+        break
     }
   }
 
   resetList = () => {
     // 清空输入框
     this.searchInput.current.input.state.value = ''
-    this.refreshList({ name: null, IDcard: null })
+    this.refreshList({ name: null, IDcard: null, patient_ids: null, page: 1 })
   }
 
-  handleExported = sample_id => {
+  handleExported = () => {
     const { dispatch } = this.props
+    const { selectedRowKeys } = this.state
 
     dispatch({
       type: 'sample/downloadSample',
-      payload: { sample_id }
+      payload: {
+        sample_id_list: selectedRowKeys
+      }
     })
   }
 
@@ -229,7 +302,7 @@ class SampleList extends React.Component {
       title: '编号',
       dataIndex: 'patient_ids',
       align: 'center',
-      width: 100,
+      width: 90,
       ellipsis: true,
       render: text => (
         <Tooltip title={text}>
@@ -289,7 +362,7 @@ class SampleList extends React.Component {
       title: '随访进度',
       dataIndex: 'interview_status',
       align: 'center',
-      width: 100,
+      width: 80,
       ellipsis: true,
       render: text => (
         <Tooltip title={text}>
@@ -313,7 +386,7 @@ class SampleList extends React.Component {
       title: '预计下一次随访时间',
       dataIndex: 'next_interview_time',
       align: 'center',
-      width: 100,
+      width: 120,
       ellipsis: true,
       render: text => (
         <Tooltip title={text}>
@@ -323,34 +396,99 @@ class SampleList extends React.Component {
     },
     {
       title: '状态',
-      dataIndex: 'is_submit',
+      dataIndex: 'submit_status',
       align: 'center',
-      width: 60,
-      render: is_submit =>
-        is_submit === 1 ? (
-          <Tooltip title="已提交的访视不可编辑">
-            <span style={{ color: '#52c41a' }}>已提交</span>
-          </Tooltip>
-        ) : (
-          <span style={{ color: '#faad14' }}>未提交</span>
+      width: 80,
+      render: (submit_status, record) => {
+        // 记录生存期随访提交条数
+        let interviews = 0
+
+        record.status.interview_status.forEach(i => {
+          if (i.is_submit === 1) interviews++
+        })
+
+        const content = (
+          <>
+            {record.status.cycle_status.map((i, index) => (
+              <div key={index}>
+                {i.cycle_number === 1 ? '基线资料' : `访视${i.cycle_number}`}：
+                {i.is_submit === 1 ? (
+                  <span style={{ color: '#52c41a' }}>已提交</span>
+                ) : (
+                  <span style={{ color: '#faad14' }}>未提交</span>
+                )}
+              </div>
+            ))}
+            <div>
+              生存期访视：
+              {interviews === 0 ? (
+                <span style={{ color: '#faad14' }}>未提交</span>
+              ) : (
+                <span style={{ color: '#52c41a' }}>{interviews}条</span>
+              )}
+            </div>
+          </>
         )
+
+        if (submit_status === 2) {
+          return (
+            <Popover content={content} title="访视提交详情">
+              <span style={{ color: '#52c41a' }}>已提交</span>
+            </Popover>
+          )
+        } else if (submit_status === 3) {
+          return (
+            <Popover content={content} title="访视提交详情">
+              <span style={{ color: '#1890ff' }}>已解锁</span>
+            </Popover>
+          )
+        }
+
+        // 如果基线资料没提交，为未提交状态
+        if (submit_status === 0) {
+          return (
+            <Popover content={content} title="访视提交详情">
+              <span style={{ color: '#faad14' }}>未提交</span>
+            </Popover>
+          )
+        } else if (submit_status === 1) {
+          return (
+            <Popover content={content} title="访视提交详情">
+              <span style={{ color: '#faad14' }}>部分提交</span>
+            </Popover>
+          )
+        }
+      }
     },
     {
       title: '操作',
       align: 'center',
-      width: 60,
-      render: (_, record) => (
-        <>
+      width: 80,
+      render: (_, record) => {
+        const disabled = record.submit_status === 2
+        const is_center = this.research_center_id === 1
+
+        // 部分提交 或 已提交 不可以编辑
+        // 总中心可以自己提交，不可以提交分中心， 分中心可以自己提交
+        // 总中心只可以解锁已锁定的项目
+        return (
           <Dropdown
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
-                <Menu.Item key="edit" disabled={record.is_submit === 1}>
+                <Menu.Item key="edit" disabled={record.submit_status === 1 || disabled}>
                   编辑
                 </Menu.Item>
-                <Menu.Item key="submit" disabled={record.is_submit === 1}>
+                <Menu.Item key="submit" disabled={is_center ? record.research_center_id !== 1 : disabled}>
                   提交
                 </Menu.Item>
-                <Menu.Item key="delete" disabled={record.is_submit === 1}>
+                <Menu.Item
+                  style={{ display: is_center ? 'block' : 'none' }}
+                  disabled={record.submit_status !== 1 && record.submit_status !== 2}
+                  key="unlock"
+                >
+                  解锁
+                </Menu.Item>
+                <Menu.Item key="delete" disabled={disabled}>
                   删除
                 </Menu.Item>
               </Menu>
@@ -363,16 +501,8 @@ class SampleList extends React.Component {
               </Link>
             </Button>
           </Dropdown>
-        </>
-        // <Button
-        //   style={{ marginLeft: '10px' }}
-        //   type="primary"
-        //   size="small"
-        //   onClick={() => this.handleExported(record.sample_id)}
-        // >
-        //   导出
-        // </Button>
-      )
+        )
+      }
     }
   ]
 
@@ -380,12 +510,19 @@ class SampleList extends React.Component {
     <Select defaultValue={0} style={{ width: '100px' }} onChange={this.handleChangeSearchType}>
       <Option value={0}>姓名</Option>
       <Option value={1}>身份证号</Option>
+      <Option value={2}>编号</Option>
     </Select>
   )
+
+  // 选择多选进行导出
+  onSelectChange = selectedRowKeys => {
+    this.setState({ selectedRowKeys })
+  }
 
   render() {
     const { total, sample_info, sample_list, research_center_info, group_ids_info, loading } = this.props
     const { page, limit } = this.state.status
+    const { selectedRowKeys } = this.state
     const tableLoading = loading.effects['sample/fetchExpsampleList']
     const infoLoading = loading.effects['sample/fetchSampleInfo']
     const filterLoading =
@@ -428,6 +565,21 @@ class SampleList extends React.Component {
             handleChange={id => this.refreshList({ sex: id, page: 1 })}
           />
         )
+      },
+      {
+        text: '样本状态：',
+        render: (
+          <CheckTags
+            itemList={[
+              { id: -1, name: '全部' },
+              { id: 0, name: '未提交' },
+              { id: 1, name: '部分提交' },
+              { id: 2, name: '已提交' },
+              { id: 3, name: '已解锁' }
+            ]}
+            handleChange={this.handleChangeStatus}
+          />
+        )
       }
     ]
 
@@ -462,41 +614,58 @@ class SampleList extends React.Component {
             </Spin>
           </Col>
         </Row>
-        <Divider />
         <Content>
           <Spin spinning={filterLoading}>
-            {filterList.map(item => (
-              <Row className={styles.filterLine} key={item.text}>
-                <Col span={2} className={styles.filterLineLeft}>
-                  {item.text}
-                </Col>
-                <Col span={22}>{item.render}</Col>
-              </Row>
-            ))}
+            <Collapse className="filter_collapse">
+              <Panel header={<span style={{ color: '#39bbdb' }}>展开筛选项</span>} key="1">
+                {filterList.map(item => (
+                  <Row className={styles.filterLine} key={item.text}>
+                    <Col span={3} className={styles.filterLineLeft}>
+                      {item.text}
+                    </Col>
+                    <Col span={21}>{item.render}</Col>
+                  </Row>
+                ))}
+              </Panel>
+            </Collapse>
           </Spin>
         </Content>
-        <Divider />
         <div className="page_body">
           <Row type="flex" align="middle" justify="space-between">
-            <Col span={10} className={styles.project_search}>
+            <Col span={16} className={styles.project_search}>
               <Row type="flex" align="middle">
-                <Col span={16}>
+                <Col span={12}>
                   <Input.Search
                     ref={this.searchInput}
                     addonBefore={this.selectBefore}
                     placeholder="请输入搜索内容"
                     size="large"
+                    enterButton
                     onSearch={this.handleSearch}
                   />
                 </Col>
                 <Col offset={1}>
-                  <Tooltip title="清空输入框">
+                  <Tooltip title="清空输入项">
                     <Button onClick={this.resetList} shape="circle" loading={tableLoading} icon="sync"></Button>
                   </Tooltip>
+                </Col>
+                <Col offset={1}>
+                  <Button type="primary" disabled={selectedRowKeys.length === 0} onClick={this.handleExported}>
+                    <Icon type="download" />
+                    导出样本
+                  </Button>
                 </Col>
               </Row>
             </Col>
             <Col>
+              <span
+                className={styles.bannerText}
+                style={{
+                  display: tableLoading ? 'none' : 'inline-block'
+                }}
+              >
+                共{total}个样本
+              </span>
               <Button type="primary" onClick={this.handleCreateSample}>
                 <Icon type="plus" />
                 添加样本
@@ -506,12 +675,16 @@ class SampleList extends React.Component {
         </div>
         <Table
           loading={tableLoading}
+          rowSelection={{
+            selectedRowKeys,
+            onChange: this.onSelectChange
+          }}
           className={`${styles.sample_table} page_body`}
           rowKey={'sample_id'}
           size="small"
           bordered={true}
           pagination={false}
-          scroll={{ x: true }}
+          scroll={{ x: 1080 }}
           columns={this.columns}
           dataSource={sample_list}
         />
@@ -534,18 +707,11 @@ class SampleList extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const research_center_info = state.global.research_center_info.map(item => {
-    return {
-      id: item.research_center_id,
-      name: item.research_center_ids
-    }
-  })
-
   return {
     total: state.sample.total,
     sample_list: state.sample.sample_list,
     sample_info: state.sample.sample_info,
-    research_center_info,
+    research_center_info: state.global.research_center_info,
     group_ids_info: state.global.group_ids_info,
     loading: state.loading
   }
