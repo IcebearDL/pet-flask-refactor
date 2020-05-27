@@ -108,7 +108,7 @@ class Login extends React.Component {
     }
 
     return (
-      <>
+      <div className={styles.login_bg}>
         <div className={styles.switchButton}>
           {current === 'user' ? (
             <Button type="link" onClick={() => this.handleChangeLogin('admin')}>
@@ -161,7 +161,7 @@ class Login extends React.Component {
             </Button>
           </Form>
         </Content>
-      </>
+      </div>
     )
   }
 }
