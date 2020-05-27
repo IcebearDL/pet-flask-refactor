@@ -22,6 +22,13 @@ class Sign extends React.Component {
     const { dispatch, cycle_number } = this.props
     const sample_id = getSampleId()
 
+    // 清除签名保证切换访视之后显示正确
+    dispatch({
+      type: 'crfBase/clearSignature'
+    })
+    dispatch({
+      type: 'crf_cycle_record/clearSignature'
+    })
     dispatch({
       type: 'global/fetchResearchCenterInfo'
     })
@@ -44,14 +51,6 @@ class Sign extends React.Component {
 
     const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     const { user_id } = userInfo
-
-    // 清除签名保证切换访视之后显示正确
-    dispatch({
-      type: 'crfBase/clearSignature'
-    })
-    dispatch({
-      type: 'crf_cycle_record/clearSignature'
-    })
 
     if (cycle_number === 1) {
       dispatch({
