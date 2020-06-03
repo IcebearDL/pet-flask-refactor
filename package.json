@@ -6,7 +6,6 @@
     "build": "umi build",
     "test": "umi test",
     "lint": "eslint {src,mock,tests}/**/*.{js,jsx} --fix",
-    "precommit": "lint-staged",
     "commit": "git-cz",
     "release": "standard-version"
   },
@@ -42,13 +41,6 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
   },
   "engines": {
     "node": ">=8.0.0"
