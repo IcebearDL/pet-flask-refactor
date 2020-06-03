@@ -77,7 +77,7 @@ export default {
       {
         antd: true,
         dva: true,
-        dynamicImport: false,
+        dynamicImport: true,
         title: 'pet-flask-refactor',
         dll: false,
 
