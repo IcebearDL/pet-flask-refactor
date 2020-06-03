@@ -184,27 +184,25 @@ class PhotoEvaluate extends React.Component {
       align: 'center'
     },
     {
-      title: '文件',
-      dataIndex: 'file',
-      align: 'center',
-      render: (_, record) => (
-        <span className={styles.download_text} onClick={() => this.openFileModel(record.evaluate_id)}>
-          查看文件
-        </span>
-      )
+      title: '肿瘤描述',
+      dataIndex: 'tumor_desc',
+      align: 'center'
     },
     {
       title: '操作',
       align: 'center',
       render: (_, record) => (
         <>
+          <Button type="primary" size="small" onClick={() => this.handleEditModel(record)}>
+            编辑
+          </Button>
           <Button
             style={{ marginLeft: '10px' }}
             type="primary"
             size="small"
-            onClick={() => this.handleEditModel(record)}
+            onClick={() => this.openFileModel(record.evaluate_id)}
           >
-            编辑
+            文件
           </Button>
           <Button
             style={{ marginLeft: '10px' }}
