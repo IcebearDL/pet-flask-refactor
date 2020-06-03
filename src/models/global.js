@@ -76,7 +76,7 @@ const Model = {
     *fetchSignature(_, { call }) {
       const data = yield call(FetchSignature)
 
-      if (data && data.file_path) {
+      if (data && data.file_path !== undefined) {
         window.localStorage.setItem('user_signature', data.file_path)
       }
     },

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import PropTypes from 'prop-types'
 import router from 'umi/router'
-import { Button, Modal, ConfigProvider, Popover, Icon, message, Spin } from 'antd'
+import { Button, Modal, ConfigProvider, Tooltip, Popover, Icon, message, Spin } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 
 import UploadFile from '@/components/UploadFile'
@@ -126,9 +126,11 @@ class PageHeader extends React.Component {
                 action="/signature"
                 handleStatusChange={this.handleStatusChange}
               >
-                <Button type="primary" icon="cloud-upload">
-                  上传签名
-                </Button>
+                <Tooltip title="支持jpg/png格式的图片">
+                  <Button type="primary" size="small" icon="cloud-upload">
+                    上传签名
+                  </Button>
+                </Tooltip>
               </UploadFile>
             )}
           </div>
